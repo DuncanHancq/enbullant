@@ -56,12 +56,12 @@ catch(Exception $e)
 
 // echo __DIR__; //Afficher la localisation du fichier.
 
-define('URL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/bullant/');
+define('URL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/enbullant/');
 // Adapte le HTTP de façon automatique.
 /* '/PHP/site_dynamique/' <- A commenter lors de la mise en ligne.*/
 
 // A supprimer lors de la mise en ligne.
-define('RACINE', $_SERVER['DOCUMENT_ROOT'] . '/bullant/');
+define('RACINE', $_SERVER['DOCUMENT_ROOT'] . '/enbullant/');
 
 
 /*
