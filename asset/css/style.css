@@ -1,0 +1,206 @@
+/*calc(15vw -15px);*/
+
+*{
+	padding: 0;
+	margin: 0;
+	font-family: 'Ubuntu';
+	font-weight:lighter;
+	font-size: 19px;
+	color: #fff
+}
+
+header,
+nav,
+a,
+div,
+footer,
+section {
+	border: 1px solid #000;
+	text-decoration: none;
+}
+body {
+	background: url(../img/patern-bkg.jpg) repeat;
+}
+header,
+footer {
+	background: rgba(0,0,0,.90);
+}
+
+/*
+* Back office menu
+**/
+
+#btn-su-menu {
+	position: fixed;
+	top: 23px;
+	left: 9.3vw;
+	padding: 15px 5px;
+	z-index: 2;
+	background: #12121295;
+	color: #fff;
+	cursor: pointer;
+	border: 1px solid #fff
+}
+#btn-su-menu:hover {
+	background: #121212;
+}
+#container-su-menu {
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: none;
+	height: 100vh;
+	width: 0vw;
+}
+#container-su-menu.o{
+	display: block;
+	width: 100vw;
+	z-index: 3;
+}
+#container-su-menu.o nav{
+	width: 26vw;
+	background: #121212;
+	height: 100%;
+	z-index: 2;
+}
+#container-su-menu.o nav ul li.level-1{
+	position: relative;
+}
+#container-su-menu.o nav ul li.level-1:hover ul,
+#container-su-menu.o nav ul li.level-1 ul:hover{
+	display: block;
+	z-index: 1
+}
+#container-su-menu.o nav ul li.level-1 ul{
+	position: absolute;
+	width: 26vw;
+	right: -26vw;
+	top: 0;
+	background: #121212;
+	display: none;
+	z-index: 3;
+}
+#container-su-menu.o nav li a,
+#container-su-menu.o nav li ul li a{
+	display: block;
+	padding: 45px 20px;
+	border: inherit;
+	border-bottom: 1px solid #fff;
+	border-right: 1px solid #fff;
+}
+#container-su-menu.o nav li a:hover{
+	background: #ffffff20;
+}
+
+
+/*
+* Header
+**/
+
+header {
+	display: flex;
+	padding: 0 5vw;
+	justify-content: space-between;
+	text-align: center;
+	margin-bottom: 50px;
+	position: fixed;
+	width: 100%;
+}
+header nav a{
+	padding: 15px 1.5vw;
+	margin: 0 1vw;
+	font-size: 1.1rem;
+}
+header nav a:hover{
+	border-bottom: 1px solid #B60016
+}
+header nav,
+#pict-fonc {
+	padding: 10px;
+	display: flex;
+	align-items: center;
+}
+#logo a {
+	border: none;
+}
+
+/*
+* CONTENT
+**/
+
+#content {
+	padding: 200px 5vw 0px 5vw;
+}
+
+/*
+* Bloc réseaux sociaux
+**/
+
+aside {
+	border: 1px solid #000;
+	position: absolute;
+	right: 5vw;
+	top: 160px;
+	padding: 25px;
+}
+aside a {
+	padding: 5px;
+}
+aside a:nth-child(2){
+	margin-top: 15px;
+}
+#pict-rs {
+	display: flex;
+	flex-direction: column;
+}
+footer {
+	padding: 25px 5vw;
+	margin-top: 25px;
+}
+footer .cols-wrap{
+	display: flex;
+	justify-content: space-between;
+	line-height: 1.5rem;
+}
+#legal {
+	margin-top: 25px;
+	text-align: center;
+}
+
+
+/*
+* Espace connexion
+**/
+
+#connexion {
+	border: 1px solid red;
+	width: 40vw;
+	height: 200px;
+	margin: auto;
+}
+#connexion form {
+	display: flex;
+	flex-direction: column;
+}
+#connexion input{
+	background: #00000080;
+	padding: 5px 2px;
+	margin: 5px;
+}
+#connexion input[type='submit']{
+	width: 250px;
+}
+
+
+/*
+* Footer
+**/
+
+footer a:hover {
+	border-bottom: 1px solid #fff
+}
+
+@media(max-width: 1070px) {
+	body {
+	}
+}
