@@ -4,22 +4,23 @@ require_once 'class/class_template.php'; // moteur de rendu
 require_once 'class/class_template_bak.php'; // moteur de rendu
 
 function notFound($e){
-  echo "404 page not found boï " . $e;
+  echo "404 page not found boï " . $e . '\n GET : ' . debug($_GET['p']);
+
   exit(0);
 }
 
-$pageFound = true;
-$i = (isset($_GET['p'])) ? $_GET['p'] : null;
-
+$isFound = false;
+$getUrl = isset($_GET['p']) ? $_GET['p'] : null;
+echo $getUrl;
 /****************************************************************
 ---------------BACK OFFICE
 ****************************************************************/
 
 if (isset($_SESSION['user']))
 {
-  switch ($i)
+  switch ($getUrl)
   {
-    case "add-user":
+    case "add-user" :
 
       $displayTemplatePage = new TemplateBak('template/add-user.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Ajout membre');
@@ -48,11 +49,12 @@ if (isset($_SESSION['user']))
           ':email'    => htmlspecialchars($email),
           ':token'    => token()
         ]);
-
+        $isFound = true;
       }
 
     break;
-    default;
+
+    default :
       continue;
     break;
   }
@@ -64,9 +66,9 @@ if (isset($_SESSION['user']))
 ---------------FRONT-OFFICE---------------
 *****************************************************************/
 
-switch($i)
+switch($getUrl)
 {
-  case null:
+  case null :
   case "accueil":
 
     $displayTemplatePage = new Template('template/index.html');
@@ -75,7 +77,7 @@ switch($i)
 
   break;
 
-  case "bullant":
+  case "bullant" :
 
     if(isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion')
     {
@@ -107,7 +109,7 @@ switch($i)
 
   break;
 
-  case "logout":
+  case "logout" :
 
     session_destroy();
     header("Refresh:0; url=".URL."?page=accueil");
@@ -117,8 +119,13 @@ switch($i)
 
 
 
-  default;
+  default : if($isFound === false)
+  {
     notFound("1");
+  }
+  else{
+    continue;
+  }
   break;
 
 } // FIN du switch
