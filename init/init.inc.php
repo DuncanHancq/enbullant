@@ -33,7 +33,7 @@ define('USER','root');
 // Mot de passe.
 define('PASSWORD','');
 // Nom de la base de donné.
-define('DBNAME','enbullant');
+define('DBNAME','bullant');
 
 // On essai de se connecter à la base de donné.
 try

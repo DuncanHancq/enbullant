@@ -4,7 +4,7 @@ require('class/class_template.php'); // moteur de rendu
 require('class/class_template_bak.php'); // moteur de rendu
 
 $pageMatch = true;
-$getUrl = isset($_GET['p']) ? $_GET['p'] : null;
+$getUrl = isset($_GET['p']) ? htmlspecialchars($_GET['p']) : null;
 
 /****************************************************************
 ---------------BACK OFFICE
@@ -15,10 +15,12 @@ if (isset($_SESSION['user'])) // si l'utilisateur est connecté...
   switch ($getUrl)
   {
     case "user":
+        
       $userDisplay = null;
       $getUser = $pdo->query('SELECT id_user AS id, username, role FROM user');
       $nbrCol = $getUser->columnCount();
       $userDisplay .= '<tr>';
+      
       for($i = 0; $i < $nbrCol; $i++)
       {
 
@@ -26,6 +28,7 @@ if (isset($_SESSION['user'])) // si l'utilisateur est connecté...
           $userDisplay .= '<th>' . ucfirst($nomCol['name']) . '</th>';
 
       }
+      
       $userDisplay .= '<th>Modif.</th><th>Suppr.</th></tr>';
       $userDisplay .= '</tr>';
 
@@ -41,6 +44,7 @@ if (isset($_SESSION['user'])) // si l'utilisateur est connecté...
     break;
 
     case "user-add" :
+        
       $displayTemplatePage = new TemplateBak('template/user-add.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Ajouter membre');
       $displayTemplatePage->replaceContent('##H2##', 'Ajouter membre');
@@ -70,6 +74,22 @@ if (isset($_SESSION['user'])) // si l'utilisateur est connecté...
         ]);
 
       }
+
+    case "actu" :
+        
+      $displayTemplatePage = new TemplateBak('template/actu.html');
+      $displayTemplatePage->replaceContent('##TITLE##', 'Ajout contenu');
+      $displayTemplatePage->replaceContent('##H2##', 'Ajout contenu');
+    
+    break;
+      
+    break;
+    
+    case "logout": // Page de déconnexion
+
+        session_destroy();
+        header("Refresh:0; url=".URL."?p=accueil");
+        exit();
 
     break;
 
@@ -108,35 +128,32 @@ switch($getUrl)
 
       if($getData->rowCount() != 0) // Vérif mail existant
       {
+        
         $userInfo = $getData->fetch();
-
-        if(password_verify($_POST['mdp'],$userInfo['password'])) // Vérif password
+        $verifPass = password_verify($_POST['mdp'],$userInfo['password']);
+        
+        if($verifPass == 1) // Vérif password
         {
           $userInfo = $getData->fetch();
           $_SESSION['user']['role'] = $userInfo['role'];
           $_SESSION['user']['username'] = $userInfo['username'];
           $_SESSION['user']['email'] = $userInfo['email'];
-          header("Refresh:0; url=".URL."?page=accueil");
+          header("Refresh:0; url=".URL."?p=accueil");
         }
         else{
-          echo '/!\ Mauvais mdp';
+          echo 'Mauvais mdp';
         }
       }
       else{
-        echo '/!\ Email inexistant';
+        echo 'Email inexistant';
       }
     }
+    
     $displayTemplatePage = new Template('template/bullant.html');
 
   break;
 
-  case "logout": // Page de déconnexion
-
-    session_destroy();
-    header("Refresh:0; url=".URL."?p=accueil");
-    exit();
-
-  break;
+  
 
 
 

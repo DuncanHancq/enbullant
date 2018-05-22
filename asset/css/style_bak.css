@@ -9,3 +9,6 @@ body,select,input{
 	font-size: 19px;
 	color: #fff
 }
+#add-content {
+    float: left;
+}
