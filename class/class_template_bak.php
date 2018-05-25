@@ -21,6 +21,7 @@ class TemplateBak
 	{
 		ob_start(); // on entrepose temporairement les données
 		include('inc/back/header.html');
+		include('inc/front/nav-bo.html');
 		include($this->fileTemplate);
 		include('inc/back/footer.html');
 		$template = ob_get_contents(); // On stocke dans template le contenu temporaire : mémoire tampon.

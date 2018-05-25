@@ -1,5 +1,5 @@
 body,select,input{
-  background: #21252b;
+  background: #1D2326;
 }
 *{
 	padding: 0;
@@ -9,6 +9,41 @@ body,select,input{
 	font-size: 19px;
 	color: #fff
 }
-#add-content {
-    float: left;
+#content{
+	padding-top: 15px;
+	width: 95vw;
+	margin: auto;
+}
+
+h1 {
+  font-size: 1.5em;
+}
+h2 {
+  margin: 5px 0 15px 0;
+  font-size: 1.7em;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+form label {
+  margin-top: 15px;
+}
+
+/*
+Page utilisateurs
+*/
+
+.display-user {
+  width: 100%;
+  border: 1px solid #DDDCC5;
+  text-align: center;
+}
+th, td {
+  border-bottom: 1px solid #6A6A61;
+  padding: 5px;
+}
+.display-user .cols-meta {
+  font-weight: normal;
+  background: #00000030;
 }

@@ -1,23 +1,28 @@
-<script src="asset/ckeditor/ckeditor.js"></script>
-<script src="asset/js/edit_content.js"></script>
+<!--<script src="asset/js/edit_content.js"></script>-->
 <form method="post" enctype="multipart/form-data" id="add-content">
-    <label for="categorie">Catégorie :</label>
-    <select name="categorie">
+    <label for="type">Type de contenu :</label>
+    <select name="type">
         <option value="actu">Actualités</option>
         <option value="spec">Spectacles</option>
     </select>
-    <br>
-    
-    <label for="titre">Titre :</label>
-    <input type="text" name="titre">
-    <br>
-    
+
+    <label for="publie">Publié :</label>
+    <select name="publie">
+        <option value="0" selected>Non</option>
+        <option value="1">Oui</option>
+    </select>
+
+    <label for="title">Titre :</label>
+    <input type="text" name="title">
+
     <label for="chapo">Chapô :</label>
-    <input type="text" name="chapo">
-    
+    <textarea name="chapo" id="chapo"></textarea>
+
     <label for="content">Corps de texte </label>
-    <textarea name="content" id="content"></textarea>
-    
+    <textarea name="content" id="corps"></textarea>
+
     <label for="resa">Lien réservation :</label>
     <input type="url" name="inscr">
+
+    <input type="button" name="addcontent" value="Enregistrer">
 </form>

@@ -1,26 +1,30 @@
 <?php
-
 session_start();
+/* fonctions : */
+require 'func.inc.php';
 
 
-// Sert à afficher toutes les erreurs. A COMMENTER EN PROD.
+// Afficher toutes les erreurs
 error_reporting(E_ALL);
 
-// Forcer l'affichage des erreurs. Important pour contourner la configuration du fichier php.ini
+// Forcer l'affichage des erreurs
 ini_set('display_errors', 'On');
 
+function test($t){
+  echo "$t";
+}
 
 /*
- * Connexion à la BDD :
+ * Connexion BDD :
 **/
 
 // Configuration de base :
 $bddOptions = array(
-    // On force l'encodage en utf8.
+    // Encodage en utf8
     PDO::MYSQL_ATTR_INIT_COMMAND    => "SET NAMES utf8",
-    // En absence de paramètre récuperation en tableau par défaut à l'utilisation d'un fetch()
+    // Recuperation des données en array par défaut
     PDO::ATTR_DEFAULT_FETCH_MODE     => PDO::FETCH_ASSOC,
-    // On affiche les erreurs de type warning. A COMMENTER EN PROD.
+    // Affiche des erreurs "warning" A COMMENTER EN PROD.
     PDO::ATTR_ERRMODE               => PDO::ERRMODE_WARNING
 );
 
@@ -33,7 +37,7 @@ define('USER','root');
 // Mot de passe.
 define('PASSWORD','');
 // Nom de la base de donné.
-define('DBNAME','bullant');
+define('DBNAME','enbullant');
 
 // On essai de se connecter à la base de donné.
 try
@@ -43,7 +47,7 @@ try
 catch(Exception $e)
 {
     // Indique une erreur si on ne peut pas se connecter à la base de donné.
-    die('Erreur(s) BDD : ' . $e ->getMessage());
+    die('Erreur(s) de la base de données : ' . $e ->getMessage());
 }
 
 /*
@@ -56,26 +60,10 @@ catch(Exception $e)
 
 // echo __DIR__; //Afficher la localisation du fichier.
 
-define('URL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/enbullant/');
 // Adapte le HTTP de façon automatique.
-/* '/PHP/site_dynamique/' <- A commenter lors de la mise en ligne.*/
+define('URL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/enbullant/');
 
 // A supprimer lors de la mise en ligne.
 define('RACINE', $_SERVER['DOCUMENT_ROOT'] . '/enbullant/');
-
-
-/*
- * Variables d'affichage :
-**/
-$content = "";
-$suMenu = "";
-$scriptRequire = array();
-$scriptRequire = [];
-
-
-
-
-/* fonctions : */
-require 'func.inc.php';
 
 ?>
