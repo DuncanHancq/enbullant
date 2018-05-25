@@ -47,8 +47,6 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $displayTemplatePage = new TemplateBak('template/user.html');
       $displayTemplatePage->replaceContent('##H2##', 'Gestion des utilisateurs');
       $displayTemplatePage->replaceContent('##USER-DISPLAY##', displayUsers());
-      debug($_SESSION);
-      $commonJS = array_merge($commonJS,$bakJS);
       $commonCSS = array_merge($commonCSS,$bakCSS);
 
     break;
@@ -59,7 +57,6 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $displayTemplatePage->replaceContent('##TITLE##', 'Ajouter membre');
       $displayTemplatePage->replaceContent('##H2##', 'Ajouter membre');
 
-      $commonJS = array_merge($commonJS,$bakJS);
       $commonCSS = array_merge($commonCSS,$bakCSS);
 
       if(isset($_POST['ajoutmbr']))

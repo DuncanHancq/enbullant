@@ -3,7 +3,7 @@ require('init/init.inc.php');
 
 function connectUser(){
   global $pdo;
-  $getData = $pdo->prepare("SELECT role,username,email,password FROM user WHERE email = :email");
+  $getData = $pdo->prepare("SELECT id_user,role,username,email,password FROM user WHERE email = :email");
   $getData->bindparam(':email', $_POST['email']);
   $getData->execute();
 
@@ -15,10 +15,11 @@ function connectUser(){
 
     if($verifPass == 1) // Vérif password
     {
-      $userInfo = $getData->fetch();
+      $_SESSION['user']['id'] = $userInfo['id_user'];
       $_SESSION['user']['role'] = $userInfo['role'];
       $_SESSION['user']['username'] = $userInfo['username'];
       $_SESSION['user']['email'] = $userInfo['email'];
+      debug($_SESSION['user']);
       header("Refresh:0; url=".URL."?p=accueil");
     }
     else{
@@ -86,24 +87,34 @@ function addContent(){
   global $pdo;
 
   ///// Recuperation des infos du $_POST
+  $userid 	   = (isset($_SESSION['user'])) ? $_SESSION['user']['id'] : 0;
+  $type        = (isset($_POST['type'])) ? $_POST['type'] : null;
+  $publish     = (isset($_POST['publie'])) ? $_POST['publie'] : null;
+  $title       = (isset($_POST['title'])) ? $_POST['title'] : null;
+  $chapo       = (isset($_POST['chapo'])) ? $_POST['chapo'] : null;
+  $corpsText   = (isset($_POST['content'])) ? $_POST['content'] : null;
+  $urlResa     = (isset($_POST['resa'])) ? $_POST['resa'] : null;
 
 
-  $addContent = $pdo->prepare('INSERT INTO user(user_id,type,publish,title,chapo,corps)
+  echo $userid;
+  $addContent = $pdo->prepare('INSERT INTO articles(user_id,type,publish,title,chapo,corps_text,url_resa)
   VALUES(
-    :user_id,
+    :userid,
     :type,
     :publish,
     :title,
     :chapo,
-    :corps_text
+    :corpsText,
+    :url_resa
   )');
-  $addContent = $pdo->execute([
-    ':user_id'    => htmlspecialchars($userid),
+  $addContent->execute([
+    ':userid'     => htmlspecialchars($userid),
     ':type'       => htmlspecialchars($type),
     ':publish'    => htmlspecialchars($publish),
     ':title'      => htmlspecialchars($title),
-    ':chapo'      => htmlspecialchars($chapo),
-    ':corps_text' => htmlspecialchars($corps_text)
+    ':chapo'      => $chapo,
+    ':corpsText'  => $corpsText,
+    ':url_resa'   => htmlspecialchars($urlResa)
   ]);
 
 }
