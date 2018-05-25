@@ -28,7 +28,34 @@ form {
 }
 form label {
   margin-top: 15px;
+  margin: 15px 0 6px 0;
 }
+select {
+  max-width: 250px;
+}
+input{
+  border: 1px solid #fff;
+  padding: 5px 2px;
+}
+input:focus{
+  border: 1px solid #01AD1A;
+  outline: none !important;
+}
+input[type="text"],
+input[type="url"],
+input[type="password"],
+input[type="email"]
+{
+  width: 55vw;
+  min-width: 403px;
+}
+input[type="submit"]{
+  width: 250px;
+  padding:15px 5px;
+  margin: 15px 0;
+  border-radius: 6px;
+}
+
 
 /*
 Page utilisateurs
