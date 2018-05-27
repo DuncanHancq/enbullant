@@ -1,6 +1,8 @@
 window.onload = function () {
   "use strict";
 
+  // Gestion du menu du back-office
+
   var button = document.getElementById('btn-su-menu'),
   containerSu = document.getElementById('container-su-menu'),
   menuSu = document.getElementById('su-menu'),
@@ -28,6 +30,9 @@ window.onload = function () {
       containerSu.classList.remove('o');
     }
   }
+
+
+
   if(CKEDITOR){
     CKEDITOR.replace('corps');
     CKEDITOR.replace('chapo');

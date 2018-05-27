@@ -6,11 +6,13 @@ require('class/class_template_bak.php'); // moteur de rendu
 $pageMatch = 0;
 $getUrl = isset($_GET['p']) ? $_GET['p'] : null;
 $userInfo = isset($_SESSION['user']) ? $_SESSION['user'] : null;
-$username = ($userInfo !== null) ? 'tamere' : null;
+$username = ($userInfo !== null) ? $userInfo['username'] : "Pas d'username";
+
 $commonCSS = array(
   'asset/css/reset.css',
   'asset/css/common.css',
-  'https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500'
+  'https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500',
+  'asset/css/fontawesome-all.min.css'
 );
 $commonJS = array(
   'asset/js/sumenu.js'
@@ -45,8 +47,10 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
     case "bullant/user":
 
       $displayTemplatePage = new TemplateBak('template/user.html');
+      $displayTemplatePage->replaceContent('##TITLE##', 'Gestion des utilisateurs');
       $displayTemplatePage->replaceContent('##H2##', 'Gestion des utilisateurs');
       $displayTemplatePage->replaceContent('##USER-DISPLAY##', displayUsers());
+
       $commonCSS = array_merge($commonCSS,$bakCSS);
 
     break;
@@ -84,6 +88,31 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
         addContent();
       }
 
+    break;
+
+    /*******************************
+    Gestion Image
+    *******************************/
+
+    case "bullant/image/add" : // Ajout Contenus
+
+      $displayTemplatePage = new TemplateBak('template/image-add.html');
+      $displayTemplatePage->replaceContent('##TITLE##', 'Ajout Image');
+      $displayTemplatePage->replaceContent('##H2##', 'Ajout Image');
+
+      $commonJS = array_merge($bakJS,$commonJS);
+      $commonCSS = array_merge($commonCSS,$bakCSS);
+
+      if(isset($_POST) && isset($_FILES)){
+        debug($_POST);
+        debug($_FILES);
+        foreach($_FILES as $case)
+        {
+          foreach($case as $key => $val){
+            echo $key . " :  " . $val . "<br>" ;
+          }
+        }
+      }
 
     break;
 
@@ -160,7 +189,7 @@ switch($getUrl)
 
 }
 
-if($username !== null){$displayTemplatePage->replaceContent('##USERNAME##', $username);}
+//if($username !== null){$displayTemplatePage->replaceContent('##USERNAME##', $username);}
 $displayTemplatePage->replaceContent('##CSS##', srcCSS($commonCSS));
 $displayTemplatePage->replaceContent('##JS##', srcJS($commonJS));
 

@@ -88,7 +88,7 @@ function addContent(){
 
   ///// Recuperation des infos du $_POST
   $userid 	   = (isset($_SESSION['user'])) ? $_SESSION['user']['id'] : 0;
-  $type        = (isset($_POST['type'])) ? $_POST['type'] : null;
+  $type        = ($_POST['type'] != 0) ? 1 : 0;
   $publish     = (isset($_POST['publie'])) ? $_POST['publie'] : null;
   $title       = (isset($_POST['title'])) ? $_POST['title'] : null;
   $chapo       = (isset($_POST['chapo'])) ? $_POST['chapo'] : null;
@@ -96,7 +96,6 @@ function addContent(){
   $urlResa     = (isset($_POST['resa'])) ? $_POST['resa'] : null;
 
 
-  echo $userid;
   $addContent = $pdo->prepare('INSERT INTO articles(user_id,type,publish,title,chapo,corps_text,url_resa)
   VALUES(
     :userid,
