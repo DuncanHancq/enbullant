@@ -1,17 +1,17 @@
 <form method="post" enctype="multipart/form-data" class="add-image" >
   <div id="files-content">
-    <div class="fileBlock">
+    <fieldset class="fileBlock">
       <p>Image 1</p>
-      <label for="name">Nom de l'image</label>
+      <label for="name1">Nom de l'image</label>
       <input type="text" placeholder="Indiquez un nom..." name="name">
 
-      <label for="author">Auteur de l'image</label>
+      <label for="author1">Auteur de l'image</label>
       <input type="text" placeholder="Indiquez l'auteur..." name="author">
 
 
       <label for="author">Ajouter image</label>
       <input type="file" name="author">
-    </div>
+    </fieldset>
   </div>
   <div id="add-files" class="btn fas fa-plus-circle"></div>
 
@@ -33,14 +33,14 @@
 
     fileIterator++;
 
-    fileBlock = '<div class="fileBlock"><p>Image '+ fileIterator +'</p>';
+    fileBlock = '<fieldset class="fileBlock"><p>Image '+ fileIterator +'</p>';
     // Ajout du champ 'name'
     fileBlock += '<label for="name'+ fileIterator +'">Nom de l\'image</label><input type="text" placeholder="Indiquez un nom..." name="name'+ fileIterator +'">';
     // Ajout du champ 'author'
     fileBlock += '<label for="author'+ fileIterator +'">Auteur de l\'image</label><input type="text" placeholder="Indiquez l\'auteur..." name="author'+ fileIterator +'">';
     // Ajout du label 'file'
     fileBlock += '<label for="author'+ fileIterator +'">Ajouter image</label><input type="file" name="author'+ fileIterator +'"></div>';
-    fileBlock += '</div>';
+    fileBlock += '</fieldset>';
     fileContent.innerHTML += fileBlock;
 
   });

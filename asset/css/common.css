@@ -110,9 +110,6 @@
 .globalError{
 	display: flex;
 	width: 100vw;
-
-	justify-content: center;
-	align-items: center;
 }
 
 .errorPage {

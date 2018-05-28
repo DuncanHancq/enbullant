@@ -105,6 +105,10 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
 
       if(isset($_POST) && isset($_FILES)){
         debug($_POST);
+        foreach ($_POST as $key => $value) {
+          $nbPost = filter_var($key, FILTER_SANITIZE_NUMBER_INT);
+          echo $nbPost;
+        }
         debug($_FILES);
         foreach($_FILES as $case)
         {
