@@ -103,6 +103,18 @@ Page ajout image
   flex-direction: column;
 }
 
+/*
+Page ajout contenu
+*/
+#spec {
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none !important;
+}
+
 
 /*
 Page utilisateurs

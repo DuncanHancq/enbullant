@@ -1,28 +1,114 @@
 <form method="post" enctype="multipart/form-data" id="add-content">
 
-    <label for="type">Type de contenu :</label>
-    <select name="type">
-        <option value="0">Actualités</option>
-        <option value="1">Spectacles</option>
-    </select>
+  <label for="type">Type de contenu :</label>
+  <select id="type" name="type">
+    <option class="opt" value="0" ##ACTU##>Actualités</option>
+    <option class="opt" value="1" ##SPEC##>Spectacles</option>
+  </select>
 
-    <label for="title">Titre :</label>
-    <input type="text" name="title">
+  <label for="title">Titre :</label>
+  <input type="text" name="title" id="title">
 
-    <label for="chapo">Chapô :</label>
-    <textarea name="chapo" id="chapo"></textarea>
+  <label for="image">Image :</label>
+  <input type="text" name="image" id="image">
 
-    <label for="content">Corps de texte </label>
-    <textarea name="content" id="corps"></textarea>
+  <label for="chapo">Chapô :</label>
+  <textarea name="chapo" id="chapo"></textarea>
 
+  <label for="content">Corps de texte </label>
+  <textarea name="content" id="corps"></textarea>
+
+  <div id="spec">
     <label for="resa">Lien réservation :</label>
-    <input type="url" name="resa">
+    <input type="url" name="resa" id="resa">
+  </div>
 
-    <label for="publie">Publié :</label>
-    <select name="publie">
-        <option value="0" selected>Non</option>
-        <option value="1">Oui</option>
-    </select>
+  <label for="publie">Publié :</label>
+  <select name="publie">
+    <option value="0" selected>Non</option>
+    <option value="1">Oui</option>
+  </select>
 
-    <input type="submit" name="addcontent" value="Enregistrer">
+  <input type="submit" name="addcontent" value="Enregistrer">
 </form>
+
+<script>
+
+(function(){
+
+  "use strict";
+
+  if(CKEDITOR){
+    CKEDITOR.replace('corps');
+    CKEDITOR.replace('chapo');
+  }
+
+  // Script pour faire apparaitre/disparaitre de élément selon le type de contenu
+  var selectOp = document.getElementById('type'),
+  champSpec = document.getElementById('spec'),
+  type = selectOp.value;
+
+  changeType();
+
+  selectOp.onchange = function (){
+    type = selectOp.value;
+    changeType();
+  }
+
+  function changeType(){
+    if(type == 0){
+      champSpec.classList.add('hidden');
+    }
+    else {
+      champSpec.classList.remove('hidden');
+    }
+  }
+
+
+  // Pré-validation du contenu du formulaire
+
+
+  var form = document.getElementById('add-content'),
+  title = document.getElementById('title'),
+  image = document.getElementById('image'),
+  chapo = CKEDITOR.instances.chapo.getData(),
+  corps = CKEDITOR.instances.corps.getData(),
+  resa = document.getElementById('resa');
+
+
+  form.onsubmit = function (e) {
+
+    e.preventDefault();
+
+    var error = [],
+    inputText = [title,image],
+    textArea = [chapo,corps];
+
+    if(type == 1){ // Si le type est Actu on ne verifie pas le champ lien resa
+      inputText.push(resa);
+    }
+
+    inputText.forEach(function(el){
+      if(el.value == ""){
+        var title = el.previousElementSibling.innerHTML.split(" ")[0];
+        error.push("Veuillez remplir le champ \""+title+"\"");
+      }
+    });
+
+    if(CKEDITOR.instances.chapo.getData() === "" ){
+      error.push("Veuillez remplir le champ \"Chapo\"");
+    }
+    if(CKEDITOR.instances.corps.getData() === "" ){
+      error.push("Veuillez remplir le champ \"Corps\"");
+    }
+    error.forEach(function(er){
+      console.log(er);
+    });
+
+  }
+
+
+})();
+
+
+</script>

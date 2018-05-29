@@ -31,10 +31,4 @@ window.onload = function () {
     }
   }
 
-
-
-  if(CKEDITOR){
-    CKEDITOR.replace('corps');
-    CKEDITOR.replace('chapo');
-  }
 }

@@ -3,11 +3,10 @@ require('init/request.inc.php'); // Fichier d'initialisation : BSD & Debug
 require('class/class_template.php'); // moteur de rendu
 require('class/class_template_bak.php'); // moteur de rendu
 
-$pageMatch = 0;
+
 $getUrl = isset($_GET['p']) ? $_GET['p'] : null;
 $userInfo = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 $username = ($userInfo !== null) ? $userInfo['username'] : "Pas d'username";
-
 $commonCSS = array(
   'asset/css/reset.css',
   'asset/css/common.css',
@@ -80,6 +79,15 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $displayTemplatePage->replaceContent('##TITLE##', 'Ajout contenu');
       $displayTemplatePage->replaceContent('##H2##', 'Ajout contenu');
 
+      if(isset($_GET['l']) && $_GET['l'] == 0){
+          $displayTemplatePage->replaceContent('##ACTU##', 'selected');
+          $displayTemplatePage->replaceContent('##SPEC##', ' ');
+      }
+      else
+      {
+        $displayTemplatePage->replaceContent('##ACTU##', ' ');
+        $displayTemplatePage->replaceContent('##SPEC##', 'selected');
+      }
       $commonJS = array_merge($bakJS,$commonJS);
       $commonCSS = array_merge($commonCSS,$bakCSS);
 
@@ -90,33 +98,38 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
 
     break;
 
-    /*******************************
-    Gestion Image
-    *******************************/
 
-    case "bullant/image/add" : // Ajout Contenus
+    case "bullant/image" : // Ajout Image
+
+      $displayTemplatePage = new TemplateBak('template/image-bak.html');
+      $displayTemplatePage->replaceContent('##TITLE##', 'Ajout Image');
+      $displayTemplatePage->replaceContent('##H2##', 'Ajout Image');
+
+      $commonJS  = array_merge($bakJS,$commonJS);
+      $commonCSS = array_merge($commonCSS,$bakCSS);
+
+      if(isset($_POST) && isset($_FILES)){
+        addImg();
+      }
+
+
+    break;
+
+
+
+    case "bullant/image/add" : // Ajout Image
 
       $displayTemplatePage = new TemplateBak('template/image-add.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Ajout Image');
       $displayTemplatePage->replaceContent('##H2##', 'Ajout Image');
 
-      $commonJS = array_merge($bakJS,$commonJS);
+      $commonJS  = array_merge($bakJS,$commonJS);
       $commonCSS = array_merge($commonCSS,$bakCSS);
 
       if(isset($_POST) && isset($_FILES)){
-        debug($_POST);
-        foreach ($_POST as $key => $value) {
-          $nbPost = filter_var($key, FILTER_SANITIZE_NUMBER_INT);
-          echo $nbPost;
-        }
-        debug($_FILES);
-        foreach($_FILES as $case)
-        {
-          foreach($case as $key => $val){
-            echo $key . " :  " . $val . "<br>" ;
-          }
-        }
+        addImg();
       }
+
 
     break;
 
@@ -129,7 +142,7 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
     break;
 
     default :
-      $pageMatch++;
+
       continue;
 
     break;
@@ -183,12 +196,14 @@ switch($getUrl)
   404
   *******************************/
 
-
+  case "404":
   default: // 404
-    if ($pageMatch == 1){ //| On check si une page à été trouvée
+
+    if(empty($displayTemplatePage)){
       $displayTemplatePage = new Template('template/404.html');
       $commonCSS = array_merge($commonCSS,$frontCSS);
     }
+
   break;
 
 }

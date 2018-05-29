@@ -1,6 +1,6 @@
 <?php
 require('init/init.inc.php');
-
+$error = "";
 function connectUser(){
   global $pdo;
   $getData = $pdo->prepare("SELECT id_user,role,username,email,password FROM user WHERE email = :email");
@@ -117,6 +117,74 @@ function addContent(){
   ]);
 
 }
+
+function addImg(){ // Fonction pour ajouter les Images en base
+
+  global $pdo;
+
+  $post = $_POST;
+
+  // Caratére de separation pour les chemins de l'OS utilisé
+  $slash = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? '\\' : '/';
+
+  foreach($_FILES as $filesInfo)
+  {
+    //Récuperation
+    $fileName = $filesInfo['name'];
+    $fileType = $filesInfo['type'];
+    $fileTmp  = $filesInfo['tmp_name'];
+
+    $folder = 'affiches'; // preparation pour l'ajout de dossier  mkdir()
+    $name   = array_shift($post);
+    $author = array_shift($post);
+
+    $fileName = explode(".",$fileName);
+    $fileName = $fileName[0];
+    $fileType = explode("/",$fileType);
+    $fileType = $fileType[1];
+
+
+    echo $fileName . '.' .  $fileType;
+
+    echo 'name : ' . $name;
+    echo '<br><br>';
+    echo 'author : ' . $author;
+    echo '<br><br>';
+    echo 'fileName : ' . $fileName;
+    echo '<br><br>';
+    echo 'fileType : ' . $fileType;
+    echo '<br><br>';
+    echo 'fileTmp : ' . $fileTmp;
+    echo '<br>______________________<br>';
+    echo $destinationPath = 'files' . $slash . $fileName . '.' .  $fileType;
+
+
+
+
+    if($filesInfo['error'] == 0){
+
+      copy($fileTmp,$destinationPath);
+
+      $addImg = $pdo->prepare('INSERT INTO images(img_path,folder,name,author) VALUES(
+        :img_path,
+        :folder,
+        :name,
+        :author
+      )');
+      $addImg->execute([
+        ':img_path' => htmlspecialchars($destinationPath),
+        ':folder'   => htmlspecialchars($folder),
+        ':name'     => htmlspecialchars($name),
+        ':author'   => htmlspecialchars($author)
+      ]);
+
+    }
+
+
+  }
+
+}
+
 
 function getArticle(){
 
