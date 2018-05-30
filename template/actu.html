@@ -9,9 +9,16 @@
   <label for="title">Titre :</label>
   <input type="text" name="title" id="title">
 
-  <label for="image">Image :</label>
-  <input type="text" name="image" id="image">
 
+  <label for="image">Image :</label>
+  <input type="text" name="image" list="imagelist" id="image">
+  <datalist id="imagelist">
+      <option label="Meteor">Meteor</option>
+      <option label="Pils">Pils</option>
+      <option label="Kronenbourg">Kronenbourg</option>
+      <option label="Glimbergen">Grimbergen</option>
+  </datalist>
+  <div id="ajaxInfo"></div>
   <label for="chapo">Chapô :</label>
   <textarea name="chapo" id="chapo"></textarea>
 
@@ -84,12 +91,12 @@
     inputText = [title,image],
     textArea = [chapo,corps];
 
-    if(type == 1){ // Si le type est Actu on ne verifie pas le champ lien resa
+    if(type === 1){ // Si le type est Actu on ne verifie pas le champ lien resa
       inputText.push(resa);
     }
 
     inputText.forEach(function(el){
-      if(el.value == ""){
+      if(el.value === ""){
         var title = el.previousElementSibling.innerHTML.split(" ")[0];
         error.push("Veuillez remplir le champ \""+title+"\"");
       }
@@ -106,6 +113,49 @@
     });
 
   }
+  
+  
+  // Appel ajax pour l'ajout d'image
+  
+  
+  image.onkeyup = function () {
+      
+   var ajax = null,
+        resa = document.getElementById('resa'),
+        ajaxInfo = document.getElementById('ajaxInfo');
+    
+    if(window.XMLHttpRequest || window.ActiveXObject){
+        if(window.ActiveXObject){
+            try{
+                ajax = new ActiveXObject("Msxml2.XMLHTTP");
+            }
+            catch(e){
+                ajax = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+        }
+        else{
+            ajax = new XMLHttpRequest();
+        }
+    }
+    else{
+        alert("Ajax n'est pas supporté pour l'ajout d'image");
+        return;
+    }
+    
+  ajax.onreadystatechange = function(){
+     
+    
+    if(ajax.readyState === 4 && ajax.status === 200){
+        console.log(ajax.responseText);
+    }
+    
+   }
+  
+    ajax.open("GET","init/ajax.php?q="+ image.value +"",true);
+    ajax.send();
+ 
+} // end onkeyup
+  
 
 
 })();
