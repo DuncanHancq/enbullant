@@ -79,7 +79,7 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $displayTemplatePage->replaceContent('##TITLE##', 'Ajout contenu');
       $displayTemplatePage->replaceContent('##H2##', 'Ajout contenu');
 
-      if(isset($_GET['l']) && $_GET['l'] == 0){
+      if(isset($_GET['type']) && $_GET['type'] == 0){
           $displayTemplatePage->replaceContent('##ACTU##', 'selected');
           $displayTemplatePage->replaceContent('##SPEC##', ' ');
       }
@@ -102,16 +102,12 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
     case "bullant/image" : // Ajout Image
 
       $displayTemplatePage = new TemplateBak('template/image-bak.html');
-      $displayTemplatePage->replaceContent('##TITLE##', 'Ajout Image');
-      $displayTemplatePage->replaceContent('##H2##', 'Ajout Image');
+      $displayTemplatePage->replaceContent('##TITLE##', 'Administration images');
+      $displayTemplatePage->replaceContent('##H2##', 'Administration images');
+      $displayTemplatePage->replaceContent('##IMG-DISPLAY##', displayImg());
 
       $commonJS  = array_merge($bakJS,$commonJS);
       $commonCSS = array_merge($commonCSS,$bakCSS);
-
-      if(isset($_POST) && isset($_FILES)){
-        addImg();
-      }
-
 
     break;
 

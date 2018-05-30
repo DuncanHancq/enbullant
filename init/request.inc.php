@@ -56,6 +56,31 @@ function displayUsers(){
   return $userDisplay;
 }
 
+function displayImg(){
+  global $pdo;
+  $imgDisplay = null;
+  $getImg = $pdo->query('SELECT id_image AS id, name AS nom, author AS auteur, img_path AS chemin FROM images');
+  $nbrCol = $getImg->columnCount();
+  $imgDisplay .= '<tr>';
+
+  for($i = 0; $i < $nbrCol; $i++)
+  {
+
+      $nomCol = $getImg->getColumnMeta($i); //A chaque tour de boucle je récupère les intitulés de mes champs
+      $imgDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
+
+  }
+
+  $imgDisplay .= '<th class="cols-meta">Voir</th><th class="cols-meta">Modif.</th></tr>';
+  $imgDisplay .= '</tr>';
+
+  while($row = $getImg->fetch())
+  {
+    $imgDisplay .= '<tr><td>'.$row['id'].'</td><td>'.$row['nom'].'</td><td>'.$row['auteur'].'</td><td>'.$row['chemin'].'</td><td><span class="see far fa-eye" data-path="'.$row['chemin'].'></span>"</td><td><span class="del far fa-trash-alt"></span></td>';
+  }
+  return $imgDisplay;
+}
+
 
 function addUser(){
   global $pdo;
@@ -156,14 +181,15 @@ function addImg(){ // Fonction pour ajouter les Images en base
     echo '<br><br>';
     echo 'fileTmp : ' . $fileTmp;
     echo '<br>______________________<br>';
-    echo $destinationPath = 'files' . $slash . $fileName . '.' .  $fileType;
+    echo $destinationPathCopy = 'files' . $slash . $fileName . '.' .  $fileType;
+    echo $destinationPath = 'files' . "/" . $fileName . '.' .  $fileType;
 
 
 
 
     if($filesInfo['error'] == 0){
 
-      copy($fileTmp,$destinationPath);
+      copy($fileTmp,$destinationPathCopy);
 
       $addImg = $pdo->prepare('INSERT INTO images(img_path,folder,name,author) VALUES(
         :img_path,
