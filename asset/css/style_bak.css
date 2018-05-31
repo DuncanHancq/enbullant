@@ -59,7 +59,26 @@ input[type="submit"]{
 input[type="file"]{
   border: none;
 }
-
+/*
+Page modif image
+*/
+#displayImg{
+  position: absolute;
+  top:0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,.5);
+}
+#displayImg img{
+  height: 50%;
+}
+.hide{
+  display: none !important;
+}
 /*
 Page ajout image
 */
@@ -128,6 +147,12 @@ Page utilisateurs
 th, td {
   border-bottom: 1px solid #6A6A61;
   padding: 5px;
+}
+tr{
+  user-select: none;
+}
+tr:hover{
+  background: rgba(200,200,200,.20);
 }
 .display-user .cols-meta {
   font-weight: normal;

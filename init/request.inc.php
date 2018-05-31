@@ -1,7 +1,8 @@
 <?php
-require('init/init.inc.php');
+require('init.inc.php');
 $error = "";
 function connectUser(){
+
   global $pdo;
   $getData = $pdo->prepare("SELECT id_user,role,username,email,password FROM user WHERE email = :email");
   $getData->bindparam(':email', $_POST['email']);
@@ -23,15 +24,16 @@ function connectUser(){
       header("Refresh:0; url=".URL."?p=accueil");
     }
     else{
-      echo 'Mauvais mdp';
-    }
-  }
+      echo '<script>alert("Mauvais mot de passe")</script>';
+    }// verif password
+  } // if rowcount
   else{
-    echo 'Email inexistant';
+    echo '<script>alert("Email inexistant")</script>';
   }
-}
+} // connectUser
 
 function displayUsers(){
+
   global $pdo;
   $userDisplay = null;
   $getUser = $pdo->query('SELECT id_user AS id, username, role FROM user');
@@ -54,9 +56,10 @@ function displayUsers(){
     $userDisplay .= '<tr><td>'.$row['id'].'</td><td>'.$row['username'].'</td><td>'.$row['role'].'</td><td>0</td><td>X</td>';
   }
   return $userDisplay;
-}
+} // displayUsers
 
 function displayImg(){
+
   global $pdo;
   $imgDisplay = null;
   $getImg = $pdo->query('SELECT id_image AS id, name AS nom, author AS auteur, img_path AS chemin FROM images');
@@ -71,18 +74,25 @@ function displayImg(){
 
   }
 
-  $imgDisplay .= '<th class="cols-meta">Voir</th><th class="cols-meta">Modif.</th></tr>';
+  $imgDisplay .= '<th class="cols-meta">Voir</th><th class="cols-meta">Modif.</th><th class="cols-meta">suppr.</th></tr>';
   $imgDisplay .= '</tr>';
 
   while($row = $getImg->fetch())
   {
-    $imgDisplay .= '<tr><td>'.$row['id'].'</td><td>'.$row['nom'].'</td><td>'.$row['auteur'].'</td><td>'.$row['chemin'].'</td><td><span class="see far fa-eye" data-path="'.$row['chemin'].'></span>"</td><td><span class="del far fa-trash-alt"></span></td>';
+    $imgDisplay .= '<tr><td>'.$row['id'].'</td>';
+    $imgDisplay .= '<td>'.$row['nom'].'</td>';
+    $imgDisplay .= '<td>'.$row['auteur'].'</td>';
+    $imgDisplay .= '<td>'.$row['chemin'].'</td>';
+    $imgDisplay .= '<td><span class="see far fa-eye" data-path="'.$row['chemin'].'"></span></td>';
+    $imgDisplay .= '<td><span class="edit far fa-edit" data-id="'.$row['id'].'"></span></td>';
+    $imgDisplay .= '<td><span class="del far fa-trash-alt"></span></td></tr>';
   }
   return $imgDisplay;
 }
 
 
 function addUser(){
+
   global $pdo;
   $username 	= (isset($_POST['pseudo'])) ? $_POST['pseudo'] : null;
   $email 	    = (isset($_POST['email'])) ? $_POST['email'] : null;
@@ -109,33 +119,53 @@ function addUser(){
 }
 
 function addContent(){
-  global $pdo;
 
+  global $pdo;
   ///// Recuperation des infos du $_POST
   $userid 	   = (isset($_SESSION['user'])) ? $_SESSION['user']['id'] : 0;
   $type        = ($_POST['type'] != 0) ? 1 : 0;
   $publish     = (isset($_POST['publie'])) ? $_POST['publie'] : null;
   $title       = (isset($_POST['title'])) ? $_POST['title'] : null;
+  $imgArticle  = (isset($_POST['image'])) ? $_POST['image'] : null;
   $chapo       = (isset($_POST['chapo'])) ? $_POST['chapo'] : null;
   $corpsText   = (isset($_POST['content'])) ? $_POST['content'] : null;
   $urlResa     = (isset($_POST['resa'])) ? $_POST['resa'] : null;
 
+  // recupéré img path
+  // echo $imgArticle;
 
-  $addContent = $pdo->prepare('INSERT INTO articles(user_id,type,publish,title,chapo,corps_text,url_resa)
+  $getImgPath = $pdo->prepare('SELECT id_image FROM images WHERE name = :imgArticle');
+  $getImgPath->execute([
+      ':imgArticle' => htmlspecialchars($imgArticle)
+  ]);
+  if($getImgPath->rowCount() !== 0){
+    while($imgPath = $getImgPath->fetch()){
+      $imgArticle = $imgPath['id_image'];
+    }
+  }
+  else{
+    echo 'la demande n\'existe pas';
+  }
+
+
+
+  $addContent = $pdo->prepare('INSERT INTO articles(user_id,type,publish,title,img_article,chapo,corps_text,url_resa)
   VALUES(
     :userid,
     :type,
     :publish,
     :title,
+    :image,
     :chapo,
     :corpsText,
     :url_resa
   )');
   $addContent->execute([
     ':userid'     => htmlspecialchars($userid),
-    ':type'       => htmlspecialchars($type),
+    ':type'       => intval($type),
     ':publish'    => htmlspecialchars($publish),
     ':title'      => htmlspecialchars($title),
+    ':image'      => intval($imgArticle),
     ':chapo'      => $chapo,
     ':corpsText'  => $corpsText,
     ':url_resa'   => htmlspecialchars($urlResa)
@@ -144,7 +174,6 @@ function addContent(){
 }
 
 function addImg(){ // Fonction pour ajouter les Images en base
-
   global $pdo;
 
   $post = $_POST;
@@ -184,9 +213,6 @@ function addImg(){ // Fonction pour ajouter les Images en base
     echo $destinationPathCopy = 'files' . $slash . $fileName . '.' .  $fileType;
     echo $destinationPath = 'files' . "/" . $fileName . '.' .  $fileType;
 
-
-
-
     if($filesInfo['error'] == 0){
 
       copy($fileTmp,$destinationPathCopy);
@@ -204,11 +230,25 @@ function addImg(){ // Fonction pour ajouter les Images en base
         ':author'   => htmlspecialchars($author)
       ]);
 
-    }
+    } // if error
 
+  } // foreach $_FILES
+} // addImg()
 
-  }
+function modifImg(){
+  global $pdo;
 
+  $name = (!empty($_POST['name'])) ? $_POST['name'] : null;
+  $author = (!empty($_POST['author'])) ? $_POST['author'] : null;
+  $id = (!empty($_POST['id_image'])) ? $_POST['id_image'] : null;
+
+  $modifImg = $pdo->prepare('UPDATE images SET name = :name, author = :author WHERE id_image = :id');
+  $modifImg->execute([
+    ':name' => htmlspecialchars($name),
+    ':author' => htmlspecialchars($author),
+    ':id' => intval($id)
+  ]);
+  return 'La modifs est bien faite';
 }
 
 

@@ -13,10 +13,6 @@
   <label for="image">Image :</label>
   <input type="text" name="image" list="imagelist" id="image">
   <datalist id="imagelist">
-      <option label="Meteor">Meteor</option>
-      <option label="Pils">Pils</option>
-      <option label="Kronenbourg">Kronenbourg</option>
-      <option label="Glimbergen">Grimbergen</option>
   </datalist>
   <div id="ajaxInfo"></div>
   <label for="chapo">Chapô :</label>
@@ -85,7 +81,7 @@
 
   form.onsubmit = function (e) {
 
-    e.preventDefault();
+    //e.preventDefault();
 
     var error = [],
     inputText = [title,image],
@@ -113,17 +109,17 @@
     });
 
   }
-  
-  
+
+
   // Appel ajax pour l'ajout d'image
-  
-  
+
+
   image.onkeyup = function () {
-      
-   var ajax = null,
+
+   var  ajax = null,
         resa = document.getElementById('resa'),
-        ajaxInfo = document.getElementById('ajaxInfo');
-    
+        research = document.getElementById('imagelist');
+
     if(window.XMLHttpRequest || window.ActiveXObject){
         if(window.ActiveXObject){
             try{
@@ -141,21 +137,21 @@
         alert("Ajax n'est pas supporté pour l'ajout d'image");
         return;
     }
-    
+
   ajax.onreadystatechange = function(){
-     
-    
+
+
     if(ajax.readyState === 4 && ajax.status === 200){
-        console.log(ajax.responseText);
+        research.innerHTML = ajax.responseText;
     }
-    
-   }
-  
+
+  }
+
     ajax.open("GET","init/ajax.php?q="+ image.value +"",true);
     ajax.send();
- 
+
 } // end onkeyup
-  
+
 
 
 })();

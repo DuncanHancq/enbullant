@@ -8,13 +8,13 @@
 	left: 0;
 	padding: 15px 5px;
 	z-index: 2;
-	background: rgba(0,0,0,.90);
+	background: rgba(21,21,21,.90);
 	color: #fff;
 	cursor: pointer;
 	border: 1px solid #fff
 }
 #btn-su-menu:hover {
-	background: #121212;
+	background: rgba(200,200,200,.20)	;
 }
 #container-su-menu {
 	position: fixed;
@@ -77,11 +77,13 @@
 	border: inherit;
 	border-bottom: 1px solid #fff;
 }
-#container-su-menu.o nav li ul li a{
+#container-su-menu.o nav li ul li{
 	background: rgba(0,0,0,.90);
 }
-#container-su-menu.o li:hover{
-	background: grey;
+#container-su-menu.o li:hover,
+#container-su-menu.o nav ul li ul li a:hover
+{
+	background: rgba(200,200,200,.20);
 }
 #container-su-menu.o nav .red-alert{
 	position: absolute !important;

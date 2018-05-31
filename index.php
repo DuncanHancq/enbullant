@@ -109,6 +109,12 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $commonJS  = array_merge($bakJS,$commonJS);
       $commonCSS = array_merge($commonCSS,$bakCSS);
 
+      // MODIF. IMG ////////////////////////////////////
+      if(isset($_POST)){
+        modifImg();
+      }
+      // MODIF. IMG ////////////////////////////////////
+
     break;
 
 

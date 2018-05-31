@@ -1,3 +1,95 @@
 <table class="display-user">
 ##IMG-DISPLAY##
 <table>
+
+<div id="displayImg" class="hide">
+<img src="" alt="">
+</div>
+<div id="blocModif"  >
+<img src="" alt="">
+</div>
+<script>
+
+(function(){
+
+  var btnSee = document.getElementsByClassName('see'),
+      btnEdit = document.getElementsByClassName('edit'),
+      btnSuppr = document.getElementsByClassName('del'),
+      displayImg = document.getElementById('displayImg'),
+      blocModif = document.getElementById('blocModif'),
+      ajax = null;
+  /*
+  ** Init AJAX
+  */
+  if(window.XMLHttpRequest || window.ActiveXObject){
+      if(window.ActiveXObject){
+          try{
+              ajax = new ActiveXObject("Msxml2.XMLHTTP");
+          }
+          catch(e){
+              ajax = new ActiveXObject("Microsoft.XMLHTTP");
+          }
+      }
+      else{
+          ajax = new XMLHttpRequest();
+      }
+  }
+  else{
+      alert("Ajax n'est pas supporté pour l'ajout d'image");
+      return;
+  }
+
+  /*
+  ** Visualisation des images
+  */
+  for(var i = 0; i < btnSee.length; i++){
+
+    btnSee[i].onclick = function () {
+
+    var path = this.getAttribute('data-path');
+
+    displayImg.classList.remove('hide')
+    displayImg.innerHTML = '<img src="'+path+'" alt="'+path+'">';
+
+    }
+  }
+  displayImg.onclick = function () {
+    this.innerHTML = '';
+    this.classList.add('hide');
+  }
+
+  /*
+  ** Modification des images
+  */
+  for(var i = 0; i < btnEdit.length; i++){
+
+    btnEdit[i].onclick = function () {
+      var id = this.getAttribute('data-id');
+
+      ajax.onreadystatechange = function(){
+        if(ajax.readyState === 4 && ajax.status === 200){
+            blocModif.innerHTML = ajax.responseText;
+            var inputName = document.getElementById('name'),
+                inputAuthor = document.getElementById('author');
+
+            inputName.value = inputName.placeholder;
+            inputAuthor.value = inputAuthor.placeholder;
+
+
+        }
+
+      } // onreadysatechange
+
+      ajax.open("GET","init/ajax.php?modif="+ id +"",true);
+      ajax.send();
+
+
+    } // onclick
+
+
+  } // for
+
+
+})();
+
+</script>
