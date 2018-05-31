@@ -18,7 +18,10 @@ section {
 	text-decoration: none;
 }
 body {
-	background: url(../img/background.jpg) fixed no-repeat center;
+	background: url(../img/background-4k-min.jpg) fixed no-repeat center;
+	width: 100%;
+	background-position: center;
+	background-size: cover;
 }
 header,
 footer {

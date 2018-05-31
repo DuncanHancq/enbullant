@@ -5,8 +5,7 @@
 <div id="displayImg" class="hide">
 <img src="" alt="">
 </div>
-<div id="blocModif"  >
-<img src="" alt="">
+<div id="blocModif">
 </div>
 <script>
 
@@ -40,7 +39,7 @@
   }
 
   /*
-  ** Visualisation des images
+  ** Visualisation image
   */
   for(var i = 0; i < btnSee.length; i++){
 
@@ -59,7 +58,7 @@
   }
 
   /*
-  ** Modification des images
+  ** Modification image
   */
   for(var i = 0; i < btnEdit.length; i++){
 
@@ -74,21 +73,39 @@
 
             inputName.value = inputName.placeholder;
             inputAuthor.value = inputAuthor.placeholder;
-
-
         }
-
       } // onreadysatechange
 
       ajax.open("GET","init/ajax.php?modif="+ id +"",true);
       ajax.send();
 
-
     } // onclick
-
-
   } // for
 
+
+  /*
+  ** Suppression Images
+  */
+  for(var i = 0; i < btnSuppr.length; i++){
+
+    btnSuppr[i].onclick = function () {
+
+      var id = this.getAttribute('data-id');
+
+      if(confirm('Êtes-vous sûr de vouloir supprimer l\'image "'+id+'"?')) {
+
+        ajax.onreadystatechange = function(){
+          if(ajax.readyState === 4 && ajax.status === 200){
+            blocModif.innerHTML = ajax.responseText;
+            //alert('L\'image à bien été effacé');
+            //location.reload();
+          }// if readyState
+        }// onreadystatechange
+        ajax.open("GET","init/ajax.php?suppr="+ id +"",true);
+        ajax.send();
+      }// confirm
+    }// onclick
+  }// for
 
 })();
 

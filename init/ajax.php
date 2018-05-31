@@ -38,3 +38,18 @@ if(isset($_GET['modif']) && $_GET['modif'] !== ""){
     } // while
   } // rowcount
 } // if get
+
+if(isset($_GET['suppr'])){
+  $getPath = $pdo->prepare('SELECT img_path FROM images WHERE id_image = :id');
+  $getPath->execute([
+      ':id' => intval($_GET['suppr'])
+  ]);
+
+  while($path = $getPath->fetch()){
+    unlink($path['img_path']);
+  }
+  $supprImg = $pdo->prepare('DELETE FROM images WHERE id_image = :id');
+  $supprImg->execute([
+      ':id' => intval($_GET['suppr'])
+  ]);
+}

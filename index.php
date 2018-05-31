@@ -73,9 +73,24 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
     Gestion Contenu
     *******************************/
 
+    case "bullant/content" : // Contenus
+
+      $displayTemplatePage = new TemplateBak('template/content.html');
+      $displayTemplatePage->replaceContent('##TITLE##', 'Contenu');
+      $displayTemplatePage->replaceContent('##H2##', 'Contenu');
+      $displayTemplatePage->replaceContent('##CONTENT-DISPLAY##', getArticle());
+
+
+      $commonJS = array_merge($bakJS,$commonJS);
+      $commonCSS = array_merge($commonCSS,$bakCSS);
+
+
+    break;
+
+
     case "bullant/content/add" : // Ajout Contenus
 
-      $displayTemplatePage = new TemplateBak('template/actu.html');
+      $displayTemplatePage = new TemplateBak('template/content-add.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Ajout contenu');
       $displayTemplatePage->replaceContent('##H2##', 'Ajout contenu');
 
