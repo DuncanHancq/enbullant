@@ -1,22 +1,3 @@
-/*calc(15vw -15px);*/
-
-*{
-	padding: 0;
-	margin: 0;
-	font-family: 'Ubuntu';
-	font-weight:lighter;
-	font-size: 19px;
-	color: #fff
-}
-
-header,
-nav,
-a,
-div,
-footer,
-section {
-	text-decoration: none;
-}
 body {
 	background: url(../img/background-4k-min.jpg) fixed no-repeat center;
 	width: 100%;
@@ -24,7 +5,8 @@ body {
 	background-size: cover;
 }
 header,
-footer {
+footer,
+#rs-wrap {
 	background: rgba(21,21,21,.90);
 }
 
@@ -70,33 +52,31 @@ header nav,
 
 #content {
 	padding-top: 120px;
-	width: 90vw;
+	width: 90%;
 	margin: auto;
-	min-height: 80vh;
-	height: 200vh;
 }
 
 /*
 * Bloc réseaux sociaux
 **/
 
-aside {
-	border: 1px solid #000;
-	position: absolute;
+#rs-wrap {
+  position: fixed;
+	top: 200px;
 	right: 5vw;
-	top: 160px;
-	padding: 25px;
+  width: 100px;
 }
-aside a {
-	padding: 5px;
+#rs-wrap:after {
+	clear: both;
 }
-aside a:nth-child(2){
-	margin-top: 15px;
+#rs-wrap img {
+	width: 100%;
 }
-#pict-rs {
-	display: flex;
-	flex-direction: column;
-}
+
+/*
+* Footer
+**/
+
 footer {
 	padding: 25px 5vw;
 	margin-top: 25px;
@@ -106,18 +86,20 @@ footer .cols-wrap{
 	justify-content: space-between;
 	line-height: 1.5rem;
 }
-#legal {
-	margin-top: 25px;
-	text-align: center;
-}
-
-/*
-* Footer
-**/
-
 
 footer a:hover {
 	border-bottom: 1px solid #fff
+}
+/*
+** Home
+**/
+#carousel{
+	float: left;
+	width: 87%;
+	margin-bottom: 40px;
+}
+#carousel > img {
+	width: 100%;
 }
 
 
@@ -150,16 +132,21 @@ footer a:hover {
 
 #notFound{
 	width: 100%;
-	height : 90vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
-.subject{
-	width:50vw;
-	height: auto;
+#alertNotF{
+	width: 80%;
+	max-width: 650px;
 }
-.subject > img{
-	width:100%;
-	height: auto;
+#alertText{
+	width: 80%;
+	max-width: 700px;
+}
+#rs-links{
+	margin: 5vh auto;
+}
+#rs-links img {
+	max-width: 100px;
 }

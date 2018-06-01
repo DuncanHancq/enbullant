@@ -7,7 +7,7 @@
 
       <label for="author1">Auteur de l'image</label>
       <input type="text" placeholder="Indiquez l'auteur..." name="author">
-
+      <small>Si le champ est vide il sera indiqué comme "<i>Nom de l'image</i> © Théâtre En Bullant"</small>
 
       <label for="author">Ajouter image</label>
       <input type="file" name="author">
@@ -38,6 +38,7 @@
     fileBlock += '<label for="name'+ fileIterator +'">Nom de l\'image</label><input type="text" placeholder="Indiquez un nom..." name="name'+ fileIterator +'">';
     // Ajout du champ 'author'
     fileBlock += '<label for="author'+ fileIterator +'">Auteur de l\'image</label><input type="text" placeholder="Indiquez l\'auteur..." name="author'+ fileIterator +'">';
+    fileBlock += '<small>Si le champ est vide il sera indiqué comme \"<i>Nom de l\'image</i> © Théâtre En Bullant\"</small>';
     // Ajout du label 'file'
     fileBlock += '<label for="author'+ fileIterator +'">Ajouter image</label><input type="file" name="author'+ fileIterator +'"></div>';
     fileBlock += '</fieldset>';

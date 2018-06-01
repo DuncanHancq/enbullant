@@ -14,14 +14,27 @@ body,select,input{
 	width: 95vw;
 	margin: auto;
 }
-
+/*
+** Titres et textes
+*/
 h1 {
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 h2 {
   margin: 5px 0 15px 0;
   font-size: 1.7em;
 }
+small,
+small i{
+  font-size: 0.7rem;
+  color: #969696;
+  font-weight: lighter;
+  margin-top: 5px
+}
+
+
+
+
 form {
   display: flex;
   flex-direction: column;

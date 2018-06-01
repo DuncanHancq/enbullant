@@ -1,0 +1,60 @@
+<form method="post" enctype="multipart/form-data" id="add-content">
+
+  <label for="type">Type de contenu :</label>
+  <select id="type" name="type">
+    <option class="opt" value="0" ##ACTU##>Actualités</option>
+    <option class="opt" value="1" ##SPEC##>Spectacles</option>
+  </select>
+
+  <label for="title">Titre :</label>
+  <input type="text" name="title" id="title" placeholder="##TITRE##">
+
+
+  <label for="image">Image :</label>
+  <input type="text" name="image" list="imagelist" id="image" placeholder="##IMG##">
+  <datalist id="imagelist">
+  </datalist>
+
+  <label for="chapo">Chapô :</label>
+  <textarea name="chapo" id="chapo">##CHAPO##</textarea>
+
+  <label for="content">Corps de texte </label>
+  <textarea name="content" id="corps"><p>salut !</p></textarea>
+
+  <div id="spec">
+    <label for="resa">Lien réservation :</label>
+    <input type="url" name="resa" id="resa" placeholder="##LINK##">
+  </div>
+
+  <label for="publie">Publié :</label>
+  <select name="publie">
+    <option value="0" selected>Non</option>
+    <option value="1">Oui</option>
+  </select>
+
+  <input type="submit" name="modifycontent" value="Mettre à jour">
+</form>
+<div id="ajaxInfo"></div>
+
+<script>
+
+(function(){
+  "use strict";
+  // Init CKEDITOR
+  var title = document.getElementById('title'),
+      image = document.getElementById('image'),
+      resa = document.getElementById('resa');
+
+  image.value = title.placeholder;
+  title.value = title.placeholder;
+  resa.value = resa.placeholder;
+
+  if(CKEDITOR){
+    CKEDITOR.replace('corps');
+    CKEDITOR.replace('chapo');
+  }
+
+})();
+
+
+</script>

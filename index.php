@@ -113,6 +113,17 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
 
     break;
 
+    case "bullant/content/modify" :
+
+      $displayTemplatePage = new TemplateBak('template/content-modify.html');
+      $displayTemplatePage->replaceContent('##TITLE##', 'Modification contenu');
+      $displayTemplatePage->replaceContent('##H2##', 'Modification contenu');
+
+      $commonJS = array_merge($bakJS,$commonJS);
+      $commonCSS = array_merge($commonCSS,$bakCSS);
+
+    break;
+
 
     case "bullant/image" : // Ajout Image
 
@@ -169,7 +180,7 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
 
 
 /****************************************************************
----------------FRONT-OFFICE---------------
+---------------FRONT ---------------
 *****************************************************************/
 
 
@@ -218,6 +229,8 @@ switch($getUrl)
 
     if(empty($displayTemplatePage)){
       $displayTemplatePage = new Template('template/404.html');
+      $displayTemplatePage->replaceContent('##TITLE##', '404');
+      
       $commonCSS = array_merge($commonCSS,$frontCSS);
     }
 

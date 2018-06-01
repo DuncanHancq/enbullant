@@ -276,8 +276,43 @@ function getArticle(){
     $articleDisplay .= '<td>'.$row['titre'].'</td>';
     $articleDisplay .= '<td>'.$row['image'].'</td>';
     $articleDisplay .= '<td><span class="see far fa-eye"></span></td>';
-    $articleDisplay .= '<td><span class="edit far fa-edit"></span></td>';
+    $articleDisplay .= '<td><a href="?p=bullant/content/modify&get='.$row['id'].'" class="edit far fa-edit"></a></td>';
     $articleDisplay .= '<td><span class="del far fa-trash-alt"></span></td></tr>';
   }
   return $articleDisplay;
+}
+
+function modifyArticle(){
+  global $pdo;
+  $articleDisplay = "";
+  $getArticle = $pdo->query('SELECT id_article AS id, title AS titre, name AS image FROM articles INNER JOIN images ON articles.img_article = images.id_image');
+  $nbrCol = $getArticle->columnCount();
+  $articleDisplay .= '<tr>';
+
+  for($i = 0; $i < $nbrCol; $i++)
+  {
+
+      $nomCol = $getArticle->getColumnMeta($i); //A chaque tour de boucle je récupère les intitulés de mes champs
+      $articleDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
+
+  }
+
+  $articleDisplay .= '<th class="cols-meta">Voir</th><th class="cols-meta">Modif.</th><th class="cols-meta">suppr.</th></tr>';
+  $articleDisplay .= '</tr>';
+
+  while($row = $getArticle->fetch())
+  {
+    $articleDisplay .= '<tr><td>'.$row['id'].'</td>';
+    $articleDisplay .= '<td>'.$row['titre'].'</td>';
+    $articleDisplay .= '<td>'.$row['image'].'</td>';
+    $articleDisplay .= '<td><span class="see far fa-eye"></span></td>';
+    $articleDisplay .= '<td><a href="?p=bullant/article/modify&get='.$row['id'].'" class="edit far fa-edit"></a></td>';
+    $articleDisplay .= '<td><span class="del far fa-trash-alt"></span></td></tr>';
+  }
+  return $articleDisplay;
+}
+
+function updateArticle(){
+  global $pdo;
+
 }
