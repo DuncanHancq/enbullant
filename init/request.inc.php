@@ -58,11 +58,13 @@ function displayUsers(){
   }
 
   $userDisplay .= '<th class="cols-meta">Modif.</th><th class="cols-meta">Suppr.</th></tr>';
-  $userDisplay .= '</tr>';
 
   while($row = $getUser->fetch())
   {
-    $userDisplay .= '<tr><td>'.$row['id'].'</td><td>'.$row['username'].'</td><td>'.$row['role'].'</td><td>0</td><td>X</td>';
+    $userDisplay .= '<tr><td>'.$row['id'].'</td>';
+    $userDisplay .= '<td>'.$row['username'].'</td>';
+    $userDisplay .= '<td>'.$row['role'].'</td>';
+    $userDisplay .= '<td>0</td><td>X</td>';
   }
   return $userDisplay;
 } // displayUsers

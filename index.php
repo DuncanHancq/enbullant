@@ -7,32 +7,35 @@ require('class/class_template_bak.php'); // moteur de rendu
 $getUrl = isset($_GET['p']) ? $_GET['p'] : null;
 $userInfo = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 $username = ($userInfo !== null) ? $userInfo['username'] : "Pas d'username";
+
+
+//////////// Init CSS ////////////////
 $commonCSS = array(
   'asset/css/reset.css',
   'asset/css/common.css',
   'https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500',
   'asset/css/fontawesome-all.min.css'
 );
-$commonJS = array(
-  'asset/js/sumenu.js'
-);
+$frontCSS = array('asset/css/style.css');
+$accueilCSS = array('asset/css/jquery.bxslider.css');
+$bakCSS = array('asset/css/style_bak.css');
 
-$bakCSS = array(
-  'asset/css/style_bak.css'
-);
-
+//////////// Init JS ////////////////
+$commonJS = array('asset/js/sumenu.js');
 $bakJS = array(
   'asset/ckeditor/ckeditor.js',
   'asset/js/edit_content.js'
 );
-
-$frontCSS = array(
-  'asset/css/style.css',
+$accueilJS = array(
+  'https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js',
+  'https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js'
 );
 
-/****************************************************************
----------------BACK OFFICE
-****************************************************************/
+/*************************************************
+*
+* FRONT
+*
+*************************************************/
 
 
 if ($userInfo !== null) // si l'utilisateur est connecté...
@@ -61,6 +64,7 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $displayTemplatePage->replaceContent('##H2##', 'Ajouter membre');
 
       $commonCSS = array_merge($commonCSS,$bakCSS);
+
 
       if(isset($_POST['ajoutmbr']))
       {
@@ -205,11 +209,11 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
 
 }
 
-
-/****************************************************************
----------------FRONT ---------------
-*****************************************************************/
-
+/*************************************************
+*                                                *
+* FRONT                                          *
+*                                                *
+*************************************************/
 
 switch($getUrl)
 {
@@ -219,7 +223,8 @@ switch($getUrl)
     $displayTemplatePage = new Template('template/index.html');
     $displayTemplatePage->replaceContent('##TITLE##', 'Accueil');
 
-    $commonCSS = array_merge($commonCSS,$frontCSS);
+    $commonCSS = array_merge($commonCSS,$frontCSS,$accueilCSS);
+    $commonJS = array_merge($commonJS,$accueilJS);
 
   break;
 
@@ -265,7 +270,7 @@ switch($getUrl)
 
 }
 
-//if($username !== null){$displayTemplatePage->replaceContent('##USERNAME##', $username);}
+if($username !== null){$displayTemplatePage->replaceContent('##USERNAME##', $username);}
 $displayTemplatePage->replaceContent('##CSS##', srcCSS($commonCSS));
 $displayTemplatePage->replaceContent('##JS##', srcJS($commonJS));
 
