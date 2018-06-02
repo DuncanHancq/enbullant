@@ -78,7 +78,7 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $displayTemplatePage = new TemplateBak('template/content.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Contenu');
       $displayTemplatePage->replaceContent('##H2##', 'Contenu');
-      $displayTemplatePage->replaceContent('##CONTENT-DISPLAY##', getArticle());
+      $displayTemplatePage->replaceContent('##CONTENT-DISPLAY##', displayArticle());
 
 
       $commonJS = array_merge($bakJS,$commonJS);
@@ -95,13 +95,13 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $displayTemplatePage->replaceContent('##H2##', 'Ajout contenu');
 
       if(isset($_GET['type']) && $_GET['type'] == 0){
-          $displayTemplatePage->replaceContent('##ACTU##', 'selected');
+          $displayTemplatePage->replaceContent('##ACTU##', 'selected="selected"');
           $displayTemplatePage->replaceContent('##SPEC##', ' ');
       }
       else
       {
         $displayTemplatePage->replaceContent('##ACTU##', ' ');
-        $displayTemplatePage->replaceContent('##SPEC##', 'selected');
+        $displayTemplatePage->replaceContent('##SPEC##', 'selected="selected"');
       }
       $commonJS = array_merge($bakJS,$commonJS);
       $commonCSS = array_merge($commonCSS,$bakCSS);
@@ -118,7 +118,34 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $displayTemplatePage = new TemplateBak('template/content-modify.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Modification contenu');
       $displayTemplatePage->replaceContent('##H2##', 'Modification contenu');
+      if(isset($_GET['get'])){
 
+
+        getArticle($disp);
+
+        $displayTemplatePage->replaceContent('##TITRE##', $disp['title']);
+        $displayTemplatePage->replaceContent('##IMG##', $disp['image']);
+        $displayTemplatePage->replaceContent('##CHAPO##', $disp['chapo']);
+        $displayTemplatePage->replaceContent('##CORPS##', $disp['corps_text']);
+        $displayTemplatePage->replaceContent('##LINK##', $disp['url_resa']);
+        if($disp['type'] == 0){
+          $displayTemplatePage->replaceContent('##TYPE0##', 'selected="selected"');
+          $displayTemplatePage->replaceContent('##TYPE1##', " ");
+        }else{
+          $displayTemplatePage->replaceContent('##TYPE0##', 'selected="selected"');
+          $displayTemplatePage->replaceContent('##TYPE1##', " ");
+        }
+        if($disp['publie'] == 0){
+          $displayTemplatePage->replaceContent('##PUBLIE0##', 'selected="selected"');
+          $displayTemplatePage->replaceContent('##PUBLIE1##', " ");
+        }else{
+          $displayTemplatePage->replaceContent('##PUBLIE0##', " ");
+          $displayTemplatePage->replaceContent('##PUBLIE1##', 'selected="selected"');
+        }
+        if(isset($_POST['modifycontent'])){
+          addContent(1);
+        }
+      }
       $commonJS = array_merge($bakJS,$commonJS);
       $commonCSS = array_merge($commonCSS,$bakCSS);
 
@@ -230,7 +257,7 @@ switch($getUrl)
     if(empty($displayTemplatePage)){
       $displayTemplatePage = new Template('template/404.html');
       $displayTemplatePage->replaceContent('##TITLE##', '404');
-      
+
       $commonCSS = array_merge($commonCSS,$frontCSS);
     }
 
