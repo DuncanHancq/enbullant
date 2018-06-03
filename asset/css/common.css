@@ -3,10 +3,9 @@
 	margin: 0;
 	font-family: 'Ubuntu';
 	font-weight:lighter;
+	color: #fff;
 	font-size: 19px;
-	color: #fff
 }
-
 header,
 nav,
 a,
@@ -86,6 +85,8 @@ section {
 #container-su-menu.o nav ul li.lvl-1:hover ul,
 #container-su-menu.o nav ul li.lvl-1 ul:hover{
 	display: block;
+
+  height: auto;
 	z-index: 1
 }
 #container-su-menu.o nav ul li.lvl-1 ul{
@@ -95,6 +96,7 @@ section {
 	top: 0;
 	display: none;
 	z-index: 3;
+	background: rgba(0,0,0,.90);
 }
 #container-su-menu.o nav li a,
 #container-su-menu.o nav li ul li a{
@@ -128,4 +130,15 @@ section {
 	content: ">";
 	float: right;
 	font-size: 1.2em;
+}
+
+@media screen and (max-width: 1200px) {
+  * {
+    font-size: 16px;
+  }
+
+
+
+
+
 }

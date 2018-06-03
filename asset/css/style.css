@@ -75,8 +75,9 @@ header nav{
 #rs-wrap {
   position: fixed;
 	top: 200px;
-	right: 5vw;
+  right: 4.4vw;
   width: 100px;
+	border-radius: 2px;
 }
 #rs-wrap:after {
 	clear: both;
@@ -89,7 +90,13 @@ header nav{
 #iframe-wrap {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: space-between;
+	width: 90%
+}
+#fb,
+#twitter-widget-0 {
+	width: 45% !important;
+	height: 300px !important;
 }
 
 /*
@@ -156,16 +163,17 @@ header nav{
 .bx-wrapper .bx-controls-direction a.bx-prev,
 .bx-wrapper .bx-controls-direction a.bx-next
 {
-	top: 40%;
-	height: 20%;
+	top: 0;
+	height: 100%;
 	width: 5%;
 	margin-top: 0;
 
 }
-.bx-wrapper .bx-controls-direction a.bx-prev:hover,
-.bx-wrapper .bx-controls-direction a.bx-next:hover
-{
-	background: #fff;
+.bx-wrapper .bx-controls-direction a.bx-prev:hover{
+	border-left: 3px solid #d73636
+}
+.bx-wrapper .bx-controls-direction a.bx-next:hover{
+	border-right: 3px solid #d73636
 }
 .bx-wrapper .bx-controls-direction a.bx-prev{
 	left:0;
@@ -173,8 +181,14 @@ header nav{
 .bx-wrapper .bx-controls-direction a.bx-next{
 	right:0;
 }
+#content .bx-wrapper .bx-pager.bx-default-pager a{
+	background: #fff;
+}
+#content .bx-wrapper .bx-pager.bx-default-pager a:hover,
+#content .bx-wrapper .bx-pager.bx-default-pager a.active{
 
-
+	background: #ff3d00db;
+}
 /*
 * Footer
 **/
@@ -251,4 +265,53 @@ footer a:hover {
 }
 #rs-links img {
 	max-width: 100px;
+}
+
+
+
+@media screen and (max-width: 1200px) { /****** GAP 1 *******/
+
+
+	/*
+	** HEADER
+	*/
+	header{
+		height: 80px;
+	}
+	header nav a{
+		padding-top: 33px;
+	}
+
+	/*
+	** Content
+	*/
+	#content{
+		width: 95%;
+	}
+
+	/*
+	** Block réseau sociaux
+	*/
+	#rs-wrap{
+		width:77px;
+		right: 2.7vw;
+	}
+
+}
+
+@media screen and (max-width: 1200px) { /****** GAP 2 *******/
+
+	/*
+	** Carrousel
+	**/
+	.bx-wrapper {
+    width: 100%;
+    max-height: 762px;
+	}
+	/*
+	** Block réseau sociaux
+	*/
+	#rs-wrap{
+		display: none;
+	}
 }

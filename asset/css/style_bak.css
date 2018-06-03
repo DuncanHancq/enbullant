@@ -1,5 +1,5 @@
 body,select,input{
-  background: #1D2326;
+  background: #1b1a19;
 }
 *{
 	padding: 0;
@@ -11,7 +11,7 @@ body,select,input{
 }
 #content{
 	padding-top: 15px;
-	width: 95vw;
+	width: 93vw;
 	margin: auto;
 }
 /*
@@ -48,10 +48,10 @@ select {
 }
 input{
   border: 1px solid #fff;
-  padding: 5px 2px;
+  padding: 5px 5px;
 }
 input:focus{
-  border: 1px solid #01AD1A;
+  border: 1px solid #5cfef4;
   outline: none !important;
 }
 input[type="text"],
@@ -66,9 +66,14 @@ input[type="submit"]{
   width: 250px;
   padding:15px 5px;
   margin: 15px 0;
-  border-radius: 6px;
-  background: linear-gradient(to top,#333,#1f1f1f) !important;
+  border-radius: 2px;
+  background: rgba(21,21,21,.90);
 }
+input[type="submit"]:hover{
+  background: rgba(200,200,200,.20)
+}
+
+
 input[type="file"]{
   border: none;
 }
