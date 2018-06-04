@@ -11,20 +11,20 @@ $username = ($userInfo !== null) ? $userInfo['username'] : "Pas d'username";
 
 //////////// Init CSS ////////////////
 $commonCSS = array(
-  'asset/css/reset.css',
-  'asset/css/common.css',
+  URL.'asset/css/reset.css',
+  URL.'asset/css/common.css',
   'https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500',
-  'asset/css/fontawesome-all.min.css'
+  URL.'asset/css/fontawesome-all.min.css'
 );
-$frontCSS = array('asset/css/style.css');
-$accueilCSS = array('asset/css/jquery.bxslider.css');
-$bakCSS = array('asset/css/style_bak.css');
+$frontCSS = array(URL.'asset/css/style.css');
+$accueilCSS = array(URL.'asset/css/jquery.bxslider.css');
+$bakCSS = array(URL.'asset/css/style_bak.css');
 
 //////////// Init JS ////////////////
-$commonJS = array('asset/js/sumenu.js');
+$commonJS = array(URL.'asset/js/sumenu.js');
 $bakJS = array(
-  'asset/ckeditor/ckeditor.js',
-  'asset/js/edit_content.js'
+  URL.'asset/ckeditor/ckeditor.js',
+  URL.'asset/js/edit_content.js'
 );
 $accueilJS = array(
   'https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js',

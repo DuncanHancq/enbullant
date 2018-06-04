@@ -36,7 +36,7 @@ function token(){
 function srcJS(array $src){
 	$scripts = "";
 	foreach ($src as $value) {
-		$scripts .= '<script src="'. $value .'"></script>'."\n\t\t";
+		$scripts .= '<script src="'.$value .'"></script>'."\n\t\t";
 	}
 	return $scripts;
 }
