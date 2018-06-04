@@ -1,9 +1,15 @@
 <header>
     <div id="logo"><a href="?p=accueil"><img src="asset/bin/logo2.png" alt=""></a></div>
-    <nav>
-        <a href="?p=spectacle">Spectacles</a>
-        <a href="?p=actualite">Actualités</a>
-        <a href="?p=qui">Qui, quoi, Où ?</a>
+    <nav id="responsive">
+        <div id="nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <a href="?p=articles/spec">Spectacles</a>
+        <a href="?p=articles/actu">Actualités</a>
+        <a href="?p=qui">Qui somme nous ?</a>
         <a href="?p=contact">Contact</a>
     </nav>
     <div id="pict-fonc">
@@ -11,3 +17,21 @@
         <a href="?p=livre-or"><img src="asset/img/livre.png"></a>
     </div>
 </header>
+
+
+<script>
+    (function(){
+        
+        var navIcon = document.getElementById('nav-icon'),
+            nav = document.getElementById("responsive"),
+            pictFonc = document.getElementById('pict-fonc');
+            
+        navIcon.onclick = function (){
+            this.classList.toggle('o');
+            nav.classList.toggle('o');
+            pictFonc.classList.toggle('o');
+            
+        }
+        
+    })();
+</script>

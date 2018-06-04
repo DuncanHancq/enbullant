@@ -396,9 +396,6 @@ function getArticle(&$disp){ // function pour récupéré un article en base
       }
           $disp = $processPage;
     }
-    else {
-        header('Location: '.URL."?p=article");
-    }
     if(isset($_GET['get'])){ // recup modif
         $disp = $article;
     }
@@ -409,10 +406,10 @@ function getArticle(&$disp){ // function pour récupéré un article en base
   } // if id article
   else{ // vue d'ensemble contenu par type
       if($_GET['p'] == "articles/actu"){
-          $type = 1;
+          $type = 0;
       }
       else if($_GET['p'] == "articles/spec"){
-          $type = 0;
+          $type = 1;
       }
       else{
         header('Location: '.URL."?p=404");
@@ -426,8 +423,8 @@ function getArticle(&$disp){ // function pour récupéré un article en base
         img_path AS chemin
         FROM articles
         INNER JOIN images ON articles.img_article = images.id_image
-        WHERE type = '.$type.'');
-      $processPage = "";
+        WHERE type = '.$type);
+      $processPage = ($type == 0) ? '<h1>Actualités</h1>' : '<h1>Spectacles</h1>';
       while($article = $getArticle->fetch()){
         $processPage .= '<div class="article-wrap">';
         $processPage .= '<div class="img-content">';                        // BLOCK IMG

@@ -47,6 +47,9 @@ header nav,
 header nav{
     padding: 0;
 }
+#nav-icon{
+    display:none;
+}
 #logo{
     padding: 6px 0;
 }
@@ -83,12 +86,13 @@ header nav{
     position: relative;
     background: rgba(21,21,21,.90);
     padding: 15px;
+    margin-bottom: 15px;
     height: 300px;
     border-radius: 2px;
 }
 .img-content{
     overflow: hidden;
-    min-width: 380px;
+    width: 500px
 }
 .img-content img{
     width: 100%
@@ -96,6 +100,7 @@ header nav{
 .preview {
     padding-left: 15px;
     max-height: 215px;
+    width: 80%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -106,11 +111,11 @@ header nav{
 }
 .preview p,
 .preview p strong,
-.preview p em,
+.preview p em
 {
     font-size: 1.2rem;
     font-style: normal;
-    line-height: .2rem;
+    line-height: 1.4rem;
     
 }
 .preview a.more{
@@ -119,12 +124,13 @@ header nav{
     bottom: 15px;
     right: 15px;
     border: 1px solid #fff;
+    background: rgba(21,21,21,.90);
     margin-top: 1em;
     padding: 15px;
 }
 
 .preview a.more:hover{
-    background: rgba(200,200,200,.20);
+    background: rgba(150,150,150,.75);
 }
 
 
@@ -134,10 +140,14 @@ header nav{
 
 #content {
     padding-top: 150px;
+    overflow: hidden;
     padding-bottom: 50px;
     width: 90%;
     min-height: 80vh;
     margin: auto;
+}
+#content > h1{
+    font-size: 2rem;
 }
 article {
     background: rgba(21,21,21,.90);
@@ -348,6 +358,7 @@ article ol{
     display: inline-block;
     font-size: 1.2rem;
     background : rgba(5,5,5,.80);
+    border-radius: 2px;
     padding: 15px 20px;
     text-align: left;
 }
@@ -355,6 +366,7 @@ article ol{
     display: inline-block;
     margin-bottom: 7px;
     font-size: 2.2rem;
+    border-radius: 2px;
     background: rgba(5,5,5,.90);
     padding: 15px 20px;
     text-align: left;
@@ -565,8 +577,107 @@ footer a:hover {
         padding: 0 5px;
     }
     header nav {
-        display : none;
+        height: calc(100vh - 80px);
+        width: 100%;
+        position: fixed;
+        top: -120vh;
+        left:0;
+        overflow: hidden;
+        flex-direction: column;
+        background: #000;
+        z-index: 1010;
+        padding: 15vh 0 0 0;
+        transition: .5s ease-in-out;
+        align-items: end;
     }
+    header nav.o {
+       top: 80px;
+    }
+    #pict-fonc.o {
+        display:block;
+        position: fixed;
+        bottom: 0;
+        z-index: 1011;
+        width: 100%;
+        height: 92px;
+    }
+    #pict-fonc a img {
+        height: 75px;
+    }
+    header nav a {
+        padding: 0 0 15px 20px;
+        margin: 0;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        height: 8vh;
+        z-index: 9999;
+    }
+    header nav a:hover{
+        margin-bottom: 30px;
+    }
+    
+    #nav-icon{
+        display:block;
+        width: 50px;
+        height: 35px;
+        position: fixed;
+        top: -30px;
+        right: 20px;
+        margin: 50px auto;
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+        -webkit-transition: .5s ease-in-out;
+        transition: .5s ease-in-out;
+        cursor: pointer;
+    }
+    #nav-icon span{
+        display: block;
+        position: absolute;
+        height: 5px;
+        width: 100%;
+        background: #fff;
+        border-radius: 15px;
+        opacity: 1;
+        left: 0;
+        -webkit-transform: rotate(0deg);
+        -webkit-transition: .25s ease-in-out;
+        transition: .25s ease-in-out;
+    }
+    #nav-icon span:nth-child(1) {
+        top: 0px;
+    }
+
+    #nav-icon span:nth-child(2),#nav-icon3 span:nth-child(3) {
+        top: 18px;
+    }
+
+    #nav-icon span:nth-child(4) {
+        top: 36px;
+    }
+
+    #nav-icon.o span:nth-child(1) {
+        top: 18px;
+        width: 0%;
+        left: 50%;
+    }
+
+    #nav-icon.o span:nth-child(2) {
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    #nav-icon.o span:nth-child(3) {
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        top: 16px;
+    }
+
+    #nav-icon.o span:nth-child(4) {
+        top: 18px;
+        width: 0%;
+        left: 50%;
+    }
+    
     #pict-fonc{
         display : none;
     }
@@ -606,6 +717,7 @@ footer a:hover {
     }
     .preview {
         position: absolute;
+        width: 100%;
         z-index: 2;
         padding: 15px;
         overflow: visible;
@@ -630,6 +742,17 @@ footer a:hover {
     article #text strong{
         line-height: 1.7rem
     }
-    
-    
+    .bx-wrapper .info h3 a{
+        font-size: 1.7rem;
+    }
+    .bx-wrapper .info {
+        top: 10px;
+        left: 15px;
+    }
+    .bx-wrapper .info h2 {
+        font-size: 1rem;
+    }
+    #content h1{
+        display: none;
+    }
 }
