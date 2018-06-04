@@ -31,21 +31,21 @@ $accueilJS = array(
   'https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js'
 );
 
+
+
 /*************************************************
-*
-* FRONT
-*
+*                                                *
+* FRONT                                          *
+*                                                *
 *************************************************/
-
-
 if ($userInfo !== null) // si l'utilisateur est connecté...
 {
   switch ($getUrl)
   {
-    /*******************************
-    Gestion utilisateur
-    *******************************/
 
+    /*******************************
+    * Gestion utilisateur          *
+    *******************************/
     case "bullant/user":
 
       $displayTemplatePage = new TemplateBak('template/user.html');
@@ -74,9 +74,8 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
     break;
 
     /*******************************
-    Gestion Contenu
+    * Gestion Contenu              *
     *******************************/
-
     case "bullant/content" : // Contenus
 
       $displayTemplatePage = new TemplateBak('template/content.html');
@@ -155,8 +154,10 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
 
     break;
 
-
-    case "bullant/image" : // Ajout Image
+    /*******************************
+    *  Gestion Image              *
+    *******************************/
+    case "bullant/image" : //
 
       $displayTemplatePage = new TemplateBak('template/image-bak.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Administration images');
@@ -166,11 +167,9 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $commonJS  = array_merge($bakJS,$commonJS);
       $commonCSS = array_merge($commonCSS,$bakCSS);
 
-      // MODIF. IMG ////////////////////////////////////
       if(isset($_POST)){
         modifImg();
       }
-      // MODIF. IMG ////////////////////////////////////
 
     break;
 
@@ -214,7 +213,6 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
 * FRONT                                          *
 *                                                *
 *************************************************/
-
 switch($getUrl)
 {
   case null:
@@ -229,9 +227,8 @@ switch($getUrl)
   break;
 
   /*******************************
-  Espace connexion
+  * Espace connexion             *
   *******************************/
-
   case "bullant": // Page de connexion
 
     if($userInfo !== null)
@@ -251,11 +248,16 @@ switch($getUrl)
 
   break;
 
+  case "articles":
+    $displayTemplatePage = new Template('template/content-front.html');
+    $displayTemplatePage->replaceContent('##TITLE##', 'Hamlet');
+
+    $commonCSS = array_merge($commonCSS,$frontCSS);
+  break;
 
   /*******************************
-  404
+  * 404                          *
   *******************************/
-
   case "404":
   default: // 404
 

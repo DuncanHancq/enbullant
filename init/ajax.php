@@ -44,12 +44,43 @@ if(isset($_GET['suppr'])){
   $getPath->execute([
       ':id' => intval($_GET['suppr'])
   ]);
+  if($getPath->rowCount() != 0){
+    $path = $getPath->fetch();
+    $path = $path['img_path'];
+    
 
-  while($path = $getPath->fetch()){
-    unlink($path['img_path']);
+    unlink('../'.$path);
+
+
+    $supprImg = $pdo->prepare('DELETE FROM images WHERE id_image = :id');
+    $supprImg->execute([
+        ':id' => intval($_GET['suppr'])
+    ]);
   }
-  $supprImg = $pdo->prepare('DELETE FROM images WHERE id_image = :id');
-  $supprImg->execute([
-      ':id' => intval($_GET['suppr'])
-  ]);
+  else
+  {
+    echo "le fichier n'existe pas !";
+  }
+}
+
+///// SUPRIMER ARTICLE //////
+if(isset($_GET['supprArticle'])){
+
+    $supprImg = $pdo->prepare('DELETE FROM articles WHERE id_article = :id');
+    $supprImg->execute([
+        ':id' => intval($_GET['supprArticle'])
+    ]);
+    echo "l'article : " . $_GET['supprArticle'] . " à bien été supprimé.";
+}
+
+///// SUPRIMER USER //////
+if(isset($_GET['supprUser'])){
+    if($_GET['supprUser'] != $_SESSION['user']['username'] && $_GET['supprUser'] != 0){
+      $supprImg = $pdo->prepare('DELETE FROM user WHERE id_user = :id');
+      $supprImg->execute([
+          ':id' => intval($_GET['supprUser'])
+      ]);
+      echo "l'utilisateur : " . $_GET['supprUser'] . " à bien été supprimé.";
+    }
+    echo "Cet utilisateur n'existe pas ou ne peut pas être supprimé";
 }

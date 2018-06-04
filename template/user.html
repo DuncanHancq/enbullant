@@ -1,4 +1,56 @@
   <table class="display-user">
   ##USER-DISPLAY##
   <table>
+  <div id="info">
+
+  </div>
   <a href="?p=bullant/user/add" class="btn fas fa-plus-circle"></a>
+
+<script>
+(function (){
+
+/*
+** Init AJAX
+*/
+if(window.XMLHttpRequest || window.ActiveXObject){
+    if(window.ActiveXObject){
+        try{
+            ajax = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch(e){
+            ajax = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+    }
+    else{
+        ajax = new XMLHttpRequest();
+    }
+}
+else{
+    alert("Ajax n'est pas supporté pour l'ajout d'image");
+    return;
+}
+
+var btnSuppr = document.getElementsByClassName('del'),
+    infoBlock = document.getElementById('info');
+
+for(var i = 0; i < btnSuppr.length; i++){
+
+  btnSuppr[i].onclick = function () {
+    var id = this.getAttribute('data-id');
+  infoBlock.innerHTML = 'click';
+    ajax.onreadystatechange = function(){
+      if(ajax.readyState === 4 && ajax.status === 200){
+          infoBlock.innerHTML = ajax.responseText;
+          setTimeout(function(){ location.reload(); }, 3000);
+      }
+    } // onreadysatechange
+
+    ajax.open("GET","init/ajax.php?supprUser="+id,true);
+    ajax.send();
+
+  }// onclick
+}// for
+
+
+})();
+</script>

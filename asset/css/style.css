@@ -21,7 +21,7 @@ header {
 	justify-content: space-between;
 	width: 100%;
 	height: 100px;
-	padding: 0 5vw;
+  padding: 0 3.7vw 0 5vw;
 	margin-bottom: 50px;
 	text-align: center;
 	z-index: 1001
@@ -57,16 +57,146 @@ header nav{
 #logo img {
 	height: 100%;
 }
+#pict-fonc img{
+	width: 90px;
+}
+#pict-fonc img:hover{
+	opacity: 0.7
+}
 /*
 * CONTENT
 **/
 
 #content {
-	padding-top: 120px;
+	padding-top: 150px;
+	padding-bottom: 50px;
 	width: 90%;
+	min-height: 80vh;
 	margin: auto;
 }
+article {
+	background: rgba(21,21,21,.90);
+  min-height: 85vh;
+	width: 90%
+}
+article.spec{
+	display: flex;
+	flex-direction: row;
+}
+article.spec #left{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	position: sticky;
+	top:80px;
+	width: 100%;
+	max-width: 600px;
+	height: 80vh;
+	padding: 15px;
+}
+article.spec #left img{
+	width: 100%;
+	height: auto;
+}
+article.spec #left a{
+	width: 100%;
+	border: 1px solid #fff;
+	border-radius: 2px;
+	padding: 15px 5px;
+	margin-top: 5px;
+	text-align: center;
+}
+article.spec #left a:hover{
+	border: 1px solid rgba(35, 173, 255, 1);
+	box-shadow: 0 0 6px rgba(35, 173, 255, 1);
+}
+article.spec #left{
+	width: 100%;
+}
+article.spec #text{
+	padding: 15px;
+}
+article#actu{
+	display: flex;
+	flex-direction: column;
+	padding: 25px;
+}
+article#actu #text{
+	padding: 25px;
+}
 
+article#actu #chapo p{
+	margin-top: 3rem;
+	margin-bottom: 0;
+}
+#head{
+	position: relative;
+	width: 100%;
+	height: 30vw;
+	overflow: hidden;
+}
+#head img{
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+}
+#head h1{
+	position: absolute;
+	top: 15px;
+	left: 20px;
+	background: rgba(5,5,5,.90);
+	padding: 15px 20px;
+	text-align: left;
+}
+
+article h1{
+	font-size: 2.5rem;
+	margin: 15px 0;
+	font-weight: normal;
+}
+article hr{
+	margin: 15px 0 50px 0;
+}
+article #text p,
+article #text a,
+article #text li,
+article #text em,
+article #text strong
+{
+	font-size: 1.2rem;
+	font-weight: lighter;
+	line-height: 2.2rem;
+}
+article #text strong{
+	font-weight: normal;
+	font-size: 1.3rem
+}
+article #text em{
+	font-style: italic;
+}
+
+
+article #chapo p{
+	font-size: 1.3rem;
+	font-weight: normal;
+	letter-spacing: .1rem;
+	margin-bottom: 3rem;
+}
+article #text p {
+	margin-top: 15px;
+}
+article #text a{
+	text-decoration: underline;
+}
+article #text a:hover{
+	text-decoration: none;
+}
+article ul,
+article ol{
+	margin: 15px 0 15px 20px;
+
+}
 /*
 * Blocs réseaux sociaux
 **/
@@ -84,6 +214,10 @@ header nav{
 }
 #rs-wrap img {
 	width: 100%;
+}
+
+#rs-wrap img:hover {
+	opacity: 0.7
 }
 /* Iframes */
 
@@ -206,6 +340,10 @@ footer .cols-wrap{
 footer a:hover {
 	border-bottom: 1px solid #fff
 }
+#legal{
+	text-align: center;
+	margin-top: 15px;
+}
 /*
 ** Home
 **/
@@ -267,9 +405,27 @@ footer a:hover {
 	max-width: 100px;
 }
 
+@media screen and (max-width: 1950px) { /****** GAP 2 *******/
 
 
-@media screen and (max-width: 1200px) { /****** GAP 1 *******/
+	/*
+	** HEADER
+	*/
+	header{
+		height: 80px;
+	}
+	header nav a{
+		padding-top: 33px;
+	}
+	#rs-wrap {
+    width: 5vw;
+	}
+
+}
+
+
+
+@media screen and (max-width: 1200px) { /****** GAP 2 *******/
 
 
 	/*
@@ -287,6 +443,10 @@ footer a:hover {
 	*/
 	#content{
 		width: 95%;
+		padding-top: 105px;
+	}
+	article {
+    width: 100%;
 	}
 
 	/*
@@ -296,10 +456,6 @@ footer a:hover {
 		width:77px;
 		right: 2.7vw;
 	}
-
-}
-
-@media screen and (max-width: 1200px) { /****** GAP 2 *******/
 
 	/*
 	** Carrousel

@@ -28,7 +28,6 @@ function connectUser(){
       $_SESSION['user']['role'] = $userInfo['role'];
       $_SESSION['user']['username'] = $userInfo['username'];
       $_SESSION['user']['email'] = $userInfo['email'];
-      debug($_SESSION['user']);
       header("Refresh:0; url=".URL."?p=accueil");
     }
     else{
@@ -45,7 +44,7 @@ function displayUsers(){
 
   global $pdo;
   $userDisplay = null;
-  $getUser = $pdo->query('SELECT id_user AS id, username, role FROM user');
+  $getUser = $pdo->query('SELECT id_user AS id, username, email, role FROM user ORDER BY id_user ASC');
   $nbrCol = $getUser->columnCount();
   $userDisplay .= '<tr>';
 
@@ -57,14 +56,20 @@ function displayUsers(){
 
   }
 
-  $userDisplay .= '<th class="cols-meta">Modif.</th><th class="cols-meta">Suppr.</th></tr>';
+  $userDisplay .= '<th class="cols-meta">Suppr.</th></tr>';
 
   while($row = $getUser->fetch())
   {
     $userDisplay .= '<tr><td>'.$row['id'].'</td>';
     $userDisplay .= '<td>'.$row['username'].'</td>';
+    $userDisplay .= '<td>'.$row['email'].'</td>';
     $userDisplay .= '<td>'.$row['role'].'</td>';
-    $userDisplay .= '<td>0</td><td>X</td>';
+    if($row['username'] != $_SESSION['user']['username']){
+      $userDisplay .= '<td><span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span></td>';
+    }
+    else{
+      $userDisplay .= '<td></td>';
+    }
   }
   return $userDisplay;
 } // displayUsers
@@ -76,6 +81,7 @@ function addUser(){
   $username 	= (isset($_POST['pseudo'])) ? $_POST['pseudo'] : null;
   $email 	    = (isset($_POST['email'])) ? $_POST['email'] : null;
   $role 	    = (isset($_POST['role'])) ? $_POST['role'] : null;
+
   $password   = (isset($_POST['mdp'])) ? password_hash($_POST['mdp'],PASSWORD_DEFAULT) : null;
 
   $ajoutmbr = $pdo->prepare('INSERT INTO user(role,username,password,email,token)
@@ -120,7 +126,9 @@ function displayImg(){
 
   }
 
-  $imgDisplay .= '<th class="cols-meta">Voir</th><th class="cols-meta">Modif.</th><th class="cols-meta">suppr.</th></tr>';
+  $imgDisplay .= '<th class="cols-meta">Voir</th>';
+  $imgDisplay .= '<th class="cols-meta">Modif.</th>';
+  $imgDisplay .= '<th class="cols-meta">suppr.</th>';
   $imgDisplay .= '</tr>';
 
   while($row = $getImg->fetch())
@@ -161,40 +169,35 @@ function addImg(){ // Fonction pour ajouter les Images en base
     $fileType = $fileType[1];
 
 
-    echo $fileName . '.' .  $fileType;
-
-    echo 'name : ' . $name;
-    echo '<br><br>';
-    echo 'author : ' . $author;
-    echo '<br><br>';
-    echo 'fileName : ' . $fileName;
-    echo '<br><br>';
-    echo 'fileType : ' . $fileType;
-    echo '<br><br>';
-    echo 'fileTmp : ' . $fileTmp;
-    echo '<br>______________________<br>';
-    echo $destinationPathCopy = 'files' . $slash . $fileName . '.' .  $fileType;
-    echo $destinationPath = 'files' . "/" . $fileName . '.' .  $fileType;
+    $destinationPathCopy = 'files' . $slash . $fileName . '.' .  $fileType;
 
     if($filesInfo['error'] == 0){
-
-      copy($fileTmp,$destinationPathCopy);
-
-      $addImg = $pdo->prepare('INSERT INTO images(img_path,folder,name,author) VALUES(
-        :img_path,
-        :folder,
-        :name,
-        :author
-      )');
-      $addImg->execute([
-        ':img_path' => htmlspecialchars($destinationPath),
-        ':folder'   => htmlspecialchars($folder),
-        ':name'     => htmlspecialchars($name),
-        ':author'   => htmlspecialchars($author)
-      ]);
-
+      if(file_exists($destinationPathCopy))
+      {
+        $incr = 1;
+        $destinationPathCopy = 'files' . $slash . $fileName . $incr . '.' .  $fileType;
+        while(file_exists($destinationPathCopy))
+        {
+          $incr++;
+          $destinationPathCopy = 'files' . $slash . $fileName . $incr . '.' .  $fileType;
+        }
+      }
+      if(copy($fileTmp,$destinationPathCopy)){
+        $addImg = $pdo->prepare('INSERT INTO images(img_path,folder,name,author) VALUES(
+          :img_path,
+          :folder,
+          :name,
+          :author
+        )');
+        $addImg->execute([
+          ':img_path' => htmlspecialchars($destinationPathCopy),
+          ':folder'   => htmlspecialchars($folder),
+          ':name'     => htmlspecialchars($name),
+          ':author'   => htmlspecialchars($author)
+        ]);
+        echo $destinationPathCopy;
+      }
     } // if error
-
   } // foreach $_FILES
 } // addImg()
 
@@ -225,19 +228,27 @@ function modifImg(){
 function displayArticle(){
   global $pdo;
   $articleDisplay = "";
-  $getArticle = $pdo->query('SELECT id_article AS id, type, title AS titre, name AS image, publie AS publié FROM articles INNER JOIN images ON articles.img_article = images.id_image');
+  $getArticle = $pdo->query('SELECT
+    id_article AS id,
+    type, title AS titre,
+    name AS image,
+    publie AS publié
+    FROM articles
+    INNER JOIN images ON articles.img_article = images.id_image
+    ');
+
   $nbrCol = $getArticle->columnCount();
   $articleDisplay .= '<tr>';
 
   for($i = 0; $i < $nbrCol; $i++)
   {
-
     $nomCol = $getArticle->getColumnMeta($i); //A chaque tour de boucle je récupère les intitulés de mes champs
     $articleDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
-
   }
 
-  $articleDisplay .= '<th class="cols-meta">Voir</th><th class="cols-meta">Modif.</th><th class="cols-meta">suppr.</th></tr>';
+  $articleDisplay .= '<th class="cols-meta">Voir</th>';
+  $articleDisplay .= '<th class="cols-meta">Modif.</th>';
+  $articleDisplay .= '<th class="cols-meta">suppr.</th>';
   $articleDisplay .= '</tr>';
 
   while($row = $getArticle->fetch())
@@ -249,12 +260,14 @@ function displayArticle(){
     $articleDisplay .= '<td>'.$row['titre'].'</td>';
     $articleDisplay .= '<td>'.$row['image'].'</td>';
     $articleDisplay .= '<td>'.$row['publié'].'</td>';
-    $articleDisplay .= '<td><span class="see far fa-eye"></span></td>';
+    $articleDisplay .= '<td><a class="see far fa-eye" href=""></a></td>';
     $articleDisplay .= '<td><a href="?p=bullant/content/modify&get='.$row['id'].'" class="edit far fa-edit"></a></td>';
-    $articleDisplay .= '<td><span class="del far fa-trash-alt"></span></td></tr>';
+    $articleDisplay .= '<td><span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span></td></tr>';
   }
+
   return $articleDisplay;
-}
+
+} // displayArticle
 
 function addContent(int $update = 0){
 
@@ -273,8 +286,13 @@ function addContent(int $update = 0){
   // recupéré img path
   // echo $imgArticle;
 
-  $getImgPath = $pdo->prepare('SELECT id_image FROM images WHERE name = :imgArticle');
+  $getImgPath = $pdo->prepare('SELECT
+    id_image
+    FROM images
+    WHERE name = :imgArticle
+  ');
   $getImgPath->execute([':imgArticle' => htmlspecialchars($imgArticle)]);
+
   if($getImgPath->rowCount() !== 0){
     while($imgPath = $getImgPath->fetch()){
       $imgArticle = $imgPath['id_image'];
@@ -283,8 +301,9 @@ function addContent(int $update = 0){
   else{
     echo 'la demande n\'existe pas';
   }
-  if($update = 0){
-    $addContent = $pdo->prepare('INSERT INTO articles(user_id,type,title,img_article,chapo,corps_text,url_resa,publie)
+  if($update == 0){
+    $addContent = $pdo->prepare('INSERT INTO
+    articles(user_id,type,title,img_article,chapo,corps_text,url_resa,publie)
     VALUES(
       :userid,
       :type,
@@ -296,7 +315,7 @@ function addContent(int $update = 0){
       :publie
     )');
   }
-  else{
+  else{ //UPDATE ARTCICLE
     $addContent = $pdo->prepare('UPDATE articles
       SET user_id = :userid,
           type = :type,
@@ -319,53 +338,39 @@ function addContent(int $update = 0){
     ':url_resa'   => htmlspecialchars($urlResa),
     ':publie'     => intval($publie)
   ]);
+} // fin addContent
 
-} // fin fonction
-
-function modifyArticle(){
-  global $pdo;
-  $articleDisplay = "";
-  $getArticle = $pdo->query('SELECT id_article AS id, title AS titre, name AS image FROM articles INNER JOIN images ON articles.img_article = images.id_image');
-  $nbrCol = $getArticle->columnCount();
-  $articleDisplay .= '<tr>';
-
-  for($i = 0; $i < $nbrCol; $i++)
-  {
-
-      $nomCol = $getArticle->getColumnMeta($i); //A chaque tour de boucle je récupère les intitulés de mes champs
-      $articleDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
-
-  }
-
-  $articleDisplay .= '<th class="cols-meta">Voir</th><th class="cols-meta">Modif.</th><th class="cols-meta">suppr.</th></tr>';
-  $articleDisplay .= '</tr>';
-
-  while($row = $getArticle->fetch())
-  {
-    $articleDisplay .= '<tr><td>'.$row['id'].'</td>';
-    $articleDisplay .= '<td>'.$row['titre'].'</td>';
-    $articleDisplay .= '<td>'.$row['image'].'</td>';
-    $articleDisplay .= '<td><span class="see far fa-eye"></span></td>';
-    $articleDisplay .= '<td><a href="?p=bullant/article/modify&get='.$row['id'].'" class="edit far fa-edit"></a></td>';
-    $articleDisplay .= '<td><span class="del far fa-trash-alt"></span></td></tr>';
-  }
-  return $articleDisplay;
-}
 
 function getArticle(&$disp){
   global $pdo;
 
   $idArticle = (isset($_GET['get'])) ? intval($_GET['get']) : null;
   if($idArticle !== null){
-    $getArticle = $pdo->prepare('SELECT id_article, type, title, chapo, corps_text, url_resa, publie, name AS image FROM articles INNER JOIN images ON articles.img_article = images.id_image WHERE id_article = :id');
+    $getArticle = $pdo->prepare('SELECT
+      id_article,
+      type,
+      title,
+      chapo,
+      corps_text,
+      url_resa,
+      publie,
+      name AS image
+      FROM articles
+      INNER JOIN images ON articles.img_article = images.id_image
+      WHERE id_article = :id
+      ');
     $getArticle->execute([':id' => $idArticle]);
     $disp = $getArticle->fetch();
 
   }
 
+} // getArticle
+
+
+function getCarrousel(){
+
 }
 
-function updateArticle(){
-  global $pdo;
-
+function getFrontArticle(){
+  
 }
