@@ -113,7 +113,7 @@ function addUser(){
 function displayImg(){
 
   global $pdo;
-  
+
   $imgDisplay = null;
   $getImg = $pdo->query('SELECT id_image AS id, name AS nom, author AS auteur, img_path AS chemin FROM images');
   $nbrCol = $getImg->columnCount();
@@ -343,15 +343,15 @@ function addContent(int $update = 0){
 function getArticle(&$disp){ // function pour récupéré un article en base
   global $pdo;
 
-  // recuperation d'article pour modification 
+  // recuperation d'article pour modification
   $idArticle = (isset($_GET['get'])) ? intval($_GET['get']) : null;
-  // recuperation d'article pour affichage en front 
+  // recuperation d'article pour affichage en front
   $idArticle = (isset($_GET['c'])) ? intval($_GET['c']) : $idArticle;
 
-  
+
   // requête de recuperation
   if(is_int($idArticle)){
-      
+
     $getArticle = $pdo->prepare('SELECT
       id_article,
       type,
@@ -368,12 +368,12 @@ function getArticle(&$disp){ // function pour récupéré un article en base
       ');
     $getArticle->execute([':id' => $idArticle]);
     $article = $getArticle->fetch();
-        
+
     //debug($article);
-    
+
     if(isset($_GET['c']) && $article['publie'] == 1){ // si l'id article est indiqué & si publié
-        
-      if($article['type'] == 0){ // spectacle
+
+      if($article['type'] == 1){ // spectacle
           $processPage  = '<article class="spec"><div id="left">';
           $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
           $processPage .= '<a href="'.$resa = (!empty($article['resa'])) ? $article['resa'] : null.'" target="_blank">Reservation</a>';
@@ -399,17 +399,17 @@ function getArticle(&$disp){ // function pour récupéré un article en base
     if(isset($_GET['get'])){ // recup modif
         $disp = $article;
     }
-    
-    
-    
-    
+
+
+
+
   } // if id article
   else{ // vue d'ensemble contenu par type
       if($_GET['p'] == "articles/actu"){
-          $type = 0;
+          $type = 1;
       }
       else if($_GET['p'] == "articles/spec"){
-          $type = 1;
+          $type = 0;
       }
       else{
         header('Location: '.URL."?p=404");
@@ -444,5 +444,5 @@ function getCarrousel(){
 }
 
 function getFrontArticle(){
-  
+
 }
