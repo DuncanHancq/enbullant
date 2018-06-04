@@ -122,10 +122,10 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $displayTemplatePage->replaceContent('##TITLE##', 'Modification contenu');
       $displayTemplatePage->replaceContent('##H2##', 'Modification contenu');
       if(isset($_GET['get'])){
-
+        
 
         getArticle($disp);
-
+        
         $displayTemplatePage->replaceContent('##TITRE##', $disp['title']);
         $displayTemplatePage->replaceContent('##IMG##', $disp['image']);
         $displayTemplatePage->replaceContent('##CHAPO##', $disp['chapo']);
@@ -249,10 +249,17 @@ switch($getUrl)
   break;
 
   case "articles":
+      
     $displayTemplatePage = new Template('template/content-front.html');
-    $displayTemplatePage->replaceContent('##TITLE##', 'Hamlet');
+    if(isset($_GET['c'])){
+        
+        getArticle($disp);
+        $displayTemplatePage->replaceContent('##TITLE##', 'lshf');
+        $displayTemplatePage->replaceContent('##CONTENT##', $disp);
+    }
 
     $commonCSS = array_merge($commonCSS,$frontCSS);
+    
   break;
 
   /*******************************

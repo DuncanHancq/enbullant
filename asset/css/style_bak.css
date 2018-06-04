@@ -176,3 +176,12 @@ tr:hover{
   font-weight: normal;
   background: #00000030;
 }
+
+
+@media screen and (max-width: 950px) {
+  #btn-su-menu {
+    top: 15px;
+    right: 15px;
+    left: inherit;;
+   }
+}

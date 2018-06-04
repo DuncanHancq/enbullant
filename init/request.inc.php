@@ -113,6 +113,7 @@ function addUser(){
 function displayImg(){
 
   global $pdo;
+  
   $imgDisplay = null;
   $getImg = $pdo->query('SELECT id_image AS id, name AS nom, author AS auteur, img_path AS chemin FROM images');
   $nbrCol = $getImg->columnCount();
@@ -136,7 +137,7 @@ function displayImg(){
     $imgDisplay .= '<tr><td>'.$row['id'].'</td>';
     $imgDisplay .= '<td>'.$row['nom'].'</td>';
     $imgDisplay .= '<td>'.$row['auteur'].'</td>';
-    $imgDisplay .= '<td>'.$row['chemin'].'</td>';
+    $imgDisplay .= '<td>'.URL.$row['chemin'].'</td>';
     $imgDisplay .= '<td><span class="see far fa-eye" data-path="'.$row['chemin'].'"></span></td>';
     $imgDisplay .= '<td><span class="edit far fa-edit" data-id="'.$row['id'].'"></span></td>';
     $imgDisplay .= '<td><span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span></td></tr>';
@@ -273,7 +274,7 @@ function addContent(int $update = 0){
 
   global $pdo;
   ///// Recuperation des infos du $_POST
-  $userid 	   = (isset($_SESSION['user'])) ? $_SESSION['user']['id'] : 0;
+  $userid      = (isset($_SESSION['user'])) ? $_SESSION['user']['id'] : 0;
   $type        = ($_POST['type'] != 0) ? 1 : 0;
   $publish     = (isset($_POST['publie'])) ? $_POST['publie'] : null;
   $title       = (isset($_POST['title'])) ? $_POST['title'] : null;
@@ -341,11 +342,18 @@ function addContent(int $update = 0){
 } // fin addContent
 
 
-function getArticle(&$disp){
+function getArticle(&$disp){ // function pour récupéré un article en base
   global $pdo;
 
+  // recuperation d'article pour modification 
   $idArticle = (isset($_GET['get'])) ? intval($_GET['get']) : null;
-  if($idArticle !== null){
+  // recuperation d'article pour affichage en front 
+  $idArticle = (isset($_GET['c'])) ? intval($_GET['c']) : $idArticle;
+
+  
+  // requête de recuperation
+  if(is_int($idArticle)){
+      
     $getArticle = $pdo->prepare('SELECT
       id_article,
       type,
@@ -354,15 +362,50 @@ function getArticle(&$disp){
       corps_text,
       url_resa,
       publie,
-      name AS image
+      name AS image,
+      img_path AS chemin
       FROM articles
       INNER JOIN images ON articles.img_article = images.id_image
       WHERE id_article = :id
       ');
     $getArticle->execute([':id' => $idArticle]);
-    $disp = $getArticle->fetch();
-
-  }
+    $article = $getArticle->fetch();
+        
+    //debug($article);
+    
+    if(isset($_GET['c']) && $article['publie'] == 1){ // si l'id article est indiqué & si publié
+        
+      if($article['type'] == 0){ // spectacle
+          $processPage  = '<article class="spec"><div id="left">';
+          $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
+          $processPage .= '<a href="'.$resa = (!empty($article['resa'])) ? $article['resa'] : null.'" target="_blank">Reservation</a>';
+          $processPage .= '<a href="" target="_blank">Reservation</a>'; // TWITTER
+          $processPage .= '<a href="" target="_blank">Reservation</a>'; // FACEBOOK
+          $processPage .= '</div><div id="text">'; // FIN #LEFT DEBUT #TEXT
+          $processPage .= '<h1>'.$article['title'].'</h1><hr>';
+          $processPage .= '<div id="chapo">'.$article['chapo'].'</div>';
+          $processPage .= $article['corps_text'];
+          $processPage .= '</article>';
+      }
+      else{ // Actu
+          $processPage  = '<article class="actu"><div id="head">';
+          $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
+          $processPage .= '<h1>'.$article['title'].'</h1><hr>';
+          $processPage .= '</div><div id="text">'; // FIN #LEFT DEBUT #TEXT
+          $processPage .= '<div id="chapo">'.$article['chapo'].'</div>';
+          $processPage .= $article['corps_text'];
+          $processPage .= '</article>';
+      }
+          $disp = $processPage;
+    }
+    if(isset($_GET['get'])){ // recup modif
+        $disp = $article;
+    }
+    
+    
+    
+    
+  } // if 
 
 } // getArticle
 

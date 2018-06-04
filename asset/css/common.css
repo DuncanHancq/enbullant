@@ -132,12 +132,12 @@ section {
 	font-size: 1.2em;
 }
 @media screen and (max-width: 1950px) { /****** GAP 2 *******/
-	* {
-		font-size: 17px;
-	}
-	#btn-su-menu {
-    top: 18px;
-	}
+    * {
+        font-size: 17px;
+    }
+    #btn-su-menu {
+        top: 18px;
+    }
 
 }
 
@@ -146,9 +146,18 @@ section {
   * {
     font-size: 16px;
   }
+}
 
-
-
-
-
+@media screen and (max-width: 950px) {
+  * {
+    font-size: 14px;
+  }
+  #btn-su-menu {
+    top: 15px;
+    left: 199px;
+   }
+   #container-su-menu.o nav {
+    width: 50vw;
+    min-width: 300px;
+   }
 }
