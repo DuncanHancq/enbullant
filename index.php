@@ -256,7 +256,32 @@ switch($getUrl)
         getArticle($disp);
         $displayTemplatePage->replaceContent('##TITLE##', 'lshf');
         $displayTemplatePage->replaceContent('##CONTENT##', $disp);
+        
     }
+
+    $commonCSS = array_merge($commonCSS,$frontCSS);
+    
+  break;
+  
+  case "articles/actu":
+      
+    $displayTemplatePage = new Template('template/content-front.html');
+    getArticle($disp);
+    $displayTemplatePage->replaceContent('##TITLE##', 'Actualités');
+    $displayTemplatePage->replaceContent('##CONTENT##', $disp);
+        
+   
+    $commonCSS = array_merge($commonCSS,$frontCSS);
+    
+  break;
+  
+  case "articles/spec":
+      
+    $displayTemplatePage = new Template('template/content-front.html');
+        
+    getArticle($disp);
+    $displayTemplatePage->replaceContent('##TITLE##', 'Spectacles');
+    $displayTemplatePage->replaceContent('##CONTENT##', $disp);
 
     $commonCSS = array_merge($commonCSS,$frontCSS);
     

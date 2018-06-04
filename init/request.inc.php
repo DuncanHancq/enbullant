@@ -220,12 +220,10 @@ function modifImg(){
 
 
 /*************************************************
-*
-* GESTION ARTICLE
-*
+*                                                *
+* GESTION ARTICLE                                *
+*                                                *
 *************************************************/
-
-
 function displayArticle(){
   global $pdo;
   $articleDisplay = "";
@@ -236,7 +234,7 @@ function displayArticle(){
     publie AS publié
     FROM articles
     INNER JOIN images ON articles.img_article = images.id_image
-    ');
+  ');
 
   $nbrCol = $getArticle->columnCount();
   $articleDisplay .= '<tr>';
@@ -261,7 +259,7 @@ function displayArticle(){
     $articleDisplay .= '<td>'.$row['titre'].'</td>';
     $articleDisplay .= '<td>'.$row['image'].'</td>';
     $articleDisplay .= '<td>'.$row['publié'].'</td>';
-    $articleDisplay .= '<td><a class="see far fa-eye" href=""></a></td>';
+    $articleDisplay .= '<td><a class="see far fa-eye" href="'.URL.'?p=articles&c='.$row['id'].'" target="_blank"></a></td>';
     $articleDisplay .= '<td><a href="?p=bullant/content/modify&get='.$row['id'].'" class="edit far fa-edit"></a></td>';
     $articleDisplay .= '<td><span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span></td></tr>';
   }
@@ -275,7 +273,7 @@ function addContent(int $update = 0){
   global $pdo;
   ///// Recuperation des infos du $_POST
   $userid      = (isset($_SESSION['user'])) ? $_SESSION['user']['id'] : 0;
-  $type        = ($_POST['type'] != 0) ? 1 : 0;
+  $type        = (isset($_POST['type'])) ? $_POST['type'] : null;
   $publish     = (isset($_POST['publie'])) ? $_POST['publie'] : null;
   $title       = (isset($_POST['title'])) ? $_POST['title'] : null;
   $imgArticle  = (isset($_POST['image'])) ? $_POST['image'] : null;
@@ -398,6 +396,9 @@ function getArticle(&$disp){ // function pour récupéré un article en base
       }
           $disp = $processPage;
     }
+    else {
+        header('Location: '.URL."?p=article");
+    }
     if(isset($_GET['get'])){ // recup modif
         $disp = $article;
     }
@@ -405,7 +406,38 @@ function getArticle(&$disp){ // function pour récupéré un article en base
     
     
     
-  } // if 
+  } // if id article
+  else{ // vue d'ensemble contenu par type
+      if($_GET['p'] == "articles/actu"){
+          $type = 1;
+      }
+      else if($_GET['p'] == "articles/spec"){
+          $type = 0;
+      }
+      else{
+        header('Location: '.URL."?p=404");
+      }
+      $getArticle = $pdo->query('SELECT
+        id_article,
+        type,
+        title,
+        chapo,
+        publie,
+        img_path AS chemin
+        FROM articles
+        INNER JOIN images ON articles.img_article = images.id_image
+        WHERE type = '.$type.'');
+      $processPage = "";
+      while($article = $getArticle->fetch()){
+        $processPage .= '<div class="article-wrap">';
+        $processPage .= '<div class="img-content">';                        // BLOCK IMG
+        $processPage .= '<img src="'.URL."/".$article['chemin'].'"></div>'; //
+        $processPage .= '<div class="preview"><h2>'.$article['title'].'</h2>';
+        $processPage .= '<p>'.$article['chapo'].'</p>';
+        $processPage .= '<a class="more" href="'.URL.'?p=articles&c='.$article['id_article'].'">Lire la suite...</a></div></div>';
+      }
+      $disp = $processPage;
+  }
 
 } // getArticle
 

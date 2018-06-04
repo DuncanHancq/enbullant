@@ -74,6 +74,61 @@ header nav{
 }
 
 /*
+** OVERVIEW CONTENT
+*/
+.article-wrap {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    background: rgba(21,21,21,.90);
+    padding: 15px;
+    height: 300px;
+    border-radius: 2px;
+}
+.img-content{
+    overflow: hidden;
+    min-width: 380px;
+}
+.img-content img{
+    width: 100%
+}
+.preview {
+    padding-left: 15px;
+    max-height: 215px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.preview h2{
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+.preview p,
+.preview p strong,
+.preview p em,
+{
+    font-size: 1.2rem;
+    font-style: normal;
+    line-height: .2rem;
+    
+}
+.preview a.more{
+    display: inline-block;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    border: 1px solid #fff;
+    margin-top: 1em;
+    padding: 15px;
+}
+
+.preview a.more:hover{
+    background: rgba(200,200,200,.20);
+}
+
+
+/*
 * CONTENT
 **/
 
@@ -452,7 +507,12 @@ footer a:hover {
     #pict-fonc {
         width: 15%;
     }
-
+    /*
+    ** OVERVIEW CONTENT
+    */
+    .article-wrap {
+        width: 100%;
+    }
     /*
     ** Content
     */
@@ -502,7 +562,7 @@ footer a:hover {
     ** NAV 
     */
     header {
-        padding: 0 15px;
+        padding: 0 5px;
     }
     header nav {
         display : none;
@@ -526,4 +586,50 @@ footer a:hover {
     footer .cols-wrap {
         display: none;
     }
+    /*
+    ** OVERVIEW CONTENT
+    */
+    .article-wrap {
+        flex-direction: column;
+        position: relative;
+        background: none;
+        border-bottom: 1px solid #fff;
+        padding: 0;
+        margin-bottom: 15px;
+        width:98%;
+        margin: auto;
+    }
+    .img-content {
+        position: absolute;
+        width: auto;
+        height: 100%;
+    }
+    .preview {
+        position: absolute;
+        z-index: 2;
+        padding: 15px;
+        overflow: visible;
+        background: rgba(21,21,21,.80);
+    }
+    .preview a.more{
+        bottom: -60px;
+    }
+    #content {
+        padding-top: 80px;
+    }
+    #head h1 {
+        top: 0;
+        left: 0;
+        margin: 0;
+        font-size: 1.7em;
+    }
+    article #text p,
+    article #text a,
+    article #text li,
+    article #text em,
+    article #text strong{
+        line-height: 1.7rem
+    }
+    
+    
 }
