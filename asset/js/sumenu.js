@@ -2,6 +2,7 @@ window.onload = function () {
   "use strict";
 
   // Gestion du menu du back-office
+if(document.getElementById('btn-su-menu')){
 
   var button = document.getElementById('btn-su-menu'),
   containerSu = document.getElementById('container-su-menu'),
@@ -30,7 +31,7 @@ window.onload = function () {
       containerSu.classList.remove('o');
     }
   }
-
+}
   // Gestion du menu front
   var navIcon = document.getElementById('nav-icon'),
       nav = document.getElementById("responsive"),
