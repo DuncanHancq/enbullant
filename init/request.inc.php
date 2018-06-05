@@ -224,9 +224,11 @@ function modifImg(){
 * GESTION ARTICLE                                *
 *                                                *
 *************************************************/
-function displayArticle(){
+function displayArticle(){ // Affiche les articles dans le back-office
   global $pdo;
+
   $articleDisplay = "";
+
   $getArticle = $pdo->query('SELECT
     id_article AS id,
     type, title AS titre,
@@ -241,7 +243,7 @@ function displayArticle(){
 
   for($i = 0; $i < $nbrCol; $i++)
   {
-    $nomCol = $getArticle->getColumnMeta($i); //A chaque tour de boucle je récupère les intitulés de mes champs
+    $nomCol = $getArticle->getColumnMeta($i); // Afficher le nom des colonne de ma base de données
     $articleDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
   }
 
@@ -259,8 +261,11 @@ function displayArticle(){
     $articleDisplay .= '<td>'.$row['titre'].'</td>';
     $articleDisplay .= '<td>'.$row['image'].'</td>';
     $articleDisplay .= '<td>'.$row['publié'].'</td>';
+    // lien pour visualiser l'article depuis le front
     $articleDisplay .= '<td><a class="see far fa-eye" href="'.URL.'?p=articles&c='.$row['id'].'" target="_blank"></a></td>';
+    // lien pour pouvoir modifier l'article
     $articleDisplay .= '<td><a href="?p=bullant/content/modify&get='.$row['id'].'" class="edit far fa-edit"></a></td>';
+    // Bouton pour supprimer l'article
     $articleDisplay .= '<td><span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span></td></tr>';
   }
 
@@ -342,15 +347,14 @@ function addContent(int $update = 0){
 
 function getArticle(&$disp){ // function pour récupéré un article en base
   global $pdo;
-
   // recuperation d'article pour modification
   $idArticle = (isset($_GET['get'])) ? intval($_GET['get']) : null;
   // recuperation d'article pour affichage en front
   $idArticle = (isset($_GET['c'])) ? intval($_GET['c']) : $idArticle;
 
 
-  // requête de recuperation
-  if(is_int($idArticle)){
+
+  if(is_int($idArticle)){ // requête de recuperation article unique
 
     $getArticle = $pdo->prepare('SELECT
       id_article,
@@ -369,9 +373,8 @@ function getArticle(&$disp){ // function pour récupéré un article en base
     $getArticle->execute([':id' => $idArticle]);
     $article = $getArticle->fetch();
 
-    //debug($article);
 
-    if(isset($_GET['c']) && $article['publie'] == 1){ // si l'id article est indiqué & si publié
+    if(isset($_GET['c']) && $article['publie'] == 1){ // Affichage de l'article unique selon le type
 
       if($article['type'] == 1){ // spectacle
           $processPage  = '<article class="spec"><div id="left">';
@@ -404,12 +407,13 @@ function getArticle(&$disp){ // function pour récupéré un article en base
 
 
   } // if id article
-  else{ // vue d'ensemble contenu par type
+
+  else{ // Récuperation de tout les contenus par type
       if($_GET['p'] == "articles/actu"){
-          $type = 1;
+          $type = 0;
       }
       else if($_GET['p'] == "articles/spec"){
-          $type = 0;
+          $type = 1;
       }
       else{
         header('Location: '.URL."?p=404");
@@ -424,7 +428,7 @@ function getArticle(&$disp){ // function pour récupéré un article en base
         FROM articles
         INNER JOIN images ON articles.img_article = images.id_image
         WHERE type = '.$type);
-      $processPage = ($type == 0) ? '<h1>Actualités</h1>' : '<h1>Spectacles</h1>';
+      $processPage = ($type == 0) ? '<h1 class="type-cont">Actualités</h1>' : '<h1 class="type-cont">Spectacles</h1>';
       while($article = $getArticle->fetch()){
         $processPage .= '<div class="article-wrap">';
         $processPage .= '<div class="img-content">';                        // BLOCK IMG
@@ -436,13 +440,4 @@ function getArticle(&$disp){ // function pour récupéré un article en base
       $disp = $processPage;
   }
 
-} // getArticle
-
-
-function getCarrousel(){
-
-}
-
-function getFrontArticle(){
-
-}
+} // getArticle()

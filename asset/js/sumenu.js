@@ -31,4 +31,18 @@ window.onload = function () {
     }
   }
 
+  // Gestion du menu front
+  var navIcon = document.getElementById('nav-icon'),
+      nav = document.getElementById("responsive"),
+      pictFonc = document.getElementById('pict-fonc'),
+      rsWrap = document.getElementById('rs-wrap');
+
+  navIcon.onclick = function (){
+      this.classList.toggle('o');
+      nav.classList.toggle('o');
+      pictFonc.classList.toggle('o');
+      rsWrap.classList.toggle('o');
+
+  }
+
 }
