@@ -403,7 +403,7 @@ if($username !== null){$displayTemplatePage->replaceContent('##USERNAME##', $use
 $displayTemplatePage->replaceContent('##CSS##', srcCSS($commonCSS));
 $displayTemplatePage->replaceContent('##JS##', srcJS($commonJS));
 // Metatag OPENGRAPH
-$displayTemplatePage->replaceContent('##URL##', "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+$displayTemplatePage->replaceContent('##URL##', URL);
 $displayTemplatePage->replaceContent('##DESC##', $desc = ($desc == "") ? "Faites un tour sur notre site web :)" : $desc);
 
 
