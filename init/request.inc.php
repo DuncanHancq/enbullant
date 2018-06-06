@@ -2,7 +2,59 @@
 require('init.inc.php');
 $error = "";
 
+function getGalerie(){
+  global $pdo;
 
+  $displayGalerie = null;
+  $getImg = $pdo->query('SELECT name, author, img_path FROM images ORDER BY date DESC');
+
+  while($row = $getImg->fetch())
+  {
+    $displayGalerie .= '<div class="img-wrap">';
+    $displayGalerie .= '<img src="'.$row['img_path'].'" alt="'.$row['name'].' © '.$row['author'].'">';
+    $displayGalerie .= '<h2>'.$row['name'].'</h2>';
+    $displayGalerie .= '</div>';
+  }
+  return $displayGalerie;
+}
+
+function getCarousel() {
+  global $pdo;
+  $carrousel = "";
+  $getSpec = $pdo->query('SELECT
+    id_article AS id,
+    type,
+    title AS titre,
+    img_path AS image
+    FROM articles
+    INNER JOIN images ON articles.img_article = images.id_image
+    WHERE publie = 1 AND type = 1 LIMIT 2
+    ');
+  while($getCarousel = $getSpec->fetch()){
+    $carrousel .= '<div><div class="info">';
+    $carrousel .= '<h3><a href="?p=articles&c='.$getCarousel['id'].'" target="_blank">'.$getCarousel['titre'].'</a></h3>';
+    $carrousel .= '<h2>Spectacles</h2></div>'; // fin div info
+    $carrousel .= '<div class="crop"><img class="bkg-spec" src="'.URL.$getCarousel['image'].'" alt="'.$getCarousel['titre'].'"></div>';
+    $carrousel .= '<img class="spec" src="'.URL.$getCarousel['image'].'" alt="'.$getCarousel['titre'].'">';
+    $carrousel .= '</div>'; // fin div info
+  }
+  $getActu = $pdo->query('SELECT
+    id_article AS id,
+    type, title AS titre,
+    img_path AS image
+    FROM articles
+    INNER JOIN images ON articles.img_article = images.id_image
+    WHERE publie = 1 AND type = 0 LIMIT 2
+    ');
+    while($getCarousel = $getActu->fetch()){
+      $carrousel .= '<div><div class="info">';
+      $carrousel .= '<h3><a href="?p=articles&c='.$getCarousel['id'].'" target="_blank">'.$getCarousel['titre'].'</a></h3>';
+      $carrousel .= '<h2>Actualités</h2></div>'; // fin div info
+      $carrousel .= '<img class="actu" src="'.URL.$getCarousel['image'].'" alt="'.$getCarousel['titre'].'">'; // fin div info
+      $carrousel .= '</div>'; // fin div info
+    }
+    return $carrousel;
+}
 
 function addLivre(){
   global $pdo;

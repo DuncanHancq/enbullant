@@ -233,6 +233,7 @@ switch($getUrl)
 
     $displayTemplatePage = new Template('template/index.html');
     $displayTemplatePage->replaceContent('##TITLE##', 'Accueil');
+    $displayTemplatePage->replaceContent('##CAROUSEL##', getCarousel());
 
     $commonCSS = array_merge($commonCSS,$frontCSS,$accueilCSS);
     $commonJS = array_merge($commonJS,$accueilJS);
@@ -366,6 +367,17 @@ switch($getUrl)
     $displayTemplatePage->replaceContent('##H1##', 'Livre d\'or');
     $displayTemplatePage->replaceContent('##ALERT##', $alert);
     array_push($commonJS, 'https://www.google.com/recaptcha/api.js');
+
+    $commonCSS = array_merge($commonCSS,$frontCSS);
+
+  break;
+
+  case "galerie":
+    $displayTemplatePage = new Template('template/image-front.html');
+
+    $displayTemplatePage->replaceContent('##TITLE##', 'Galerie');
+    $displayTemplatePage->replaceContent('##H1##', 'Galerie');
+    $displayTemplatePage->replaceContent('##DISPLAY-IMAGE##', getGalerie());
 
     $commonCSS = array_merge($commonCSS,$frontCSS);
 

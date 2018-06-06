@@ -11,7 +11,7 @@ class Template
 		$this->fileTemplate = $fileTemplate;
 	}
 
-	public function replaceContent(string $tag,string $txt)
+	public function replaceContent(string $tag,$txt)
 	{
 		$this->tag[] .= $tag;
 		$this->txt[] .= $txt;

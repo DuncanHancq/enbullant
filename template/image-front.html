@@ -1,0 +1,41 @@
+<div id="content">
+
+  <h1>##H1##</h1>
+  <div id="galerie">
+
+    ##DISPLAY-IMAGE##
+
+    <div id="show" class="hide">
+      <img src="" alt="">
+      <figcaption id="fig"></figcaption>
+    </div>
+
+  </div>
+  <div id="rs-wrap">
+    <a href="https://twitter.com/lesbullants" target="_blank"><img src="asset/img/tw.png" alt="Twitter"></a>
+    <a href="https://www.facebook.com/theatreenbullant/" target="_blank"><img src="asset/img/fb.png" alt="Facebook"></a>
+  </div>
+</div>
+<script>
+
+(function () {
+var imgWrap = document.getElementsByClassName('img-wrap'),
+    show = document.getElementById('show'),
+    figcaption = document.getElementById('fig'),
+    imgSrc,
+    imgDest = show.firstChild.nextSibling;
+
+for(var i = 0; i < imgWrap.length; i++){
+  imgWrap[i].onclick = function () {
+    console.log(this.firstChild.src);
+    show.classList.toggle('hide');
+    imgDest.src = this.firstChild.src;
+    fig.innerHTML = this.firstChild.alt;
+  }
+}
+show.onclick = function () {
+  this.classList.toggle('hide');
+}
+})();
+
+</script>
