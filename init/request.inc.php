@@ -361,7 +361,9 @@ function displayArticle(){ // Affiche les articles dans le back-office
       // lien pour pouvoir modifier l'article
       $articleDisplay .= '<td><a href="?p=bullant/content/modify&get='.$row['id'].'" class="edit far fa-edit"></a></td>';
       // Bouton pour supprimer l'article
-      $articleDisplay .= '<td><span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span></td></tr>';
+      $articleDisplay .= '<td>';
+      $articleDisplay .= ($row['id'] == 0 || $row['id'] == 1) ? '<i class="fas fa-lock"></i>' : '<span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span>';
+      $articleDisplay .= '</td></tr>';
     }
 
     return $articleDisplay;
@@ -434,6 +436,7 @@ function addContent(int $update = 0){
       ':url_resa'   => htmlspecialchars($urlResa),
       ':publie'     => intval($publie)
     ]);
+    header("Location: ?p=bullant/content");
 } // fin addContent
 
 
@@ -479,7 +482,7 @@ function getArticle(&$disp){ // function pour récupéré un article en base
         else{ // Spec
           $processPage  = '<article class="spec"><div id="left">';
           $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
-          $processPage .= '<a href="'.$resa = (!empty($article['resa'])) ? $article['resa'] : null.'" target="_blank">Reservation</a>';
+          $processPage .= (!empty($article['url_resa'])) ? '<a href="'. $article['url_resa'] .'" target="_blank">Reservation</a>' : " ";
           $processPage .= '<a class="tw" href="https://twitter.com/intent/tweet?url='.urlencode('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']).'" target="_blank"><i class="fab fa-twitter-square"></i>Tweeter</a>'; // TWITTER
           $processPage .= '<a class="fb" href="https://www.facebook.com/sharer.php?t=EnBullant&u='.urlencode('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']).'" target="_blank"><i class="fab fa-facebook-square"></i>Partagez</a>'; // FACEBOOK
           $processPage .= '</div><div id="text">'; // FIN #LEFT DEBUT #TEXT

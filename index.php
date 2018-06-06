@@ -98,13 +98,13 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
       $displayTemplatePage->replaceContent('##H2##', 'Ajout contenu');
 
       if(isset($_GET['type']) && $_GET['type'] == 0){
-          $displayTemplatePage->replaceContent('##ACTU##', 'selected="selected"');
-          $displayTemplatePage->replaceContent('##SPEC##', ' ');
+        $displayTemplatePage->replaceContent('##ACTU##', ' ');
+        $displayTemplatePage->replaceContent('##SPEC##', 'selected="selected"');
       }
       else
       {
-        $displayTemplatePage->replaceContent('##ACTU##', ' ');
-        $displayTemplatePage->replaceContent('##SPEC##', 'selected="selected"');
+        $displayTemplatePage->replaceContent('##ACTU##', 'selected="selected"');
+        $displayTemplatePage->replaceContent('##SPEC##', ' ');
       }
       $commonJS = array_merge($bakJS,$commonJS);
       $commonCSS = array_merge($commonCSS,$bakCSS);
@@ -135,8 +135,8 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
           $displayTemplatePage->replaceContent('##TYPE0##', 'selected="selected"');
           $displayTemplatePage->replaceContent('##TYPE1##', " ");
         }else{
-          $displayTemplatePage->replaceContent('##TYPE0##', 'selected="selected"');
-          $displayTemplatePage->replaceContent('##TYPE1##', " ");
+          $displayTemplatePage->replaceContent('##TYPE0##', ' ');
+          $displayTemplatePage->replaceContent('##TYPE1##', 'selected="selected"');
         }
         if($disp['publie'] == 0){
           $displayTemplatePage->replaceContent('##PUBLIE0##', 'selected="selected"');

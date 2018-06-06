@@ -201,6 +201,16 @@ tr:hover{
 .fa-times {
   color: #BF423C;
 }
+.fa-lock {
+  cursor: not-allowed;
+}
+.del:hover,
+.edit:hover,
+.see:hover{
+  cursor: pointer;
+  color: grey
+}
+
 #bak table {
   margin-top: 25px;
   width: 100%

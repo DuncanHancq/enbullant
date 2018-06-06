@@ -1,9 +1,10 @@
-<table class="display-user">
-    ##CONTENT-DISPLAY##
-<table>
 <div id="info">
 
 </div>
+<table class="display-user">
+    ##CONTENT-DISPLAY##
+<table>
+
 <a href="?p=bullant/content/add" class="btn fas fa-plus-circle"></a>
 
 <script>
@@ -39,9 +40,8 @@ for(var i = 0; i < btnSuppr.length; i++){
 
     ajax.onreadystatechange = function(){
       if(ajax.readyState === 4 && ajax.status === 200){
-          infoBlock.innerHTML = ajax.responseText;
-          setTimeout(function(){ reload(true); }, 2500);
-      }
+          infoBlock.innerHTML = "<p class='success'>"+ajax.responseText+"</p>";
+        }
     } // onreadysatechange
 
     ajax.open("GET","init/ajax.php?supprArticle="+ id,true);
