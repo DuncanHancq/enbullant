@@ -1,7 +1,7 @@
 <table class="display-user">
 ##IMG-DISPLAY##
 <table>
-<a href="?p=bullant/image/add" class="btn fas fa-plus-circle"></a>
+<a href="##URL##bullant/image/add" class="btn fas fa-plus-circle"></a>
 <div id="displayImg" class="hide">
 <img src="" alt="">
 </div>
@@ -76,7 +76,7 @@
         }
       } // onreadysatechange
 
-      ajax.open("GET","init/ajax.php?modif="+ id +"",true);
+      ajax.open("GET","##URL##init/ajax.php?modif="+ id +"",true);
       ajax.send();
 
     } // onclick
@@ -101,7 +101,7 @@
             //location.reload();
           }// if readyState
         }// onreadystatechange
-        ajax.open("GET","init/ajax.php?suppr="+ id +"",true);
+        ajax.open("GET","##URL##init/ajax.php?suppr="+ id +"",true);
         ajax.send();
       }// confirm
     }// onclick

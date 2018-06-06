@@ -5,7 +5,7 @@
     ##CONTENT-DISPLAY##
 <table>
 
-<a href="?p=bullant/content/add" class="btn fas fa-plus-circle"></a>
+<a href="##URL##bullant/content/add" class="btn fas fa-plus-circle"></a>
 
 <script>
 (function (){
@@ -44,7 +44,7 @@ for(var i = 0; i < btnSuppr.length; i++){
         }
     } // onreadysatechange
 
-    ajax.open("GET","init/ajax.php?supprArticle="+ id,true);
+    ajax.open("GET","##URL##init/ajax.php?supprArticle="+ id,true);
     ajax.send();
 
   }// onclick

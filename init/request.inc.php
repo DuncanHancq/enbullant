@@ -11,7 +11,7 @@ function getGalerie(){
   while($row = $getImg->fetch())
   {
     $displayGalerie .= '<div class="img-wrap">';
-    $displayGalerie .= '<img src="'.$row['img_path'].'" alt="'.$row['name'].' © '.$row['author'].'">';
+    $displayGalerie .= '<img src="'.URL.$row['img_path'].'" alt="'.$row['name'].' © '.$row['author'].'">';
     $displayGalerie .= '<h2>'.$row['name'].'</h2>';
     $displayGalerie .= '</div>';
   }
@@ -32,7 +32,7 @@ function getCarousel() {
     ');
   while($getCarousel = $getSpec->fetch()){
     $carrousel .= '<div><div class="info">';
-    $carrousel .= '<h3><a href="https://www.theatre-en-bullant.fr/articles/?c='.$getCarousel['id'].'" target="_blank">'.$getCarousel['titre'].'</a></h3>';
+    $carrousel .= '<h3><a href="'.URL.'/articles/?c='.$getCarousel['id'].'" target="_blank">'.$getCarousel['titre'].'</a></h3>';
     $carrousel .= '<h2>Spectacles</h2></div>'; // fin div info
     $carrousel .= '<div class="crop"><img class="bkg-spec" src="'.URL.$getCarousel['image'].'" alt="'.$getCarousel['titre'].'"></div>';
     $carrousel .= '<img class="spec" src="'.URL.$getCarousel['image'].'" alt="'.$getCarousel['titre'].'">';
@@ -48,7 +48,7 @@ function getCarousel() {
     ');
     while($getCarousel = $getActu->fetch()){
       $carrousel .= '<div><div class="info">';
-      $carrousel .= '<h3><a href="https://www.theatre-en-bullant.fr/articles/?c='.$getCarousel['id'].'" target="_blank">'.$getCarousel['titre'].'</a></h3>';
+      $carrousel .= '<h3><a href="'.URL.'articles/?c='.$getCarousel['id'].'" target="_blank">'.$getCarousel['titre'].'</a></h3>';
       $carrousel .= '<h2>Actualités</h2></div>'; // fin div info
       $carrousel .= '<img class="actu" src="'.URL.$getCarousel['image'].'" alt="'.$getCarousel['titre'].'">'; // fin div info
       $carrousel .= '</div>'; // fin div info
@@ -122,7 +122,7 @@ function connectUser(&$alert){
       $_SESSION['user']['id'] = $userInfo['id_user'];
       $_SESSION['user']['username'] = $userInfo['username'];
       $_SESSION['user']['email'] = $userInfo['email'];
-      header("Refresh:0; url=".URL."?p=accueil");
+      header("Refresh:0; url=".URL."accueil");
     }
     else{
       $alert.= "<p class=\"alert\">Mauvais mot de passe</p>";
@@ -241,7 +241,7 @@ function displayImg(){
     $imgDisplay .= '<td>'.$row['nom'].'</td>';
     $imgDisplay .= '<td>'.$row['auteur'].'</td>';
     $imgDisplay .= '<td>'.URL.$row['chemin'].'</td>';
-    $imgDisplay .= '<td><span class="see far fa-eye" data-path="'.$row['chemin'].'"></span></td>';
+    $imgDisplay .= '<td><span class="see far fa-eye" data-path="'.URL.$row['chemin'].'"></span></td>';
     $imgDisplay .= '<td><span class="edit far fa-edit" data-id="'.$row['id'].'"></span></td>';
     $imgDisplay .= '<td><span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span></td></tr>';
   }
@@ -365,9 +365,9 @@ function displayArticle(){ // Affiche les articles dans le back-office
       $articleDisplay .= '<td>'.$row['image'].'</td>';
       $articleDisplay .= '<td>'.$row['publié'].'</td>';
       // lien pour visualiser l'article depuis le front
-      $articleDisplay .= '<td><a class="see far fa-eye" href="'.URL.'?p=articles&c='.$row['id'].'" target="_blank"></a></td>';
+      $articleDisplay .= '<td><a class="see far fa-eye" href="'.URL.'articles/?c='.$row['id'].'" target="_blank"></a></td>';
       // lien pour pouvoir modifier l'article
-      $articleDisplay .= '<td><a href="?p=bullant/content/modify&get='.$row['id'].'" class="edit far fa-edit"></a></td>';
+      $articleDisplay .= '<td><a href="'.URL.'bullant/content/modify/?get='.$row['id'].'" class="edit far fa-edit"></a></td>';
       // Bouton pour supprimer l'article
       $articleDisplay .= '<td>';
       $articleDisplay .= ($row['id'] == 0 || $row['id'] == 1) ? '<i class="fas fa-lock"></i>' : '<span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span>';
@@ -444,7 +444,7 @@ function addContent(int $update = 0){
       ':url_resa'   => htmlspecialchars($urlResa),
       ':publie'     => intval($publie)
     ]);
-    header("Location: ?p=bullant/content");
+    header("Location: ".URL."bullant/content/");
 } // fin addContent
 
 
@@ -541,10 +541,10 @@ function getArticle(&$disp){ // function pour récupéré un article en base
                 while($article = $getArticle->fetch()){
                   $processPage .= ($type == 0) ? '<div class="article-wrap actu">' : '<div class="article-wrap spec">';
                   $processPage .= '<div class="img-content">';                        // BLOCK IMG
-                  $processPage .= '<img src="'.URL."/".$article['chemin'].'"></div>'; //
+                  $processPage .= '<img src="'.URL.$article['chemin'].'"></div>'; //
                   $processPage .= '<div class="preview"><h2>'.$article['title'].'</h2>';
                   $processPage .= '<p>'.$article['chapo'].'</p>';
-                  $processPage .= '<a class="more" href="'.URL.'/articles/?c='.$article['id_article'].'">Lire la suite...</a></div></div>';
+                  $processPage .= '<a class="more" href="'.URL.'articles/?c='.$article['id_article'].'">Lire la suite...</a></div></div>';
                 }
                 $disp = $processPage;
               }
