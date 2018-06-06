@@ -988,12 +988,16 @@ input{
   .bx-wrapper .info h3 a{
     font-size: 1.7rem;
   }
+
+
   .bx-wrapper .info {
-    top: 185px;
-    left: 0px;
-    max-width: 100%;
+    top: 160px;
+    left: 0;
+    min-height: 30vh;
+    width: 100%;
     background: #000;
   }
+
   #fb {
     display: none;
   }
