@@ -197,6 +197,18 @@ article.spec #left a{
   margin-top: 5px;
   text-align: center;
 }
+article.spec #left a i{
+  margin-right: 15px;
+  font-size:1rem
+}
+article.spec #left a.fb{
+  background: #29487d;
+}
+article.spec #left a.tw{
+  background: #1da1f2;
+}
+
+/*fb #29487d*/
 article.spec #left a:hover{
   border: 1px solid rgba(35, 173, 255, 1);
   box-shadow: 0 0 6px rgba(35, 173, 255, 1);

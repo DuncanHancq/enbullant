@@ -7,7 +7,7 @@ require('class/class_template_bak.php'); // moteur de rendu
 $getUrl = isset($_GET['p']) ? $_GET['p'] : null;
 $userInfo = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 $username = ($userInfo !== null) ? $userInfo['username'] : "Pas d'username";
-
+$desc = "";
 
 //////////// Init CSS ////////////////
 $commonCSS = array(
@@ -295,7 +295,7 @@ switch($getUrl)
     if(isset($_GET['c'])){
 
         getArticle($disp);
-        $displayTemplatePage->replaceContent('##TITLE##', 'lshf');
+        $displayTemplatePage->replaceContent('##TITLE##', 'Article');
         $displayTemplatePage->replaceContent('##CONTENT##', $disp);
 
     }
@@ -324,7 +324,6 @@ switch($getUrl)
     getArticle($disp);
     $displayTemplatePage->replaceContent('##TITLE##', 'Spectacles');
     $displayTemplatePage->replaceContent('##CONTENT##', $disp);
-
     $commonCSS = array_merge($commonCSS,$frontCSS);
 
   break;
@@ -403,5 +402,9 @@ switch($getUrl)
 if($username !== null){$displayTemplatePage->replaceContent('##USERNAME##', $username);}
 $displayTemplatePage->replaceContent('##CSS##', srcCSS($commonCSS));
 $displayTemplatePage->replaceContent('##JS##', srcJS($commonJS));
+// Metatag OPENGRAPH
+$displayTemplatePage->replaceContent('##URL##', "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+$displayTemplatePage->replaceContent('##DESC##', $desc = ($desc == "") ? "Faites un tour sur notre site web :)" : $desc);
+
 
 echo $displayTemplatePage->display(); //| On affiche le contenu

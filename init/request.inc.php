@@ -107,7 +107,8 @@ function connectUser(&$alert){
 
   global $pdo;
   $getData = $pdo->prepare("SELECT id_user,role,username,email,password FROM user WHERE email = :email");
-  $getData->bindparam(':email', stripslashes($_POST['email']));
+  $mail = stripslashes($_POST['email']);
+  $getData->bindparam(':email', $_POST['email']);
   $getData->execute();
 
   if($getData->rowCount() != 0) // Vérif mail existant
@@ -479,8 +480,8 @@ function getArticle(&$disp){ // function pour récupéré un article en base
           $processPage  = '<article class="spec"><div id="left">';
           $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
           $processPage .= '<a href="'.$resa = (!empty($article['resa'])) ? $article['resa'] : null.'" target="_blank">Reservation</a>';
-          $processPage .= '<a href="" target="_blank">Reservation</a>'; // TWITTER
-          $processPage .= '<a href="" target="_blank">Reservation</a>'; // FACEBOOK
+          $processPage .= '<a class="tw" href="https://twitter.com/intent/tweet?url='.urlencode('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']).'" target="_blank"><i class="fab fa-twitter-square"></i>Tweeter</a>'; // TWITTER
+          $processPage .= '<a class="fb" href="https://www.facebook.com/sharer.php?t=EnBullant&u='.urlencode('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']).'" target="_blank"><i class="fab fa-facebook-square"></i>Partagez</a>'; // FACEBOOK
           $processPage .= '</div><div id="text">'; // FIN #LEFT DEBUT #TEXT
           $processPage .= '<h1>'.$article['title'].'</h1><hr>';
           $processPage .= '<div id="chapo">'.$article['chapo'].'</div>';
