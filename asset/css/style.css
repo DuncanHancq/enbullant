@@ -109,6 +109,17 @@ header nav{
 .img-content img{
   width: 100%
 }
+.img-content.actu{
+  overflow: hidden;
+  width: 500px;
+  position: relative;
+
+}
+.img-content.actu img{
+  height: 152%;
+  position: absolute;
+  top: -15%;
+}
 .preview {
   padding-left: 15px;
   max-height: 215px;
@@ -182,7 +193,7 @@ article.spec #left{
   padding: 15px;
   position: -webkit-sticky;
   position: sticky !important;
-  top:80px;
+  top:32px;
 }
 article.spec #left img{
   width: 100%;

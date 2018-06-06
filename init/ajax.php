@@ -59,7 +59,7 @@ if(isset($_GET['suppr'])){
   }
   else
   {
-    echo "le fichier n'existe pas !";
+    echo "<p class='alert'>le fichier n'existe pas !<p>";
   }
 }
 
@@ -79,9 +79,11 @@ if(isset($_GET['supprUser'])){
       $supprImg->execute([
           ':id' => intval($_GET['supprUser'])
       ]);
-      echo "l'utilisateur : " . $_GET['supprUser'] . " à bien été supprimé.";
+      echo "<p class='success'>l'utilisateur : " . $_GET['supprUser'] . " à bien été supprimé.</p>";
     }
-    echo "Cet utilisateur n'existe pas ou ne peut pas être supprimé";
+    else{
+      echo "<p class='alert'>Cet utilisateur n'existe pas ou ne peut pas être supprimé</p>";
+    }
 }
 
 // REQUEST POUR GESTION LIVRE D'OR
@@ -110,7 +112,7 @@ if(isset($_GET['t'])){
           ':id' => intval($_GET['addLivre'])
       ]);
 
-      $display .= '<p class="success">Le message à bien été valider</p>';
+      $display .= '<p class="success">Le message à bien été validé</p>';
     }
 
     // Affiche les messages non validés

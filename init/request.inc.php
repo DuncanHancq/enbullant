@@ -106,7 +106,7 @@ function displayLivre(){
 function connectUser(&$alert){
 
   global $pdo;
-  $getData = $pdo->prepare("SELECT id_user,role,username,email,password FROM user WHERE email = :email");
+  $getData = $pdo->prepare("SELECT id_user,username,email,password FROM user WHERE email = :email");
   $mail = stripslashes($_POST['email']);
   $getData->bindparam(':email', $_POST['email']);
   $getData->execute();
@@ -120,7 +120,6 @@ function connectUser(&$alert){
     if($verifPass == 1) // Vérif password
     {
       $_SESSION['user']['id'] = $userInfo['id_user'];
-      $_SESSION['user']['role'] = $userInfo['role'];
       $_SESSION['user']['username'] = $userInfo['username'];
       $_SESSION['user']['email'] = $userInfo['email'];
       header("Refresh:0; url=".URL."?p=accueil");
@@ -139,7 +138,7 @@ function displayUsers(){
 
   global $pdo;
   $userDisplay = null;
-  $getUser = $pdo->query('SELECT id_user AS id, username, email, role FROM user ORDER BY id_user ASC');
+  $getUser = $pdo->query('SELECT id_user AS id, username, email FROM user ORDER BY id_user ASC');
   $nbrCol = $getUser->columnCount();
   $userDisplay .= '<tr>';
 
@@ -158,7 +157,6 @@ function displayUsers(){
     $userDisplay .= '<tr><td>'.$row['id'].'</td>';
     $userDisplay .= '<td>'.$row['username'].'</td>';
     $userDisplay .= '<td>'.$row['email'].'</td>';
-    $userDisplay .= '<td>'.$row['role'].'</td>';
     if($row['username'] != $_SESSION['user']['username']){
       $userDisplay .= '<td><span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span></td>';
     }
@@ -173,28 +171,38 @@ function displayUsers(){
 function addUser(){
 
   global $pdo;
-  $username 	= (isset($_POST['pseudo'])) ? $_POST['pseudo'] : null;
-  $email 	    = (isset($_POST['email'])) ? $_POST['email'] : null;
-  $role 	    = (isset($_POST['role'])) ? $_POST['role'] : null;
 
-  $password   = (isset($_POST['mdp'])) ? password_hash($_POST['mdp'],PASSWORD_DEFAULT) : null;
+  $alert    = "<p class='alert'> Vous avez mal rempli les champs</p>";
+  $success  = "<p class='success'> L'utilisateur à bien été ajouté</p>";
 
-  $ajoutmbr = $pdo->prepare('INSERT INTO user(role,username,password,email,token)
-  VALUES(
-    :role,
-    :username,
-    :password,
-    :email,
-    :token
-  )');
+  $username = (!empty($_POST['pseudo'])) ? stripslashes($_POST['pseudo']) : null;
+  $email 	  = (!empty($_POST['email'])) ? stripslashes($_POST['email']) : null;
+  $mdp 	    = (!empty($_POST['mdp'])) ? stripslashes($_POST['mdp']) : null;
+  $mdpCheck = (!empty($_POST['mdpcheck'])) ? stripslashes($_POST['mdpcheck']) : null;
+  if($mdp !== null && $mdp === $mdpCheck){
 
-  $ajoutmbr->execute([
-    ':role'     => htmlspecialchars($role),
-    ':username' => htmlspecialchars($username),
-    ':password' => htmlspecialchars($password),
-    ':email'    => htmlspecialchars($email),
-    ':token'    => token()
-  ]);
+    $password   = password_hash($mdp,PASSWORD_DEFAULT);
+
+    $ajoutmbr = $pdo->prepare('INSERT INTO user(username,password,email,token)
+    VALUES(
+      :username,
+      :password,
+      :email,
+      :token
+    )');
+
+    $ajoutmbr->execute([
+      ':username' => htmlspecialchars($username),
+      ':password' => $password,
+      ':email'    => htmlspecialchars($email),
+      ':token'    => token()
+    ]);
+    echo $success;
+  }
+  else {
+    echo $alert;
+  }
+
 
 }
 
@@ -531,7 +539,7 @@ function getArticle(&$disp){ // function pour récupéré un article en base
                 WHERE type = '.$type.' AND publie = 1');
                 $processPage = ($type == 0) ? '<h1 class="type-cont">Actualités</h1>' : '<h1 class="type-cont">Spectacles</h1>';
                 while($article = $getArticle->fetch()){
-                  $processPage .= '<div class="article-wrap">';
+                  $processPage .= ($type == 0) ? '<div class="article-wrap actu">' : '<div class="article-wrap spec">';
                   $processPage .= '<div class="img-content">';                        // BLOCK IMG
                   $processPage .= '<img src="'.URL."/".$article['chemin'].'"></div>'; //
                   $processPage .= '<div class="preview"><h2>'.$article['title'].'</h2>';
