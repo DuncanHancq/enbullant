@@ -106,8 +106,11 @@ header nav{
   overflow: hidden;
   width: 500px
 }
-.img-content img{
+.spec .img-content img{
   width: 100%
+}
+.actu .img-content img{
+  height: 100%
 }
 .img-content.actu{
   overflow: hidden;
