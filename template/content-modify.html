@@ -54,6 +54,48 @@
     CKEDITOR.replace('chapo');
   }
 
+  // Appel ajax pour l'ajout d'image
+
+
+  image.onkeyup = function () {
+
+   var  ajax = null,
+        resa = document.getElementById('resa'),
+        research = document.getElementById('imagelist');
+
+    if(window.XMLHttpRequest || window.ActiveXObject){
+        if(window.ActiveXObject){
+            try{
+                ajax = new ActiveXObject("Msxml2.XMLHTTP");
+            }
+            catch(e){
+                ajax = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+        }
+        else{
+            ajax = new XMLHttpRequest();
+        }
+    }
+    else{
+        alert("Ajax n'est pas supporté pour l'ajout d'image");
+        return;
+    }
+
+  ajax.onreadystatechange = function(){
+
+
+    if(ajax.readyState === 4 && ajax.status === 200){
+        research.innerHTML = ajax.responseText;
+    }
+
+  }
+
+    ajax.open("GET","init/ajax.php?q="+ image.value +"",true);
+    ajax.send();
+
+} // end onkeyup
+
+
 })();
 
 

@@ -1,0 +1,95 @@
+<div id="bak">
+  <label for="type">Trier par messages :</label>
+  <select id="type" name="type">
+    <option value="0" selected="selected">En attentes</option>
+    <option value="1">Validées</option>
+  </select>
+  <div id="display-livre">
+
+  </div>
+
+
+
+  </table>
+</div>
+
+<script>
+
+(function (){
+
+
+
+
+  var type = document.getElementById('type'),
+  display = document.getElementById('display-livre'),
+  btnSuppr = document.getElementsByClassName('del'),
+  btnAdd = document.getElementsByClassName('add');
+
+  function ajaxQuery(p) {
+    // INIT AJAX
+    if(window.XMLHttpRequest || window.ActiveXObject){
+      if(window.ActiveXObject){
+        try{
+          ajax = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch(e){
+          ajax = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+      }
+      else{
+        ajax = new XMLHttpRequest();
+      }
+    }
+    else{
+      alert("Ajax n'est pas supporté pour l'ajout d'image");
+      return;
+    }
+
+    ajax.onreadystatechange = function(){
+
+
+      if(ajax.readyState === 4 && ajax.status === 200){
+        display.innerHTML = ajax.responseText;
+        loadBtn();
+      }
+      else{
+        display.innerHTML = 'Erreur ajax';
+      }
+    }
+    ajax.open("GET","init/ajax.php"+ p +"",true);
+    ajax.send();
+
+
+  }
+
+  function loadBtn(){
+
+    for(var i = 0; i < btnSuppr.length; i++){
+      btnSuppr[i].onclick = function () {
+        id = this.getAttribute('data-id');
+        ajaxQuery('?supprLivre=' + id + "&t=" + type.options.selectedIndex);
+      }
+    }
+    for(var i = 0; i < btnAdd.length; i++){
+      btnAdd[i].onclick = function () {
+        id = this.getAttribute('data-id');
+        ajaxQuery('?addLivre=' + id + "&t=" + type.options.selectedIndex);
+      }
+    }
+
+
+  }
+
+  ajaxQuery('?t=' + type.options.selectedIndex);
+
+  type.onchange = function (){
+    query = '?t=' + this.options.selectedIndex;
+    ajaxQuery(query);
+  }
+
+
+
+
+})();
+
+</script>

@@ -47,7 +47,7 @@ if(isset($_GET['suppr'])){
   if($getPath->rowCount() != 0){
     $path = $getPath->fetch();
     $path = $path['img_path'];
-    
+
 
     unlink('../'.$path);
 
@@ -65,7 +65,6 @@ if(isset($_GET['suppr'])){
 
 ///// SUPRIMER ARTICLE //////
 if(isset($_GET['supprArticle'])){
-
     $supprImg = $pdo->prepare('DELETE FROM articles WHERE id_article = :id');
     $supprImg->execute([
         ':id' => intval($_GET['supprArticle'])
@@ -83,4 +82,71 @@ if(isset($_GET['supprUser'])){
       echo "l'utilisateur : " . $_GET['supprUser'] . " à bien été supprimé.";
     }
     echo "Cet utilisateur n'existe pas ou ne peut pas être supprimé";
+}
+
+// REQUEST POUR GESTION LIVRE D'OR
+
+
+
+
+
+if(isset($_GET['t'])){
+    $isWait = $_GET['t'];
+    $display = "";
+
+    // Suppression du message
+    if(isset($_GET['supprLivre'])){
+      $supprLivre = $pdo->prepare('DELETE FROM livre WHERE id_livre = :id');
+      $supprLivre->execute([
+          ':id' => intval($_GET['supprLivre'])
+      ]);
+      $display .= '<p class="success">Le message à bien été supprimé</p>';
+    }
+
+    // Passe le message soumis à 'publié'
+    if(isset($_GET['addLivre'])){
+      $addLivre = $pdo->prepare('UPDATE livre SET confirm = 1 WHERE id_livre = :id');
+      $addLivre->execute([
+          ':id' => intval($_GET['addLivre'])
+      ]);
+
+      $display .= '<p class="success">Le message à bien été valider</p>';
+    }
+
+    // Affiche les messages non validés
+    if($isWait == 0){
+      $getInWait = $pdo->query('SELECT id_livre AS id,pseudo_livre AS pseudo,message_livre AS message FROM livre WHERE confirm = 0');
+    }
+    // affiche les messages validés
+    else{
+      $getInWait = $pdo->query('SELECT id_livre AS id,pseudo_livre AS pseudo,message_livre AS message FROM livre WHERE confirm = 1');
+    }
+
+    $nbrCol = $getInWait->columnCount();
+
+    $display .= '<table><tr>';
+
+    for($i = 0; $i < $nbrCol; $i++)
+    {
+        $nomCol = $getInWait->getColumnMeta($i); //A chaque tour de boucle je récupère les intitulés de mes champs
+        $display .= ($nomCol['name'] == "message") ? '<th class="cols-meta t-left">' . ucfirst($nomCol['name']) . '</th>' : '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
+
+    }
+
+    $display .= ($isWait == 0) ? '<th class="cols-meta">Valid.</th>' : null;
+    $display .= '<th class="cols-meta">suppr.</th>';
+    $display .= '</tr>';
+
+    while($row = $getInWait->fetch())
+    {
+      $display .= '<tr><td>'.$row['id'].'</td>';
+      $display .= '<td>'.$row['pseudo'].'</td>';
+      $display .= '<td class="t-left">'.$row['message'].'</td>';
+      $display .= ($isWait == 0) ? '<td><span class="add fas fa-check" data-id="'.$row['id'].'"></span></td>' : null;
+      $display .= '<td><span class="del fas fa-times" data-id="'.$row['id'].'"></span></td></tr>';
+    }
+    $display .= '</table>';
+
+    echo $display;
+
 }

@@ -33,13 +33,15 @@ small i{
 }
 
 
-
+/*
+** Style form global
+*/
 
 form {
   display: flex;
   flex-direction: column;
 }
-form label {
+label {
   margin-top: 15px;
   margin: 15px 0 6px 0;
 }
@@ -72,14 +74,14 @@ input[type="submit"]{
 input[type="submit"]:hover{
   background: rgba(200,200,200,.20)
 }
-
-
 input[type="file"]{
   border: none;
 }
+
 /*
-Page modif image
+**Page modif image
 */
+
 #displayImg{
   position: absolute;
   top:0;
@@ -97,8 +99,9 @@ Page modif image
 .hide{
   display: none !important;
 }
+
 /*
-Page ajout image
+** Page ajout image
 */
 
 .btn{
@@ -141,8 +144,9 @@ Page ajout image
 }
 
 /*
-Page ajout contenu
+** Page ajout contenu
 */
+
 #spec {
   display: flex;
   flex-direction: column;
@@ -152,9 +156,8 @@ Page ajout contenu
   display: none !important;
 }
 
-
 /*
-Page utilisateurs
+** Page utilisateurs
 */
 
 .display-user {
@@ -177,6 +180,31 @@ tr:hover{
   background: #00000030;
 }
 
+
+/*
+** Page Livre d'or
+*/
+
+#bak {
+  display: flex;
+  flex-direction: column;
+}
+#bak td {
+ text-align: center;
+}
+#bak .t-left {
+  text-align: left;
+}
+.fa-check {
+  color: #53BF46
+}
+.fa-times {
+  color: #BF423C;
+}
+#bak table {
+  margin-top: 25px;
+  width: 100%
+}
 
 @media screen and (max-width: 950px) {
   #btn-su-menu {

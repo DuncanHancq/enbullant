@@ -32,6 +32,9 @@ if(document.getElementById('btn-su-menu')){
     }
   }
 }
+
+if(document.getElementById('nav-icon')){
+
   // Gestion du menu front
   var navIcon = document.getElementById('nav-icon'),
       nav = document.getElementById("responsive"),
@@ -45,5 +48,7 @@ if(document.getElementById('btn-su-menu')){
       rsWrap.classList.toggle('o');
 
   }
+
+}
 
 }

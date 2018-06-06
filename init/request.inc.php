@@ -2,6 +2,48 @@
 require('init.inc.php');
 $error = "";
 
+
+
+function addLivre(){
+  global $pdo;
+  $pseudo = stripslashes($_POST["pseudo"]);
+  $message = stripslashes($_POST["message"]);
+  $confirm = 0;
+
+  $addLivre = $pdo->prepare('INSERT INTO livre(pseudo_livre,message_livre,confirm)
+  VALUES(
+    :pseudo,
+    :message,
+    :confirm
+  )');
+  $addLivre->execute([
+    ':pseudo'  => htmlspecialchars($pseudo),
+    ':message' => htmlspecialchars($message),
+    ':confirm' => $confirm
+  ]);
+
+}
+
+function displayLivre(){
+  global $pdo;
+  $display = "";
+  $getLivre = $pdo->query('SELECT
+    pseudo_livre AS pseudo,
+    message_livre AS message
+    FROM livre
+    WHERE confirm = 1 ORDER BY id_livre DESC');
+    while($message = $getLivre->fetch()){
+      $display .= '<div class="message">';
+      $display .= '<h2>'.$message['pseudo'].'</h2>';
+      $display .= '<p>'.$message['message'].'</p>';
+      $display .= '</div>';
+    }
+    return $display;
+}
+
+
+
+
 /*************************************************
 *
 * GESTION UTILISATEUR
@@ -9,11 +51,11 @@ $error = "";
 *************************************************/
 
 //////////// CONNEXION ////////////////
-function connectUser(){
+function connectUser(&$alert){
 
   global $pdo;
   $getData = $pdo->prepare("SELECT id_user,role,username,email,password FROM user WHERE email = :email");
-  $getData->bindparam(':email', $_POST['email']);
+  $getData->bindparam(':email', stripslashes($_POST['email']));
   $getData->execute();
 
   if($getData->rowCount() != 0) // Vérif mail existant
@@ -31,11 +73,11 @@ function connectUser(){
       header("Refresh:0; url=".URL."?p=accueil");
     }
     else{
-      echo '<script>alert("Mauvais mot de passe")</script>';
+      $alert.= "<p class=\"alert\">Mauvais mot de passe</p>";
     }// verif password
   } // if rowcount
   else{
-    echo '<script>alert("Email inexistant")</script>';
+    $alert.= "<p class=\"alert\">L'email n'existe pas.</p>";
   }
 } // connectUser
 
@@ -51,8 +93,8 @@ function displayUsers(){
   for($i = 0; $i < $nbrCol; $i++)
   {
 
-      $nomCol = $getUser->getColumnMeta($i); //A chaque tour de boucle je récupère les intitulés de mes champs
-      $userDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
+    $nomCol = $getUser->getColumnMeta($i); //A chaque tour de boucle je récupère les intitulés de mes champs
+    $userDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
 
   }
 
@@ -122,8 +164,8 @@ function displayImg(){
   for($i = 0; $i < $nbrCol; $i++)
   {
 
-      $nomCol = $getImg->getColumnMeta($i); //A chaque tour de boucle je récupère les intitulés de mes champs
-      $imgDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
+    $nomCol = $getImg->getColumnMeta($i); //A chaque tour de boucle je récupère les intitulés de mes champs
+    $imgDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
 
   }
 
@@ -236,42 +278,42 @@ function displayArticle(){ // Affiche les articles dans le back-office
     publie AS publié
     FROM articles
     INNER JOIN images ON articles.img_article = images.id_image
-  ');
+    ');
 
-  $nbrCol = $getArticle->columnCount();
-  $articleDisplay .= '<tr>';
+    $nbrCol = $getArticle->columnCount();
+    $articleDisplay .= '<tr>';
 
-  for($i = 0; $i < $nbrCol; $i++)
-  {
-    $nomCol = $getArticle->getColumnMeta($i); // Afficher le nom des colonne de ma base de données
-    $articleDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
-  }
+    for($i = 0; $i < $nbrCol; $i++)
+    {
+      $nomCol = $getArticle->getColumnMeta($i); // Afficher le nom des colonne de ma base de données
+      $articleDisplay .= '<th class="cols-meta">' . ucfirst($nomCol['name']) . '</th>';
+    }
 
-  $articleDisplay .= '<th class="cols-meta">Voir</th>';
-  $articleDisplay .= '<th class="cols-meta">Modif.</th>';
-  $articleDisplay .= '<th class="cols-meta">suppr.</th>';
-  $articleDisplay .= '</tr>';
+    $articleDisplay .= '<th class="cols-meta">Voir</th>';
+    $articleDisplay .= '<th class="cols-meta">Modif.</th>';
+    $articleDisplay .= '<th class="cols-meta">suppr.</th>';
+    $articleDisplay .= '</tr>';
 
-  while($row = $getArticle->fetch())
-  {
-    $row['type'] = ($row['type'] == 0) ? "Actualités" : "Spectacles";
-    $row['publié'] = ($row['publié'] == 0) ? "Non" : "Oui";
-    $articleDisplay .= '<tr><td>'.$row['id'].'</td>';
-    $articleDisplay .= '<td>'.$row['type'].'</td>';
-    $articleDisplay .= '<td>'.$row['titre'].'</td>';
-    $articleDisplay .= '<td>'.$row['image'].'</td>';
-    $articleDisplay .= '<td>'.$row['publié'].'</td>';
-    // lien pour visualiser l'article depuis le front
-    $articleDisplay .= '<td><a class="see far fa-eye" href="'.URL.'?p=articles&c='.$row['id'].'" target="_blank"></a></td>';
-    // lien pour pouvoir modifier l'article
-    $articleDisplay .= '<td><a href="?p=bullant/content/modify&get='.$row['id'].'" class="edit far fa-edit"></a></td>';
-    // Bouton pour supprimer l'article
-    $articleDisplay .= '<td><span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span></td></tr>';
-  }
+    while($row = $getArticle->fetch())
+    {
+      $row['type'] = ($row['type'] == 0) ? "Actualités" : "Spectacles";
+      $row['publié'] = ($row['publié'] == 0) ? "Non" : "Oui";
+      $articleDisplay .= '<tr><td>'.$row['id'].'</td>';
+      $articleDisplay .= '<td>'.$row['type'].'</td>';
+      $articleDisplay .= '<td>'.$row['titre'].'</td>';
+      $articleDisplay .= '<td>'.$row['image'].'</td>';
+      $articleDisplay .= '<td>'.$row['publié'].'</td>';
+      // lien pour visualiser l'article depuis le front
+      $articleDisplay .= '<td><a class="see far fa-eye" href="'.URL.'?p=articles&c='.$row['id'].'" target="_blank"></a></td>';
+      // lien pour pouvoir modifier l'article
+      $articleDisplay .= '<td><a href="?p=bullant/content/modify&get='.$row['id'].'" class="edit far fa-edit"></a></td>';
+      // Bouton pour supprimer l'article
+      $articleDisplay .= '<td><span class="del far fa-trash-alt" data-id="'.$row['id'].'"></span></td></tr>';
+    }
 
-  return $articleDisplay;
+    return $articleDisplay;
 
-} // displayArticle
+} // displayArticle()
 
 function addContent(int $update = 0){
 
@@ -286,9 +328,6 @@ function addContent(int $update = 0){
   $corpsText   = (isset($_POST['content'])) ? $_POST['content'] : null;
   $urlResa     = (isset($_POST['resa'])) ? $_POST['resa'] : null;
   $publie      = ($_POST['publie'] != 1) ? 0 : 1;
-
-  // recupéré img path
-  // echo $imgArticle;
 
   $getImgPath = $pdo->prepare('SELECT
     id_image
@@ -307,41 +346,41 @@ function addContent(int $update = 0){
   }
   if($update == 0){
     $addContent = $pdo->prepare('INSERT INTO
-    articles(user_id,type,title,img_article,chapo,corps_text,url_resa,publie)
-    VALUES(
-      :userid,
-      :type,
-      :title,
-      :image,
-      :chapo,
-      :corpsText,
-      :url_resa,
-      :publie
-    )');
-  }
-  else{ //UPDATE ARTCICLE
-    $addContent = $pdo->prepare('UPDATE articles
-      SET user_id = :userid,
-          type = :type,
-          title = :title,
-          img_article = :image,
-          chapo = :chapo,
-          corps_text = :corpsText,
-          url_resa = :url_resa,
-          publie = :publie
-      WHERE id_article = '.$_GET['get'].'
-      ');
-  }
-  $addContent->execute([
-    ':userid'     => htmlspecialchars($userid),
-    ':type'       => intval($type),
-    ':title'      => htmlspecialchars($title),
-    ':image'      => intval($imgArticle),
-    ':chapo'      => $chapo,
-    ':corpsText'  => $corpsText,
-    ':url_resa'   => htmlspecialchars($urlResa),
-    ':publie'     => intval($publie)
-  ]);
+      articles(user_id,type,title,img_article,chapo,corps_text,url_resa,publie)
+      VALUES(
+        :userid,
+        :type,
+        :title,
+        :image,
+        :chapo,
+        :corpsText,
+        :url_resa,
+        :publie
+      )');
+    }
+    else{ //UPDATE ARTCICLE
+      $addContent = $pdo->prepare('UPDATE articles
+        SET user_id = :userid,
+        type = :type,
+        title = :title,
+        img_article = :image,
+        chapo = :chapo,
+        corps_text = :corpsText,
+        url_resa = :url_resa,
+        publie = :publie
+        WHERE id_article = '.$_GET['get'].'
+        ');
+    }
+    $addContent->execute([
+      ':userid'     => htmlspecialchars($userid),
+      ':type'       => intval($type),
+      ':title'      => htmlspecialchars($title),
+      ':image'      => intval($imgArticle),
+      ':chapo'      => $chapo,
+      ':corpsText'  => $corpsText,
+      ':url_resa'   => htmlspecialchars($urlResa),
+      ':publie'     => intval($publie)
+    ]);
 } // fin addContent
 
 
@@ -355,7 +394,6 @@ function getArticle(&$disp){ // function pour récupéré un article en base
 
 
   if(is_int($idArticle)){ // requête de recuperation article unique
-
     $getArticle = $pdo->prepare('SELECT
       id_article,
       type,
@@ -370,13 +408,22 @@ function getArticle(&$disp){ // function pour récupéré un article en base
       INNER JOIN images ON articles.img_article = images.id_image
       WHERE id_article = :id
       ');
-    $getArticle->execute([':id' => $idArticle]);
-    $article = $getArticle->fetch();
+      $getArticle->execute([':id' => $idArticle]);
+      $article = $getArticle->fetch();
 
 
-    if(isset($_GET['c']) && $article['publie'] == 1){ // Affichage de l'article unique selon le type
+      if(isset($_GET['c']) && $article['publie'] == 1){ // Affichage de l'article unique selon le type
 
-      if($article['type'] == 1){ // spectacle
+        if($article['type'] == 0){ // Actu
+          $processPage  = '<article class="actu"><div id="head">';
+          $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
+          $processPage .= '<h1>'.$article['title'].'</h1><hr>';
+          $processPage .= '</div><div id="text">'; // FIN #LEFT DEBUT #TEXT
+          $processPage .= '<div id="chapo">'.$article['chapo'].'</div>';
+          $processPage .= $article['corps_text'];
+          $processPage .= '</article>';
+        }
+        else{ // Spec
           $processPage  = '<article class="spec"><div id="left">';
           $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
           $processPage .= '<a href="'.$resa = (!empty($article['resa'])) ? $article['resa'] : null.'" target="_blank">Reservation</a>';
@@ -387,57 +434,55 @@ function getArticle(&$disp){ // function pour récupéré un article en base
           $processPage .= '<div id="chapo">'.$article['chapo'].'</div>';
           $processPage .= $article['corps_text'];
           $processPage .= '</article>';
+        }
+        $disp = $processPage;
       }
-      else{ // Actu
-          $processPage  = '<article class="actu"><div id="head">';
-          $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
-          $processPage .= '<h1>'.$article['title'].'</h1><hr>';
-          $processPage .= '</div><div id="text">'; // FIN #LEFT DEBUT #TEXT
-          $processPage .= '<div id="chapo">'.$article['chapo'].'</div>';
-          $processPage .= $article['corps_text'];
-          $processPage .= '</article>';
+      else if(isset($_GET['c']) && $article['id_article'] <= 2){ // Page spécifique
+        $processPage  = '<article class="actu qui"><div id="head">';
+        $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
+        $processPage .= '<h1>'.$article['title'].'</h1><hr>';
+        $processPage .= '</div><div id="text">'; // FIN #LEFT DEBUT #TEXT
+        $processPage .= '<div id="chapo">'.$article['chapo'].'</div>';
+        $processPage .= $article['corps_text'];
+        $processPage .= '</article>';
+        $disp = $processPage;
       }
-          $disp = $processPage;
-    }
-    if(isset($_GET['get'])){ // recup modif
+      if(isset($_GET['get'])){ // recup modif
         $disp = $article;
-    }
-
-
-
-
-  } // if id article
-
-  else{ // Récuperation de tout les contenus par type
-      if($_GET['p'] == "articles/actu"){
-          $type = 0;
       }
-      else if($_GET['p'] == "articles/spec"){
-          $type = 1;
-      }
-      else{
-        header('Location: '.URL."?p=404");
-      }
-      $getArticle = $pdo->query('SELECT
-        id_article,
-        type,
-        title,
-        chapo,
-        publie,
-        img_path AS chemin
-        FROM articles
-        INNER JOIN images ON articles.img_article = images.id_image
-        WHERE type = '.$type);
-      $processPage = ($type == 0) ? '<h1 class="type-cont">Actualités</h1>' : '<h1 class="type-cont">Spectacles</h1>';
-      while($article = $getArticle->fetch()){
-        $processPage .= '<div class="article-wrap">';
-        $processPage .= '<div class="img-content">';                        // BLOCK IMG
-        $processPage .= '<img src="'.URL."/".$article['chemin'].'"></div>'; //
-        $processPage .= '<div class="preview"><h2>'.$article['title'].'</h2>';
-        $processPage .= '<p>'.$article['chapo'].'</p>';
-        $processPage .= '<a class="more" href="'.URL.'?p=articles&c='.$article['id_article'].'">Lire la suite...</a></div></div>';
-      }
-      $disp = $processPage;
-  }
+    } // Recuperation article unique
 
-} // getArticle()
+
+            else{ // Récuperation de tout les contenus par type
+              if($_GET['p'] == "articles/actu"){
+                $type = 0;
+              }
+              else if($_GET['p'] == "articles/spec"){
+                $type = 1;
+              }
+              else{
+                header('Location: '.URL."?p=404");
+              }
+              $getArticle = $pdo->query('SELECT
+                id_article,
+                type,
+                title,
+                chapo,
+                publie,
+                img_path AS chemin
+                FROM articles
+                INNER JOIN images ON articles.img_article = images.id_image
+                WHERE type = '.$type.' AND publie = 1');
+                $processPage = ($type == 0) ? '<h1 class="type-cont">Actualités</h1>' : '<h1 class="type-cont">Spectacles</h1>';
+                while($article = $getArticle->fetch()){
+                  $processPage .= '<div class="article-wrap">';
+                  $processPage .= '<div class="img-content">';                        // BLOCK IMG
+                  $processPage .= '<img src="'.URL."/".$article['chemin'].'"></div>'; //
+                  $processPage .= '<div class="preview"><h2>'.$article['title'].'</h2>';
+                  $processPage .= '<p>'.$article['chapo'].'</p>';
+                  $processPage .= '<a class="more" href="'.URL.'?p=articles&c='.$article['id_article'].'">Lire la suite...</a></div></div>';
+                }
+                $disp = $processPage;
+              }
+
+            } // getArticle()

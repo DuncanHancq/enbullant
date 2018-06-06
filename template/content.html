@@ -36,7 +36,6 @@ for(var i = 0; i < btnSuppr.length; i++){
 
   btnSuppr[i].onclick = function () {
     var id = this.getAttribute('data-id');
-    console.log(id);
 
     ajax.onreadystatechange = function(){
       if(ajax.readyState === 4 && ajax.status === 200){

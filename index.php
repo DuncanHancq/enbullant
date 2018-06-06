@@ -76,7 +76,7 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
     /*******************************
     * Gestion Contenu              *
     *******************************/
-    case "bullant/content" : // Contenus
+    case "bullant/content" : // VUE CONTENU
 
       $displayTemplatePage = new TemplateBak('template/content.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Contenu');
@@ -91,7 +91,7 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
     break;
 
 
-    case "bullant/content/add" : // Ajout Contenus
+    case "bullant/content/add" : // AJOUT DE CONTENU
 
       $displayTemplatePage = new TemplateBak('template/content-add.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Ajout contenu');
@@ -116,7 +116,7 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
 
     break;
 
-    case "bullant/content/modify" :
+    case "bullant/content/modify" : // MODIFICATION DE CONTENU
 
       $displayTemplatePage = new TemplateBak('template/content-modify.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Modification contenu');
@@ -157,7 +157,7 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
     /*******************************
     *  Gestion Image              *
     *******************************/
-    case "bullant/image" : //
+    case "bullant/image" : // VUE IMAGE
 
       $displayTemplatePage = new TemplateBak('template/image-bak.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Administration images');
@@ -175,7 +175,7 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
 
 
 
-    case "bullant/image/add" : // Ajout Image
+    case "bullant/image/add" : // AJOUT IMAGE
 
       $displayTemplatePage = new TemplateBak('template/image-add.html');
       $displayTemplatePage->replaceContent('##TITLE##', 'Ajout Image');
@@ -188,8 +188,21 @@ if ($userInfo !== null) // si l'utilisateur est connecté...
         addImg();
       }
 
+    break;
+
+    case "bullant/livre" : // GESTION LIVRE D'OR
+
+      $displayTemplatePage = new TemplateBak('template/livre-bak.html');
+
+      $displayTemplatePage->replaceContent('##TITLE##', 'Gestion livre d\'or');
+      $displayTemplatePage->replaceContent('##H2##', 'Gestion livre d\'or');
+      $displayTemplatePage->replaceContent('##DISPLAY##', 'Gestion livre d\'or');
+
+      $commonJS  = array_merge($bakJS,$commonJS);
+      $commonCSS = array_merge($commonCSS,$bakCSS);
 
     break;
+
 
     case "bullant/user/logout": // Page de déconnexion
 
@@ -231,19 +244,46 @@ switch($getUrl)
   *******************************/
   case "bullant": // Page de connexion
 
+
     if($userInfo !== null)
     {
       header('Location:'.URL.'?p=bullant/user');
       exit();
     }
 
-    if(isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion')
-    {
-      connectUser();
-    }
-
     $displayTemplatePage = new Template('template/bullant.html');
 
+    if(isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion')
+    {
+      $alert = "";
+      $response = $_POST["g-recaptcha-response"];
+      $url = 'https://www.google.com/recaptcha/api/siteverify';
+      $data = array(
+        'secret' => '	6LekZV0UAAAAAEGb1kj9duILBqsNFtPS0KGewz-_',
+        'response' => $_POST["g-recaptcha-response"]
+      );
+      $options = array(
+        'http' => array (
+          'header' => "Content-Type: application/x-www-form-urlencoded",
+          'method' => 'POST',
+          'content' => http_build_query($data)
+        )
+      );
+      $context  = stream_context_create($options);
+      $verify  = file_get_contents($url, false, $context);
+      $captcha_success=json_decode($verify);
+      if ($captcha_success->success==false) {
+        $alert .= "<p class=\"alert\">Soit vous parlez le language binaire, soit vous n'avez pas indiqué le contraire !</p>";
+      } else if ($captcha_success->success==true) {
+        connectUser($alert);
+      }
+      $displayTemplatePage->replaceContent('##ALERT##', $alert);
+    } // isset connexion
+    else{
+      $displayTemplatePage->replaceContent('##ALERT##', ' ');
+    }
+
+    array_push($commonJS, 'https://www.google.com/recaptcha/api.js');
     $commonCSS = array_merge($commonCSS,$frontCSS);
 
   break;
@@ -283,6 +323,49 @@ switch($getUrl)
     getArticle($disp);
     $displayTemplatePage->replaceContent('##TITLE##', 'Spectacles');
     $displayTemplatePage->replaceContent('##CONTENT##', $disp);
+
+    $commonCSS = array_merge($commonCSS,$frontCSS);
+
+  break;
+
+  case "livre":
+
+    $displayTemplatePage = new Template('template/livre.html');
+    $displayTemplatePage->replaceContent('##DISPLAY##', displayLivre());
+
+    $alert = "";
+    if(isset($_POST['livre'])){
+      $response = $_POST["g-recaptcha-response"];
+      $url = 'https://www.google.com/recaptcha/api/siteverify';
+      $data = array(
+        'secret' => '	6LekZV0UAAAAAEGb1kj9duILBqsNFtPS0KGewz-_',
+        'response' => $_POST["g-recaptcha-response"]
+      );
+      $options = array(
+        'http' => array (
+          'header' => "Content-Type: application/x-www-form-urlencoded",
+          'method' => 'POST',
+          'content' => http_build_query($data)
+        )
+      );
+      $context  = stream_context_create($options);
+      $verify  = file_get_contents($url, false, $context);
+      $captcha_success=json_decode($verify);
+      if ($captcha_success->success==false) {
+        $alert = "<p class=\"alert\">Soit vous parlez le language binaire, soit vous n'avez pas indiqué le contraire !</p>";
+      } else if ($captcha_success->success==true) {
+        addLivre();
+        $alert = "<p class=\"success\">Merci pour le message, celui-ci apparaitra aprés validation d'un administrateur.</p>";
+      }
+
+    }
+
+
+
+    $displayTemplatePage->replaceContent('##TITLE##', 'Livre d\'or');
+    $displayTemplatePage->replaceContent('##H1##', 'Livre d\'or');
+    $displayTemplatePage->replaceContent('##ALERT##', $alert);
+    array_push($commonJS, 'https://www.google.com/recaptcha/api.js');
 
     $commonCSS = array_merge($commonCSS,$frontCSS);
 
