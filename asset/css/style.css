@@ -990,8 +990,9 @@ input{
   }
   .bx-wrapper .info {
     top: 185px;
-    left: 15px;
-    max-width: 89vw;
+    left: 0px;
+    max-width: 100%;
+    background: #000;
   }
   #fb {
     display: none;
