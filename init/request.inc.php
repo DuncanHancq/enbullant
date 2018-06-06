@@ -32,7 +32,7 @@ function getCarousel() {
     ');
   while($getCarousel = $getSpec->fetch()){
     $carrousel .= '<div><div class="info">';
-    $carrousel .= '<h3><a href="?p=articles&c='.$getCarousel['id'].'" target="_blank">'.$getCarousel['titre'].'</a></h3>';
+    $carrousel .= '<h3><a href="https://www.theatre-en-bullant.fr/articles/?c='.$getCarousel['id'].'" target="_blank">'.$getCarousel['titre'].'</a></h3>';
     $carrousel .= '<h2>Spectacles</h2></div>'; // fin div info
     $carrousel .= '<div class="crop"><img class="bkg-spec" src="'.URL.$getCarousel['image'].'" alt="'.$getCarousel['titre'].'"></div>';
     $carrousel .= '<img class="spec" src="'.URL.$getCarousel['image'].'" alt="'.$getCarousel['titre'].'">';
@@ -48,7 +48,7 @@ function getCarousel() {
     ');
     while($getCarousel = $getActu->fetch()){
       $carrousel .= '<div><div class="info">';
-      $carrousel .= '<h3><a href="?p=articles&c='.$getCarousel['id'].'" target="_blank">'.$getCarousel['titre'].'</a></h3>';
+      $carrousel .= '<h3><a href="https://www.theatre-en-bullant.fr/articles/?c='.$getCarousel['id'].'" target="_blank">'.$getCarousel['titre'].'</a></h3>';
       $carrousel .= '<h2>Actualités</h2></div>'; // fin div info
       $carrousel .= '<img class="actu" src="'.URL.$getCarousel['image'].'" alt="'.$getCarousel['titre'].'">'; // fin div info
       $carrousel .= '</div>'; // fin div info
@@ -544,7 +544,7 @@ function getArticle(&$disp){ // function pour récupéré un article en base
                   $processPage .= '<img src="'.URL."/".$article['chemin'].'"></div>'; //
                   $processPage .= '<div class="preview"><h2>'.$article['title'].'</h2>';
                   $processPage .= '<p>'.$article['chapo'].'</p>';
-                  $processPage .= '<a class="more" href="'.URL.'?p=articles&c='.$article['id_article'].'">Lire la suite...</a></div></div>';
+                  $processPage .= '<a class="more" href="'.URL.'/articles/?c='.$article['id_article'].'">Lire la suite...</a></div></div>';
                 }
                 $disp = $processPage;
               }
