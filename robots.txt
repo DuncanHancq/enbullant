@@ -9,14 +9,14 @@ Disallow: /?p=bullant/image/add
 Disallow: /?p=bullant/user
 Disallow: /?p=bullant/user/add
 Disallow: /?p=bullant/user/logout
-Disallow: /bullant/user/logout
-Disallow: /bullant
-Disallow: /bullant/content
-Disallow: /bullant/content/add
-Disallow: /bullant/image
-Disallow: /bullant/image/add
-Disallow: /bullant/user
-Disallow: /bullant/user/add
-Disallow: /bullant/user/logout
+Disallow: /bullant/user/logout/
+Disallow: /bullant/
+Disallow: /bullant/content/
+Disallow: /bullant/content/add/
+Disallow: /bullant/image/
+Disallow: /bullant/image/add/
+Disallow: /bullant/user/
+Disallow: /bullant/user/add/
+Disallow: /bullant/user/logout/
 
 Sitemap: https://www.theatre-en-bullant.fr/accueil
