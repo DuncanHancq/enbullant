@@ -8,83 +8,73 @@
 
 
 <url>
-  <loc>https://theatre-en-bullant.fr/</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=accueil</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/articles/spec/</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://www.theatre-en-bullant.fr/articles/actu/</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://www.theatre-en-bullant.fr/articles/?c=0</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=articles/spec</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/galerie/</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=articles/actu</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/livre/</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=qui</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/articles/?c=73</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=contact</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/articles/?c=74</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=galerie</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/articles/?c=78</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=livre-or</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/articles/?c=79</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=spectacles</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/articles/?c=1</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=actu</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://theatre-en-bullant.fr/?p=livre</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://theatre-en-bullant.fr/?p=map</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://theatre-en-bullant.fr/?p=articles&amp;c=70</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/articles/?c=81</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=articles&amp;c=72</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/articles/?c=82</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://theatre-en-bullant.fr/?p=articles&amp;c=71</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://theatre-en-bullant.fr/?p=articles&amp;c=73</loc>
-  <lastmod>2018-06-04T20:17:22+00:00</lastmod>
+  <loc>https://www.theatre-en-bullant.fr/articles/?c=80</loc>
+  <lastmod>2018-06-06T22:54:06+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 
