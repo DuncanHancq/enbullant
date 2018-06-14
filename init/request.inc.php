@@ -479,9 +479,10 @@ function getArticle(&$disp){ // function pour récupéré un article en base
       if(isset($_GET['c']) && $article['publie'] == 1){ // Affichage de l'article unique selon le type
 
         if($article['type'] == 0){ // Actu
-          $processPage  = '<article class="actu"><div id="head">';
-          $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
+          $processPage  = '<article class="actu">';
           $processPage .= '<h1>'.$article['title'].'</h1><hr>';
+          $processPage .= '<div id="head">';
+          $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
           $processPage .= '</div><div id="text">'; // FIN #LEFT DEBUT #TEXT
           $processPage .= '<div id="chapo">'.$article['chapo'].'</div>';
           $processPage .= $article['corps_text'];
@@ -501,10 +502,14 @@ function getArticle(&$disp){ // function pour récupéré un article en base
         }
         $disp = $processPage;
       }
+	  
       else if(isset($_GET['c']) && $article['id_article'] <= 2){ // Page spécifique
-        $processPage  = '<article class="actu qui"><div id="head">';
+        $processPage  = '<div class="title-main"><h1>'.$article['title'].'</h1>';
+        $processPage .= '</div>';
+        $processPage .= '<div class="text-main"><p>text</p></div>';
+        $processPage .= '<article class="actu qui">';
+        $processPage .= '<div id="head">';
         $processPage .= '<img src="'.URL.$article['chemin'].'" alt="'.$article['image'].'">';
-        $processPage .= '<h1>'.$article['title'].'</h1><hr>';
         $processPage .= '</div><div id="text">'; // FIN #LEFT DEBUT #TEXT
         $processPage .= '<div id="chapo">'.$article['chapo'].'</div>';
         $processPage .= $article['corps_text'];
@@ -537,7 +542,21 @@ function getArticle(&$disp){ // function pour récupéré un article en base
                 FROM articles
                 INNER JOIN images ON articles.img_article = images.id_image
                 WHERE type = '.$type.' AND publie = 1');
-                $processPage = ($type == 0) ? '<h1 class="type-cont">Actualités</h1>' : '<h1 class="type-cont">Spectacles</h1>';
+                $processPage = ($type == 0) ? '<div class="title-main"><h1>Actualités</h1></div>' : '<div class="title-main"><h1>Spectacles</h1></div>';
+                if($type == 0){ // actu
+                  $processPage .= '<div class="text-main">';
+                  $processPage .= '<p>';
+                  $processPage .= 'my text';
+                  $processPage .= '</p>';
+                  $processPage .= '</div>';
+                }
+                else{ // Spec
+                  $processPage .= '<div class="text-main">';
+                  $processPage .= '<p>';
+                  $processPage .= 'my text';
+                  $processPage .= '</p>';
+                  $processPage .= '</div>';
+                }
                 while($article = $getArticle->fetch()){
                   $processPage .= ($type == 0) ? '<div class="article-wrap actu">' : '<div class="article-wrap spec">';
                   $processPage .= '<div class="img-content">';                        // BLOCK IMG

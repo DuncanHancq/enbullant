@@ -4,6 +4,113 @@ body {
   background-position: center;
   background-size: cover;
 }
+.container{
+	width:75%;
+	margin: auto;
+	border: 1px solid red
+}
+/* TITLE */
+.title-main{
+	padding: 4% 0 0;
+	text-align: center
+}
+.title-main h1{
+  font-size: 4.5rem;
+}
+.title-main h2{
+	font-size: 2rem;
+	font-weight: 300
+}
+.title-main p{
+  font-size: 1rem;
+	width:50%;	
+}
+/* TEXT */
+.text-main{
+	padding: 3% 0;
+	text-align: center
+}
+.text-main h1{	
+  font-size: 4.5rem;
+	padding: 3% 0;
+	text-align: center
+}
+.text-main h2{
+	font-size: 2rem;
+	font-weight: 300
+}
+.text-main h3{
+  font-size:1.6rem;
+	padding: 1% 0
+}
+.text-main h4{
+	font-size: 1.4rem;
+	font-weight: 300;
+	padding: 1% 0
+}
+.text-main p{
+  font-size: 1.2rem;
+	width:50%;
+	margin: auto
+}
+.title-content{
+	margin:150px 0 74px;
+	padding: 2% 0;
+	border-bottom: 1px solid #FFF
+}
+.title-content h3{	
+  font-size:2.5rem;
+	padding: 1% 0
+}
+.title-content p{
+	font-size: 1.2rem;
+	width:50%
+}
+
+.pictos-info div{
+	width:20%;
+	text-align: center
+}
+.pictos-info div i{
+	font-size: 70px;
+	transition: 0.5s;
+	display: block
+}
+.pictos-info div:hover i,.pictos-info div:hover span{
+	color:#DD7E5F
+}
+.pictos-info div span{
+	font-family: 'Pacifico', cursive;
+	font-size: 2rem;
+	transition: 0.5s;
+}
+
+.flexbox{
+	display: flex;
+	flex-direction: row
+}
+.flex-between{
+	justify-content: space-between
+}
+.flex-around{
+	justify-content: space-around
+}
+
+.tools-content a{
+    display: inline-block;
+    text-align: center;
+    width: 29%;
+    vertical-align: top;
+}
+.tools-content a img{
+    width: 100%;
+}
+.tools-content a span{    
+	font-family: 'Pacifico', cursive;
+	font-size: 1.5rem;
+}
+
+
 header,
 footer,
 #rs-wrap {
@@ -168,7 +275,7 @@ header nav{
   padding-top: 150px;
   overflow: hidden;
   padding-bottom: 50px;
-  width: 90%;
+  width: 75%;
   min-height: 80vh;
   margin: auto;
 }
@@ -179,7 +286,7 @@ article {
   background: rgba(21,21,21,.90);
   padding: 15px 25px;
   min-height: 78vh;
-  width: 90%
+  width: 100%
 }
 article.spec{
   display: flex;
@@ -189,7 +296,6 @@ article.spec #left{
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-
   width: 100%;
   max-width: 600px;
   height: 80vh;
